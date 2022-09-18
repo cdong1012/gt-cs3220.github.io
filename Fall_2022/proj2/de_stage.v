@@ -25,7 +25,9 @@ module DE_STAGE(
   wire [`DBITS-1:0] inst_count_DE; 
   wire[`DE_latch_WIDTH-1:0] DE_latch_contents; 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_DE; 
- 
+  reg [`DBITS-1:0] RR_arith_result_DE; /// result of register-register arithmetic instructions (e.g add)
+
+
 
   // extracting a part of opcode 
   wire [2:0] F3_DE; 
@@ -190,17 +192,16 @@ module DE_STAGE(
   always @(*) begin 
     case (type_immediate_DE )  
     `I_immediate: 
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]}; 
-      /*
-    `S_immediate: 
-      sxt_imm_DE =  ... 
-    `B_immediate: 
-      sxt_imm_DE = ... 
-    `U_immediate: 
-      sxt_imm_DE = ... 
-    `J_immediate: 
-      sxt_imm_DE = ... 
-      */ 
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};
+    `S_immediate:
+      sxt_imm_DE = {{21{inst_DE[31
+      ]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]};
+    `B_immediate:
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[7], inst_DE[30:25], inst_DE[11:8]};
+    `U_immediate:
+      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[30:12]};
+    `J_immediate:
+      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[19:12], inst_DE[20], inst_DE[30:21]};
     default:
       sxt_imm_DE = 32'b0; 
     endcase  
@@ -241,13 +242,10 @@ module DE_STAGE(
                                   pcplus_DE,
                                   op_I_DE,
                                   inst_count_DE, 
+                                  RR_arith_result_DE,
                                   // more signals might need
                                    bus_canary_DE 
                                   }; 
-
-
-
-
 
   always @ (negedge clk) begin 
   /* register write code is completed for your benefit */ 
@@ -308,15 +306,28 @@ module DE_STAGE(
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
   end
 
+  wire [4:0] rs1_DE;
+  wire [4:0] rs2_DE;
+
+  assign rs1_DE = inst_DE[19:15];
+  assign rs2_DE = inst_DE[24:20];  
+
   always @ (posedge clk) begin // you need to expand this always block 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end
-     else begin  
+     else begin
+      RR_arith_result_DE <= 0;
+      
       if (pipeline_stall_DE) 
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
-      else
+      else begin
+          if (op_I_DE == `ADD_I) begin
+            $display("ADDINGGGG");
+            RR_arith_result_DE <= regs[rs1_DE] + regs[rs2_DE];
+          end
           DE_latch <= DE_latch_contents;
+      end
      end 
   end
 
