@@ -23,7 +23,12 @@ module AGEX_STAGE(
   wire [`DBITS-1:0] inst_count_AGEX; 
   wire [`DBITS-1:0] pcplus_AGEX; 
   wire [`IOPBITS-1:0] op_I_AGEX;
-  wire[`DBITS-1:0] RR_arith_result_AGEX;
+
+  wire [`DBITS-1:0] rs1_AGEX;
+  wire [`DBITS-1:0] rs2_AGEX;
+  wire [4:0] rd_AGEX;
+  reg [`DBITS-1:0] sxt_imm_AGEX;
+
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
 
 
@@ -48,15 +53,24 @@ module AGEX_STAGE(
 
 
   // compute ALU operations  (alu out or memory addresses)
- 
+  reg [`DBITS:0] ALU_result_AGEX;
   always @ (*) begin
-  /*
+  // $display("YEEETTTTT!!!! %h", op_I_AGEX);
   case (op_I_AGEX)
-    `ADD_I: 
+    `ADDI_I: begin
+      // $display("ADDI:");
+      // $display("\trs1: %h", rs1_AGEX);
+      // $display("\timm: %h", sxt_imm_AGEX);
+      // $display("\trd: %h", rd_AGEX);
+      ALU_result_AGEX = rs1_AGEX + sxt_imm_AGEX;
+      from_AGEX_to_DE = 1;
+      // $display("\tALU_result_AGEX: %h", ALU_result_AGEX);
+
+    end
        //  ...
 
 	 endcase 
-   */
+   
   end 
 
   // branch target needs to be computed here 
@@ -76,7 +90,10 @@ module AGEX_STAGE(
     pcplus_AGEX,
     op_I_AGEX,
     inst_count_AGEX, 
-    RR_arith_result_AGEX,
+    rs1_AGEX,
+    rs2_AGEX,
+    rd_AGEX,
+    sxt_imm_AGEX,
             // more signals might need
     bus_canary_AGEX
   } = from_DE_latch;    

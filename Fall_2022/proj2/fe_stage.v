@@ -19,14 +19,14 @@ module FE_STAGE(
       $readmemh(`IDMEMINITFILE , imem);
   end
 
-  /*
-  // Display memory contents with verilator 
-  always @(posedge clk) begin
-    for (integer i=0 ; i<`IMEMWORDS ; i=i+1) begin
-        $display("%h", imem[i]);
-    end
-  end
-  */
+  
+  // // Display memory contents with verilator 
+  // always @(posedge clk) begin
+  //   for (integer i=0 ; i<`IMEMWORDS ; i=i+1) begin
+  //       $display("%h", imem[i]);
+  //   end
+  // end
+  
 
   /* pipeline latch */ 
   reg [`FE_latch_WIDTH-1:0] FE_latch;  // FE latch 
@@ -67,7 +67,7 @@ module FE_STAGE(
 
 
   // **TODO: Complete the rest of the pipeline 
-   assign stall_pipe_FE = 1;  // you need to modify this line for your design 
+   assign stall_pipe_FE = 0;  // you need to modify this line for your design 
 
   always @ (posedge clk) begin
   /* you need to extend this always block */
@@ -95,8 +95,9 @@ module FE_STAGE(
          // this is just an example. you need to expand the contents of if/else
          if  (stall_pipe_FE)
             FE_latch <= FE_latch; 
-          else 
+          else begin
             FE_latch <= FE_latch_contents; 
+          end
         end  
   end
 

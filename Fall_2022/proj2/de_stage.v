@@ -237,15 +237,18 @@ module DE_STAGE(
   assign DE_latch_out = DE_latch; 
 
    assign DE_latch_contents = {
-                                  inst_DE,
-                                  PC_DE,
-                                  pcplus_DE,
-                                  op_I_DE,
-                                  inst_count_DE, 
-                                  RR_arith_result_DE,
-                                  // more signals might need
-                                   bus_canary_DE 
-                                  }; 
+      inst_DE,
+      PC_DE,
+      pcplus_DE,
+      op_I_DE,
+      inst_count_DE, 
+      rs1_DE,
+      rs2_DE,
+      rd_DE,
+      sxt_imm_DE,
+      // more signals might need
+        bus_canary_DE 
+  }; 
 
   always @ (negedge clk) begin 
   /* register write code is completed for your benefit */ 
@@ -306,26 +309,23 @@ module DE_STAGE(
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
   end
 
-  wire [4:0] rs1_DE;
-  wire [4:0] rs2_DE;
+  reg [`DBITS-1:0] rs1_DE;
+  reg [`DBITS-1:0] rs2_DE;
+  reg [4:0] rd_DE;
 
-  assign rs1_DE = inst_DE[19:15];
-  assign rs2_DE = inst_DE[24:20];  
-
+  assign rd_DE = inst_DE[11:7];
   always @ (posedge clk) begin // you need to expand this always block 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end
      else begin
       RR_arith_result_DE <= 0;
-      
+      // $display("Decode: %h", op_I_DE);
       if (pipeline_stall_DE) 
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
-          if (op_I_DE == `ADD_I) begin
-            $display("ADDINGGGG");
-            RR_arith_result_DE <= regs[rs1_DE] + regs[rs2_DE];
-          end
+          rs1_DE <= regs[inst_DE[19:15]];
+          rs2_DE <= regs[inst_DE[24:20]];
           DE_latch <= DE_latch_contents;
       end
      end 
