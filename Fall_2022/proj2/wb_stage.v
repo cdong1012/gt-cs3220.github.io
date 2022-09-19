@@ -35,6 +35,9 @@ module WB_STAGE(
                                 PC_WB,
                                 op_I_WB,
                                 inst_count_WB, 
+                                wr_reg_WB,
+                                wregno_WB,
+                                regval_WB,
                                 // more signals might need                        
                                  bus_canary_WB 
                                  } = from_MEM_latch; 

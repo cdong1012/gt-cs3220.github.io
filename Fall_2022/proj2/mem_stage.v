@@ -43,6 +43,10 @@ module MEM_STAGE(
   // Read from D-MEM  (read code is completed if there is a correct memaddr_MEM ) 
   assign rd_val_MEM = dmem[memaddr_MEM[`DMEMADDRBITS-1:`DMEMWORDBITS]];
 
+  wire wr_reg_MEM; // is this instruction writing into a register file? 
+  wire [`REGNOBITS-1:0] wregno_MEM; // destination register ID 
+  wire [`DBITS-1:0] regval_MEM;  // the contents to be written in the register file (or CSR )
+
   
  // Write to D-MEM
   always @ (posedge clk) begin
@@ -59,6 +63,9 @@ module MEM_STAGE(
                                 PC_MEM,
                                 op_I_MEM,
                                 inst_count_MEM, 
+                                regval_MEM, // the result of arithmetic calculation
+                                wr_reg_MEM, // is this instruction writing into a register file? 
+                                wregno_MEM, // destination register ID  
                                  // more signals might need
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
@@ -70,7 +77,9 @@ module MEM_STAGE(
                                 PC_MEM,
                                 op_I_MEM,
                                 inst_count_MEM, 
-                                        // more signals might need    
+                                regval_MEM, // the result of arithmetic calculation
+                                wr_reg_MEM, // is this instruction writing into a register file? 
+                                wregno_MEM, // destination register ID  
                               bus_canary_MEM                   
    }; 
 
@@ -81,7 +90,6 @@ module MEM_STAGE(
         MEM_latch <= MEM_latch_contents;
     end    
   end
-
 
 
 endmodule

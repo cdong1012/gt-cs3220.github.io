@@ -58,33 +58,16 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict v
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_settle__TOP__pipeline__5\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    if (VL_UNLIKELY((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                        << 0x17U) | 
-                                       (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                        >> 9U)))))) {
-        VL_WRITEF("ADDI:\n");
-        VL_WRITEF("\trs1: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
-                                     << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                                  >> 9U)));
-        VL_WRITEF("\timm: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                     << 0x1cU) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
-                                                  >> 4U)));
-        VL_WRITEF("\trd: %x\n",5,(0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                            << 0x1cU) 
-                                           | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                              >> 4U))));
-        vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__ALU_result_AGEX 
-            = (0x1ffffffffULL & ((QData)((IData)(((
-                                                   vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
-                                                   << 0x17U) 
-                                                  | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                                     >> 9U)))) 
-                                 + (QData)((IData)(
-                                                   ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                                     << 0x1cU) 
-                                                    | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
-                                                       >> 4U))))));
-        VL_WRITEF("\tALU_result_AGEX: %x\n",33,vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__ALU_result_AGEX);
+    if ((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
+                            << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
+                                         >> 9U))))) {
+        vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX 
+            = (((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                 << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                              >> 9U)) + ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                          << 0x1cU) 
+                                         | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
+                                            >> 4U)));
     }
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__op_I_DE 
         = ((((0x33U == (0x7fU & ((vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__FE_latch[4U] 
@@ -784,12 +767,12 @@ void Vpipeline_pipeline::_ctor_var_reset() {
     __PVT__my_DE_stage__DOT__pipeline_stall_DE = VL_RAND_RESET_I(1);
     __PVT__my_DE_stage__DOT__rs1_DE = VL_RAND_RESET_I(32);
     __PVT__my_DE_stage__DOT__rs2_DE = VL_RAND_RESET_I(32);
-    VL_RAND_RESET_W(106, __PVT__my_AGEX_stage__DOT__AGEX_latch);
-    __PVT__my_AGEX_stage__DOT__ALU_result_AGEX = VL_RAND_RESET_Q(33);
+    VL_RAND_RESET_W(144, __PVT__my_AGEX_stage__DOT__AGEX_latch);
+    __PVT__my_AGEX_stage__DOT__regval_AGEX = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<16384; ++__Vi0) {
             __PVT__my_MEM_stage__DOT__dmem[__Vi0] = VL_RAND_RESET_I(32);
     }}
-    VL_RAND_RESET_W(106, __PVT__my_MEM_stage__DOT__MEM_latch);
+    VL_RAND_RESET_W(144, __PVT__my_MEM_stage__DOT__MEM_latch);
     __PVT__my_MEM_stage__DOT__memaddr_MEM = VL_RAND_RESET_I(32);
     __PVT__my_MEM_stage__DOT__wr_val_MEM = VL_RAND_RESET_I(32);
     __PVT__my_MEM_stage__DOT__wr_mem_MEM = VL_RAND_RESET_I(1);

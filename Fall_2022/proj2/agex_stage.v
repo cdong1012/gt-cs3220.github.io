@@ -14,7 +14,7 @@ module AGEX_STAGE(
   reg [`AGEX_latch_WIDTH-1:0] AGEX_latch; 
   // wire to send the AGEX latch contents to other pipeline stages 
   assign AGEX_latch_out = AGEX_latch;
-  
+
   wire[`AGEX_latch_WIDTH-1:0] AGEX_latch_contents; 
   
    
@@ -26,14 +26,19 @@ module AGEX_STAGE(
 
   wire [`DBITS-1:0] rs1_AGEX;
   wire [`DBITS-1:0] rs2_AGEX;
-  wire [4:0] rd_AGEX;
+  wire [`REGNOBITS-1:0] wregno_AGEX;
   reg [`DBITS-1:0] sxt_imm_AGEX;
 
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
 
 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
- 
+
+  reg wr_reg_AGEX; // is this instruction writing into a register file? 
+  reg [`REGNOBITS-1:0] wregno_AGEX; // destination register ID 
+  reg [`DBITS-1:0] regval_AGEX;  // the contents to be written in the register file (or CSR )
+
+
   // **TODO: Complete the rest of the pipeline 
  
   
@@ -53,7 +58,6 @@ module AGEX_STAGE(
 
 
   // compute ALU operations  (alu out or memory addresses)
-  reg [`DBITS:0] ALU_result_AGEX;
   always @ (*) begin
   // $display("YEEETTTTT!!!! %h", op_I_AGEX);
   case (op_I_AGEX)
@@ -62,13 +66,15 @@ module AGEX_STAGE(
       // $display("\trs1: %h", rs1_AGEX);
       // $display("\timm: %h", sxt_imm_AGEX);
       // $display("\trd: %h", rd_AGEX);
-      ALU_result_AGEX = rs1_AGEX + sxt_imm_AGEX;
-      from_AGEX_to_DE = 1;
+      regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
+      wr_reg_AGEX = 1;
       // $display("\tALU_result_AGEX: %h", ALU_result_AGEX);
 
     end
        //  ...
-
+    default : begin
+      wr_reg_AGEX = 0;
+    end
 	 endcase 
    
   end 
@@ -92,7 +98,7 @@ module AGEX_STAGE(
     inst_count_AGEX, 
     rs1_AGEX,
     rs2_AGEX,
-    rd_AGEX,
+    wregno_AGEX,
     sxt_imm_AGEX,
             // more signals might need
     bus_canary_AGEX
@@ -103,10 +109,13 @@ module AGEX_STAGE(
     PC_AGEX,
     op_I_AGEX,
     inst_count_AGEX, 
+    regval_AGEX, // the result of arithmetic calculation
+    wr_reg_AGEX, // is this instruction writing into a register file? 
+    wregno_AGEX, // destination register ID 
             // more signals might need
     bus_canary_AGEX     
   }; 
- 
+  
   always @ (posedge clk) begin
     if (reset) begin
       AGEX_latch <= {`AGEX_latch_WIDTH{1'b0}};
@@ -115,6 +124,7 @@ module AGEX_STAGE(
     else 
         begin
       // need to complete 
+      $display("\t!!!!regval: %h, wr_reg: %h, wregno: %h", regval_AGEX, wr_reg_AGEX, wregno_AGEX);
             AGEX_latch <= AGEX_latch_contents ;
         end 
   end

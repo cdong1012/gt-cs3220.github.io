@@ -25,15 +25,12 @@ VL_MODULE(Vpipeline_WB_STAGE) {
     VL_OUT8(__PVT__from_WB_to_FE,0,0);
     VL_OUT8(__PVT__from_WB_to_AGEX,0,0);
     VL_OUT8(__PVT__from_WB_to_MEM,0,0);
-    VL_INW(__PVT__from_MEM_latch,105,0,4);
+    VL_INW(__PVT__from_MEM_latch,143,0,5);
     VL_OUT64(__PVT__from_WB_to_DE,42,0);
     
     // LOCAL SIGNALS
-    CData/*0:0*/ __PVT__wr_reg_WB;
-    CData/*4:0*/ __PVT__wregno_WB;
     CData/*3:0*/ __PVT__wcsrno_WB;
     CData/*0:0*/ __PVT__wr_csr_WB;
-    IData/*31:0*/ __PVT__regval_WB;
     IData/*31:0*/ last_WB_value[32];
     IData/*31:0*/ WB_counters[32];
     
@@ -56,7 +53,7 @@ VL_MODULE(Vpipeline_WB_STAGE) {
   public:
     static void _sequent__TOP__pipeline__my_WB_stage__1(Vpipeline__Syms* __restrict vlSymsp);
     static void _sequent__TOP__pipeline__my_WB_stage__2(Vpipeline__Syms* __restrict vlSymsp);
-    static void _settle__TOP__pipeline__my_WB_stage__3(Vpipeline__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__pipeline__my_WB_stage__3(Vpipeline__Syms* __restrict vlSymsp);
   private:
     static void traceInit(void* userp, VerilatedVcd* tracep, uint32_t code) VL_ATTR_COLD;
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);

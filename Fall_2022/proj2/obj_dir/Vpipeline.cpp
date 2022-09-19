@@ -72,16 +72,17 @@ void Vpipeline::_eval(Vpipeline__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vpipeline::_eval\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    if (((~ (IData)(vlTOPp->clk)) & (IData)(vlTOPp->__Vclklast__TOP__clk))) {
-        vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__1(vlSymsp);
-        vlTOPp->__Vm_traceActivity[1U] = 1U;
-        vlSymsp->TOP__pipeline._sequent__TOP__pipeline__2(vlSymsp);
-    }
     if (((IData)(vlTOPp->clk) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk)))) {
+        vlSymsp->TOP__pipeline._sequent__TOP__pipeline__2(vlSymsp);
+        vlTOPp->__Vm_traceActivity[1U] = 1U;
+        vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__1(vlSymsp);
         vlSymsp->TOP__pipeline._sequent__TOP__pipeline__3(vlSymsp);
-        vlTOPp->__Vm_traceActivity[2U] = 1U;
         vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__2(vlSymsp);
+    }
+    if (((~ (IData)(vlTOPp->clk)) & (IData)(vlTOPp->__Vclklast__TOP__clk))) {
         vlSymsp->TOP__pipeline._sequent__TOP__pipeline__4(vlSymsp);
+        vlTOPp->__Vm_traceActivity[2U] = 1U;
+        vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__3(vlSymsp);
     }
     // Final
     vlTOPp->__Vclklast__TOP__clk = vlTOPp->clk;

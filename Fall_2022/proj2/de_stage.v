@@ -303,15 +303,17 @@ module DE_STAGE(
       csr_regs[14] <= {`DBITS{1'b0}};
       csr_regs[15] <= {`DBITS{1'b0}};
     end
-    else if (wr_reg_WB) 
+    else if (wr_reg_WB) begin
+        $display("regval: %h, wregno_WB: %h", regval_WB, wregno_WB);
 		  	regs[wregno_WB] <= regval_WB; 
+    end 
     else if (wr_csr_WB) 
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
   end
 
   reg [`DBITS-1:0] rs1_DE;
   reg [`DBITS-1:0] rs2_DE;
-  reg [4:0] rd_DE;
+  reg [`REGNOBITS-1:0] rd_DE;
 
   assign rd_DE = inst_DE[11:7];
   always @ (posedge clk) begin // you need to expand this always block 
@@ -320,7 +322,7 @@ module DE_STAGE(
       end
      else begin
       RR_arith_result_DE <= 0;
-      // $display("Decode: %h", op_I_DE);
+      // $display("Decode: %h", rd_DE);
       if (pipeline_stall_DE) 
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
