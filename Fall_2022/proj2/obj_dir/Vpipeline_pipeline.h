@@ -48,6 +48,8 @@ VL_MODULE(Vpipeline_pipeline) {
     IData/*31:0*/ __PVT__my_DE_stage__DOT__sxt_imm_DE;
     IData/*31:0*/ __PVT__my_DE_stage__DOT__rs1_DE;
     IData/*31:0*/ __PVT__my_DE_stage__DOT__rs2_DE;
+    IData/*31:0*/ __PVT__my_DE_stage__DOT__unnamedblk1__DOT__i;
+    IData/*31:0*/ __PVT__my_DE_stage__DOT__unnamedblk2__DOT__i;
     WData/*143:0*/ __PVT__my_AGEX_stage__DOT__AGEX_latch[5];
     IData/*31:0*/ __PVT__my_AGEX_stage__DOT__regval_AGEX;
     WData/*143:0*/ __PVT__my_MEM_stage__DOT__MEM_latch[5];

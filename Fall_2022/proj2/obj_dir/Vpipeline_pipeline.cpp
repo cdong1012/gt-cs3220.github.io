@@ -1043,105 +1043,44 @@ VL_INLINE_OPT void Vpipeline_pipeline::_sequent__TOP__pipeline__4(Vpipeline__Sym
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_sequent__TOP__pipeline__4\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
+    CData/*4:0*/ __Vdlyvdim0__my_DE_stage__DOT__regs__v0;
     CData/*0:0*/ __Vdlyvset__my_DE_stage__DOT__regs__v0;
-    CData/*4:0*/ __Vdlyvdim0__my_DE_stage__DOT__regs__v32;
-    CData/*0:0*/ __Vdlyvset__my_DE_stage__DOT__regs__v32;
-    CData/*3:0*/ __Vdlyvdim0__my_DE_stage__DOT__csr_regs__v16;
-    CData/*0:0*/ __Vdlyvset__my_DE_stage__DOT__csr_regs__v16;
-    IData/*31:0*/ __Vdlyvval__my_DE_stage__DOT__regs__v32;
-    IData/*31:0*/ __Vdlyvval__my_DE_stage__DOT__csr_regs__v16;
+    CData/*3:0*/ __Vdlyvdim0__my_DE_stage__DOT__csr_regs__v0;
+    CData/*0:0*/ __Vdlyvset__my_DE_stage__DOT__csr_regs__v0;
+    IData/*31:0*/ __Vdlyvval__my_DE_stage__DOT__regs__v0;
+    IData/*31:0*/ __Vdlyvval__my_DE_stage__DOT__csr_regs__v0;
     // Body
-    __Vdlyvset__my_DE_stage__DOT__csr_regs__v16 = 0U;
-    __Vdlyvset__my_DE_stage__DOT__regs__v32 = 0U;
+    __Vdlyvset__my_DE_stage__DOT__csr_regs__v0 = 0U;
     __Vdlyvset__my_DE_stage__DOT__regs__v0 = 0U;
-    if (vlTOPp->reset) {
-        __Vdlyvset__my_DE_stage__DOT__regs__v0 = 1U;
-    } else {
-        if (VL_UNLIKELY((1U & (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                                       >> 0x2aU))))) {
-            VL_WRITEF("regval: %x, wregno_WB: %x\n",
-                      32,(IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                                  >> 5U)),5,(0x1fU 
-                                             & (IData)(
-                                                       (vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                                                        >> 0x25U))));
-            __Vdlyvval__my_DE_stage__DOT__regs__v32 
+    if ((1U & (~ (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
+                          >> 0x2aU))))) {
+        if ((1U & (IData)(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE))) {
+            __Vdlyvval__my_DE_stage__DOT__csr_regs__v0 
                 = (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
                            >> 5U));
-            __Vdlyvset__my_DE_stage__DOT__regs__v32 = 1U;
-            __Vdlyvdim0__my_DE_stage__DOT__regs__v32 
-                = (0x1fU & (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                                    >> 0x25U)));
-        } else {
-            if ((1U & (IData)(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE))) {
-                __Vdlyvval__my_DE_stage__DOT__csr_regs__v16 
-                    = (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                               >> 5U));
-                __Vdlyvset__my_DE_stage__DOT__csr_regs__v16 = 1U;
-                __Vdlyvdim0__my_DE_stage__DOT__csr_regs__v16 
-                    = (0xfU & (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
-                                       >> 1U)));
-            }
+            __Vdlyvset__my_DE_stage__DOT__csr_regs__v0 = 1U;
+            __Vdlyvdim0__my_DE_stage__DOT__csr_regs__v0 
+                = (0xfU & (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
+                                   >> 1U)));
         }
     }
-    if (__Vdlyvset__my_DE_stage__DOT__regs__v0) {
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[1U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[2U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[3U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[4U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[5U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[6U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[7U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[8U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[9U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xaU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xbU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xcU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xdU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xeU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xfU] = 0U;
+    if ((1U & (IData)((vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
+                       >> 0x2aU)))) {
+        __Vdlyvval__my_DE_stage__DOT__regs__v0 = (IData)(
+                                                         (vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
+                                                          >> 5U));
+        __Vdlyvset__my_DE_stage__DOT__regs__v0 = 1U;
+        __Vdlyvdim0__my_DE_stage__DOT__regs__v0 = (0x1fU 
+                                                   & (IData)(
+                                                             (vlSymsp->TOP__pipeline__my_WB_stage.__PVT__from_WB_to_DE 
+                                                              >> 0x25U)));
     }
-    if (__Vdlyvset__my_DE_stage__DOT__csr_regs__v16) {
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[__Vdlyvdim0__my_DE_stage__DOT__csr_regs__v16] 
-            = __Vdlyvval__my_DE_stage__DOT__csr_regs__v16;
+    if (__Vdlyvset__my_DE_stage__DOT__csr_regs__v0) {
+        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[__Vdlyvdim0__my_DE_stage__DOT__csr_regs__v0] 
+            = __Vdlyvval__my_DE_stage__DOT__csr_regs__v0;
     }
     if (__Vdlyvset__my_DE_stage__DOT__regs__v0) {
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[1U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[2U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[3U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[4U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[5U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[6U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[7U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[8U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[9U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xaU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xbU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xcU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xdU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xeU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0xfU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x10U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x11U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x12U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x13U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x14U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x15U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x16U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x17U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x18U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x19U] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1aU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1bU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1cU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1dU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1eU] = 0U;
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0x1fU] = 0U;
-    }
-    if (__Vdlyvset__my_DE_stage__DOT__regs__v32) {
-        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[__Vdlyvdim0__my_DE_stage__DOT__regs__v32] 
-            = __Vdlyvval__my_DE_stage__DOT__regs__v32;
+        vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[__Vdlyvdim0__my_DE_stage__DOT__regs__v0] 
+            = __Vdlyvval__my_DE_stage__DOT__regs__v0;
     }
 }
