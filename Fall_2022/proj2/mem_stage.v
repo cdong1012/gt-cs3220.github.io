@@ -87,6 +87,7 @@ module MEM_STAGE(
     if (reset) begin
         MEM_latch <= {`MEM_latch_WIDTH{1'b0}}; 
     end else begin 
+        // $display("MEM STATE: Writing the value %h into register # %h", regval_MEM, wregno_MEM);
         MEM_latch <= MEM_latch_contents;
     end    
   end

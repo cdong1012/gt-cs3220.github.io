@@ -260,8 +260,10 @@ module DE_STAGE(
 
   // register file and CSRs write
   always @ (negedge clk) begin 
-    if (wr_reg_WB) 
+    if (wr_reg_WB) begin
+        $display("Writing the value %h into register # %h", regval_WB, wregno_WB);
 		  	regs[wregno_WB] <= regval_WB; 
+    end
     else if (wr_csr_WB) 
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
   end
@@ -282,6 +284,7 @@ module DE_STAGE(
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
           rs1_DE <= regs[inst_DE[19:15]];
+          pipeline_stall_DE = 1;
           rs2_DE <= regs[inst_DE[24:20]];
           DE_latch <= DE_latch_contents;
       end

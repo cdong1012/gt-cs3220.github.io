@@ -23,6 +23,11 @@ module WB_STAGE(
   wire [`REGNOBITS-1:0] wregno_WB; // destination register ID 
   wire [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
   
+  wire wr_reg_WB2;
+  wire [`REGNOBITS-1:0] wregno_WB2; // destination register ID 
+  wire [`DBITS-1:0] regval_WB2;  // the contents to be written in the register file (or CSR )
+
+
   wire [`CSRNOBITS-1:0] wcsrno_WB;  // desitnation CSR register ID 
   wire wr_csr_WB; // is this instruction writing into CSR ? 
 
@@ -35,9 +40,9 @@ module WB_STAGE(
                                 PC_WB,
                                 op_I_WB,
                                 inst_count_WB, 
-                                wr_reg_WB,
-                                wregno_WB,
-                                regval_WB,
+                                regval_WB, // the result of arithmetic calculation
+                                wr_reg_WB, // is this instruction writing into a register file? 
+                                wregno_WB, // destination register ID 
                                 // more signals might need                        
                                  bus_canary_WB 
                                  } = from_MEM_latch; 
@@ -69,6 +74,8 @@ assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;
     WB_counters[5] <= inst_count_WB; 
     WB_counters[6] <= {26'b0, op_I_WB}; 
     WB_counters[7] <= {27'b0, wregno_WB};   
+    // $display("WB STATE: Writing the value %h into register # %h", regval_WB, wregno_WB);
+
   end 
 
 endmodule 

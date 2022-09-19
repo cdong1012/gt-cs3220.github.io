@@ -62,14 +62,24 @@ module AGEX_STAGE(
   // $display("YEEETTTTT!!!! %h", op_I_AGEX);
   case (op_I_AGEX)
     `ADDI_I: begin
-      // $display("ADDI:");
-      // $display("\trs1: %h", rs1_AGEX);
-      // $display("\timm: %h", sxt_imm_AGEX);
-      // $display("\trd: %h", rd_AGEX);
+      $display("ADDI:");
+      $display("\trs1: %h", rs1_AGEX);
+      $display("\timm: %h", sxt_imm_AGEX);
+      $display("\trd: %h", wregno_AGEX);
       regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
       wr_reg_AGEX = 1;
-      // $display("\tALU_result_AGEX: %h", ALU_result_AGEX);
-
+      $display("\tALU_result_AGEX: %h", regval_AGEX);
+    end
+    `ADD_I: begin
+      regval_AGEX = rs1_AGEX  + rs2_AGEX;
+      wr_reg_AGEX = 1;
+      $display("ADD:");
+      $display("\trs1: %h", rs1_AGEX);
+      $display("\trs2: %h", rs2_AGEX);
+      $display("\trd: %h", wregno_AGEX);
+      regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
+      wr_reg_AGEX = 1;
+      $display("\tALU_result_AGEX: %h", regval_AGEX);
     end
        //  ...
     default : begin
@@ -124,8 +134,7 @@ module AGEX_STAGE(
     else 
         begin
       // need to complete 
-      $display("\t!!!!regval: %h, wr_reg: %h, wregno: %h", regval_AGEX, wr_reg_AGEX, wregno_AGEX);
-            AGEX_latch <= AGEX_latch_contents ;
+            AGEX_latch <= AGEX_latch_contents;
         end 
   end
 

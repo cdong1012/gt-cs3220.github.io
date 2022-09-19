@@ -246,11 +246,7 @@ void Vpipeline::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                                        << 0x20U) 
                                                       | (QData)((IData)(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX)))) 
                                              << 0xaU)) 
-                             | (((0xcU == (0x3fU & 
-                                           ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                             << 0x17U) 
-                                            | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                               >> 9U)))) 
+                             | (((IData)(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX) 
                                  << 9U) | ((0x1f0U 
                                             & vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U]) 
                                            | (0xfU 
@@ -372,11 +368,7 @@ void Vpipeline::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                                   | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
                                                      >> 9U))))));
             tracep->chgCData(oldp+81,((0xfU & vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U])),4);
-            tracep->chgBit(oldp+82,((0xcU == (0x3fU 
-                                              & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                                  << 0x17U) 
-                                                 | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                                    >> 9U))))));
+            tracep->chgBit(oldp+82,(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX));
             tracep->chgIData(oldp+83,(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX),32);
             tracep->chgCData(oldp+84,((0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__AGEX_latch[3U] 
                                                  << 0x16U) 
@@ -425,16 +417,16 @@ void Vpipeline::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                        (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
                                         >> 0xaU))),32);
             tracep->chgCData(oldp+97,((0xfU & vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U])),4);
-            tracep->chgBit(oldp+98,((1U & (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
+            tracep->chgBit(oldp+98,((1U & (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
                                            >> 9U))));
-            tracep->chgCData(oldp+99,((0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[2U] 
+            tracep->chgCData(oldp+99,((0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
                                                  << 0x1cU) 
-                                                | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
+                                                | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
                                                    >> 4U)))),5);
             tracep->chgIData(oldp+100,(((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
-                                         << 0x1cU) 
+                                         << 0x16U) 
                                         | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
-                                           >> 4U))),32);
+                                           >> 0xaU))),32);
         }
         if (VL_UNLIKELY(vlTOPp->__Vm_traceActivity[2U])) {
             tracep->chgIData(oldp+101,(vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0]),32);

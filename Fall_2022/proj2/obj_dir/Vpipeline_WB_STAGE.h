@@ -29,8 +29,11 @@ VL_MODULE(Vpipeline_WB_STAGE) {
     VL_OUT64(__PVT__from_WB_to_DE,42,0);
     
     // LOCAL SIGNALS
+    CData/*0:0*/ __PVT__wr_reg_WB2;
+    CData/*4:0*/ __PVT__wregno_WB2;
     CData/*3:0*/ __PVT__wcsrno_WB;
     CData/*0:0*/ __PVT__wr_csr_WB;
+    IData/*31:0*/ __PVT__regval_WB2;
     IData/*31:0*/ last_WB_value[32];
     IData/*31:0*/ WB_counters[32];
     

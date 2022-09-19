@@ -176,8 +176,11 @@ void Vpipeline::traceInitSub0(void* userp, VerilatedVcd* tracep) {
         tracep->declBit(c+99,"pipeline my_WB_stage wr_reg_WB", false,-1);
         tracep->declBus(c+100,"pipeline my_WB_stage wregno_WB", false,-1, 4,0);
         tracep->declBus(c+101,"pipeline my_WB_stage regval_WB", false,-1, 31,0);
-        tracep->declBus(c+230,"pipeline my_WB_stage wcsrno_WB", false,-1, 3,0);
-        tracep->declBit(c+231,"pipeline my_WB_stage wr_csr_WB", false,-1);
+        tracep->declBit(c+230,"pipeline my_WB_stage wr_reg_WB2", false,-1);
+        tracep->declBus(c+231,"pipeline my_WB_stage wregno_WB2", false,-1, 4,0);
+        tracep->declBus(c+232,"pipeline my_WB_stage regval_WB2", false,-1, 31,0);
+        tracep->declBus(c+233,"pipeline my_WB_stage wcsrno_WB", false,-1, 3,0);
+        tracep->declBit(c+234,"pipeline my_WB_stage wr_csr_WB", false,-1);
         {int i; for (i=0; i<32; i++) {
                 tracep->declBus(c+152+i*1,"pipeline my_WB_stage last_WB_value", true,(i+0), 31,0);}}
         {int i; for (i=0; i<32; i++) {
@@ -417,10 +420,7 @@ void Vpipeline::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                                    << 0x20U) 
                                                   | (QData)((IData)(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX)))) 
                                          << 0xaU)) 
-                         | (((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                                 << 0x17U) 
-                                                | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                                   >> 9U)))) 
+                         | (((IData)(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX) 
                              << 9U) | ((0x1f0U & vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U]) 
                                        | (0xfU & vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U]))));
         __Vtemp11[1U] = ((0x3ffU & ((IData)((((QData)((IData)(
@@ -532,11 +532,7 @@ void Vpipeline::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                              | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
                                                 >> 9U))))));
         tracep->fullCData(oldp+82,((0xfU & vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U])),4);
-        tracep->fullBit(oldp+83,((0xcU == (0x3fU & 
-                                           ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                             << 0x17U) 
-                                            | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                               >> 9U))))));
+        tracep->fullBit(oldp+83,(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX));
         tracep->fullIData(oldp+84,(vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX),32);
         tracep->fullCData(oldp+85,((0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__AGEX_latch[3U] 
                                               << 0x16U) 
@@ -578,16 +574,16 @@ void Vpipeline::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                      << 0x16U) | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
                                                   >> 0xaU))),32);
         tracep->fullCData(oldp+98,((0xfU & vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U])),4);
-        tracep->fullBit(oldp+99,((1U & (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
+        tracep->fullBit(oldp+99,((1U & (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
                                         >> 9U))));
-        tracep->fullCData(oldp+100,((0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[2U] 
+        tracep->fullCData(oldp+100,((0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
                                                << 0x1cU) 
-                                              | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
+                                              | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
                                                  >> 4U)))),5);
         tracep->fullIData(oldp+101,(((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[1U] 
-                                      << 0x1cU) | (
+                                      << 0x16U) | (
                                                    vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[0U] 
-                                                   >> 4U))),32);
+                                                   >> 0xaU))),32);
         tracep->fullIData(oldp+102,(vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0]),32);
         tracep->fullIData(oldp+103,(vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[1]),32);
         tracep->fullIData(oldp+104,(vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[2]),32);
@@ -716,7 +712,10 @@ void Vpipeline::traceFullSub0(void* userp, VerilatedVcd* tracep) {
         tracep->fullIData(oldp+227,(vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__memaddr_MEM),32);
         tracep->fullIData(oldp+228,(vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__wr_val_MEM),32);
         tracep->fullBit(oldp+229,(vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__wr_mem_MEM));
-        tracep->fullCData(oldp+230,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wcsrno_WB),4);
-        tracep->fullBit(oldp+231,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wr_csr_WB));
+        tracep->fullBit(oldp+230,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wr_reg_WB2));
+        tracep->fullCData(oldp+231,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wregno_WB2),5);
+        tracep->fullIData(oldp+232,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__regval_WB2),32);
+        tracep->fullCData(oldp+233,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wcsrno_WB),4);
+        tracep->fullBit(oldp+234,(vlSymsp->TOP__pipeline__my_WB_stage.__PVT__wr_csr_WB));
     }
 }

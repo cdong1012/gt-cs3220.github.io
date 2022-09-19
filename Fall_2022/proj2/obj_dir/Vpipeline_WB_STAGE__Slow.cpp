@@ -34,6 +34,9 @@ void Vpipeline_WB_STAGE::_ctor_var_reset() {
     __PVT__from_WB_to_DE = VL_RAND_RESET_Q(43);
     __PVT__from_WB_to_AGEX = VL_RAND_RESET_I(1);
     __PVT__from_WB_to_MEM = VL_RAND_RESET_I(1);
+    __PVT__wr_reg_WB2 = VL_RAND_RESET_I(1);
+    __PVT__wregno_WB2 = VL_RAND_RESET_I(5);
+    __PVT__regval_WB2 = VL_RAND_RESET_I(32);
     __PVT__wcsrno_WB = VL_RAND_RESET_I(4);
     __PVT__wr_csr_WB = VL_RAND_RESET_I(1);
     { int __Vi0=0; for (; __Vi0<32; ++__Vi0) {

@@ -1,10 +1,10 @@
 TESTING: /home/osboxes/Desktop/3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test1.mem
-Failed. exitcode: 0
+Passed!
 TESTING: /home/osboxes/Desktop/3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test2.mem
-Failed. exitcode: 0
+Failed. exitcode: -1
 TESTING: /home/osboxes/Desktop/3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test3.mem
 Failed. exitcode: 0
 TESTING: /home/osboxes/Desktop/3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test4.mem
-Failed. exitcode: 0
+Failed. exitcode: 3
 TESTING: /home/osboxes/Desktop/3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test5.mem
-Failed. exitcode: 0
+Passed!

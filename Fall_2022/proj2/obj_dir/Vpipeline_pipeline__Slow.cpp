@@ -35,7 +35,7 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     WData/*671:0*/ __Vtemp2[21];
     // Body
     __Vtemp1[0U] = 0x2e6d656dU;
-    __Vtemp1[1U] = 0x65737431U;
+    __Vtemp1[1U] = 0x65737433U;
     __Vtemp1[2U] = 0x74312f74U;
     __Vtemp1[3U] = 0x2f706172U;
     __Vtemp1[4U] = 0x65737473U;
@@ -109,7 +109,7 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xfU] = 0U;
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__unnamedblk2__DOT__i = 0x10U;
     __Vtemp2[0U] = 0x2e6d656dU;
-    __Vtemp2[1U] = 0x65737431U;
+    __Vtemp2[1U] = 0x65737433U;
     __Vtemp2[2U] = 0x74312f74U;
     __Vtemp2[3U] = 0x2f706172U;
     __Vtemp2[4U] = 0x65737473U;
@@ -138,9 +138,22 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict v
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_settle__TOP__pipeline__5\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    if ((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                            << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                         >> 9U))))) {
+    if (VL_UNLIKELY((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
+                                        << 0x17U) | 
+                                       (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
+                                        >> 9U)))))) {
+        VL_WRITEF("ADDI:\n");
+        vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 1U;
+        VL_WRITEF("\trs1: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                                     << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                                  >> 9U)));
+        VL_WRITEF("\timm: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                     << 0x1cU) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
+                                                  >> 4U)));
+        VL_WRITEF("\trd: %x\n",5,(0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                            << 0x1cU) 
+                                           | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                              >> 4U))));
         vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX 
             = (((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
                  << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
@@ -148,6 +161,38 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict v
                                           << 0x1cU) 
                                          | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
                                             >> 4U)));
+        VL_WRITEF("\tALU_result_AGEX: %x\n",32,vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
+    } else {
+        if (VL_UNLIKELY((1U == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
+                                          << 0x17U) 
+                                         | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
+                                            >> 9U)))))) {
+            VL_WRITEF("ADD:\n");
+            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 1U;
+            VL_WRITEF("\trs1: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                                         << 0x17U) 
+                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                           >> 9U)));
+            VL_WRITEF("\trs2: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                         << 0x17U) 
+                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                           >> 9U)));
+            VL_WRITEF("\trd: %x\n",5,(0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                                << 0x1cU) 
+                                               | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                                  >> 4U))));
+            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX 
+                = (((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                     << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                  >> 9U)) + ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                              << 0x1cU) 
+                                             | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
+                                                >> 4U)));
+            VL_WRITEF("\tALU_result_AGEX: %x\n",32,
+                      vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
+        } else {
+            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 0U;
+        }
     }
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__op_I_DE 
         = ((((0x33U == (0x7fU & ((vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__FE_latch[4U] 
@@ -850,6 +895,7 @@ void Vpipeline_pipeline::_ctor_var_reset() {
     __PVT__my_DE_stage__DOT__unnamedblk1__DOT__i = VL_RAND_RESET_I(32);
     __PVT__my_DE_stage__DOT__unnamedblk2__DOT__i = VL_RAND_RESET_I(32);
     VL_RAND_RESET_W(144, __PVT__my_AGEX_stage__DOT__AGEX_latch);
+    __PVT__my_AGEX_stage__DOT__wr_reg_AGEX = VL_RAND_RESET_I(1);
     __PVT__my_AGEX_stage__DOT__regval_AGEX = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<16384; ++__Vi0) {
             __PVT__my_MEM_stage__DOT__dmem[__Vi0] = VL_RAND_RESET_I(32);

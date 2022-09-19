@@ -36,6 +36,7 @@ VL_MODULE(Vpipeline_pipeline) {
     CData/*3:0*/ __PVT__my_DE_stage__DOT__type_I_DE;
     CData/*2:0*/ __PVT__my_DE_stage__DOT__type_immediate_DE;
     CData/*0:0*/ __PVT__my_DE_stage__DOT__pipeline_stall_DE;
+    CData/*0:0*/ __PVT__my_AGEX_stage__DOT__wr_reg_AGEX;
     CData/*0:0*/ __PVT__my_MEM_stage__DOT__wr_mem_MEM;
     IData/*31:0*/ __PVT__cycle_count;
     WData/*131:0*/ __PVT__my_FE_stage__DOT__FE_latch[5];
