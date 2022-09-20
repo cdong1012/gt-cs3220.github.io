@@ -53,11 +53,11 @@ void Vpipeline::_eval_settle(Vpipeline__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vpipeline::_eval_settle\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__2(vlSymsp);
+    vlSymsp->TOP__pipeline._settle__TOP__pipeline__4(vlSymsp);
     vlTOPp->__Vm_traceActivity[2U] = 1U;
     vlTOPp->__Vm_traceActivity[1U] = 1U;
     vlTOPp->__Vm_traceActivity[0U] = 1U;
-    vlSymsp->TOP__pipeline._settle__TOP__pipeline__5(vlSymsp);
+    vlSymsp->TOP__pipeline__my_WB_stage._sequent__TOP__pipeline__my_WB_stage__2(vlSymsp);
 }
 
 void Vpipeline::_ctor_var_reset() {

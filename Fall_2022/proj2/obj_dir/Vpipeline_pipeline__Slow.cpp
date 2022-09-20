@@ -31,11 +31,11 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_initial__TOP__pipeline__1\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
-    WData/*671:0*/ __Vtemp1[21];
-    WData/*671:0*/ __Vtemp2[21];
+    WData/*639:0*/ __Vtemp1[20];
+    WData/*639:0*/ __Vtemp2[20];
     // Body
     __Vtemp1[0U] = 0x2e6d656dU;
-    __Vtemp1[1U] = 0x65737433U;
+    __Vtemp1[1U] = 0x65737431U;
     __Vtemp1[2U] = 0x74312f74U;
     __Vtemp1[3U] = 0x2f706172U;
     __Vtemp1[4U] = 0x65737473U;
@@ -48,15 +48,37 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     __Vtemp1[0xbU] = 0x2e676974U;
     __Vtemp1[0xcU] = 0x33323230U;
     __Vtemp1[0xdU] = 0x742d6373U;
-    __Vtemp1[0xeU] = 0x32302f67U;
-    __Vtemp1[0xfU] = 0x702f3332U;
-    __Vtemp1[0x10U] = 0x736b746fU;
-    __Vtemp1[0x11U] = 0x732f4465U;
-    __Vtemp1[0x12U] = 0x626f7865U;
-    __Vtemp1[0x13U] = 0x652f6f73U;
-    __Vtemp1[0x14U] = 0x2f686f6dU;
-    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(21, __Vtemp1)
+    __Vtemp1[0xeU] = 0x6f702f67U;
+    __Vtemp1[0xfU] = 0x65736b74U;
+    __Vtemp1[0x10U] = 0x65732f44U;
+    __Vtemp1[0x11U] = 0x73626f78U;
+    __Vtemp1[0x12U] = 0x6d652f6fU;
+    __Vtemp1[0x13U] = 0x2f686fU;
+    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(20, __Vtemp1)
                  , vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__dmem
+                 , 0, ~0ULL);
+    __Vtemp2[0U] = 0x2e6d656dU;
+    __Vtemp2[1U] = 0x65737431U;
+    __Vtemp2[2U] = 0x74312f74U;
+    __Vtemp2[3U] = 0x2f706172U;
+    __Vtemp2[4U] = 0x65737473U;
+    __Vtemp2[5U] = 0x6a322f74U;
+    __Vtemp2[6U] = 0x2f70726fU;
+    __Vtemp2[7U] = 0x32303232U;
+    __Vtemp2[8U] = 0x616c6c5fU;
+    __Vtemp2[9U] = 0x696f2f46U;
+    __Vtemp2[0xaU] = 0x6875622eU;
+    __Vtemp2[0xbU] = 0x2e676974U;
+    __Vtemp2[0xcU] = 0x33323230U;
+    __Vtemp2[0xdU] = 0x742d6373U;
+    __Vtemp2[0xeU] = 0x6f702f67U;
+    __Vtemp2[0xfU] = 0x65736b74U;
+    __Vtemp2[0x10U] = 0x65732f44U;
+    __Vtemp2[0x11U] = 0x73626f78U;
+    __Vtemp2[0x12U] = 0x6d652f6fU;
+    __Vtemp2[0x13U] = 0x2f686fU;
+    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(20, __Vtemp2)
+                 , vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__imem
                  , 0, ~0ULL);
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[0U] = 0U;
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__regs[1U] = 0U;
@@ -108,36 +130,14 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xeU] = 0U;
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__csr_regs[0xfU] = 0U;
     vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__unnamedblk2__DOT__i = 0x10U;
-    __Vtemp2[0U] = 0x2e6d656dU;
-    __Vtemp2[1U] = 0x65737433U;
-    __Vtemp2[2U] = 0x74312f74U;
-    __Vtemp2[3U] = 0x2f706172U;
-    __Vtemp2[4U] = 0x65737473U;
-    __Vtemp2[5U] = 0x6a322f74U;
-    __Vtemp2[6U] = 0x2f70726fU;
-    __Vtemp2[7U] = 0x32303232U;
-    __Vtemp2[8U] = 0x616c6c5fU;
-    __Vtemp2[9U] = 0x696f2f46U;
-    __Vtemp2[0xaU] = 0x6875622eU;
-    __Vtemp2[0xbU] = 0x2e676974U;
-    __Vtemp2[0xcU] = 0x33323230U;
-    __Vtemp2[0xdU] = 0x742d6373U;
-    __Vtemp2[0xeU] = 0x32302f67U;
-    __Vtemp2[0xfU] = 0x702f3332U;
-    __Vtemp2[0x10U] = 0x736b746fU;
-    __Vtemp2[0x11U] = 0x732f4465U;
-    __Vtemp2[0x12U] = 0x626f7865U;
-    __Vtemp2[0x13U] = 0x652f6f73U;
-    __Vtemp2[0x14U] = 0x2f686f6dU;
-    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NW(21, __Vtemp2)
-                 , vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__imem
-                 , 0, ~0ULL);
 }
 
-void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_settle__TOP__pipeline__5\n"); );
+void Vpipeline_pipeline::_settle__TOP__pipeline__4(Vpipeline__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+      Vpipeline_pipeline::_settle__TOP__pipeline__4\n"); );
     Vpipeline* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__pcplus_FE 
+        = ((IData)(4U) + vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__PC_FE_latch);
     if (VL_UNLIKELY((0xcU == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
                                         << 0x17U) | 
                                        (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
@@ -163,34 +163,9 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict v
                                             >> 4U)));
         VL_WRITEF("\tALU_result_AGEX: %x\n",32,vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
     } else {
-        if (VL_UNLIKELY((1U == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                                          << 0x17U) 
-                                         | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                            >> 9U)))))) {
-            VL_WRITEF("ADD:\n");
-            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 1U;
-            VL_WRITEF("\trs1: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
-                                         << 0x17U) 
-                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                           >> 9U)));
-            VL_WRITEF("\trs2: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                         << 0x17U) 
-                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                           >> 9U)));
-            VL_WRITEF("\trd: %x\n",5,(0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                                << 0x1cU) 
-                                               | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                                  >> 4U))));
-            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX 
-                = (((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
-                     << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
-                                  >> 9U)) + ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
-                                              << 0x1cU) 
-                                             | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[0U] 
-                                                >> 4U)));
-            VL_WRITEF("\tALU_result_AGEX: %x\n",32,
-                      vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
-        } else {
+        if ((1U != (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
+                              << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
+                                           >> 9U))))) {
             vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 0U;
         }
     }
@@ -773,8 +748,6 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__5(Vpipeline__Syms* __restrict v
                                                                                 >> 0x10U)))))
                                                                                 ? 0x23U
                                                                                 : 0x25U))))))))))))))))))))))))))))))))));
-    vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__pcplus_FE 
-        = ((IData)(4U) + vlSymsp->TOP__pipeline.__PVT__my_FE_stage__DOT__PC_FE_latch);
     vlSymsp->TOP__pipeline.__Vtableidx1 = vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__op_I_DE;
     if ((1U & vlSymsp->TOP__pipeline.__Vtablechg1[vlSymsp->TOP__pipeline.__Vtableidx1])) {
         vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__type_I_DE 
@@ -889,14 +862,14 @@ void Vpipeline_pipeline::_ctor_var_reset() {
     __PVT__my_DE_stage__DOT__type_I_DE = VL_RAND_RESET_I(4);
     __PVT__my_DE_stage__DOT__type_immediate_DE = VL_RAND_RESET_I(3);
     __PVT__my_DE_stage__DOT__sxt_imm_DE = VL_RAND_RESET_I(32);
-    __PVT__my_DE_stage__DOT__pipeline_stall_DE = VL_RAND_RESET_I(1);
-    __PVT__my_DE_stage__DOT__rs1_DE = VL_RAND_RESET_I(32);
-    __PVT__my_DE_stage__DOT__rs2_DE = VL_RAND_RESET_I(32);
+    __PVT__my_DE_stage__DOT__reg_busy_bits_DE = VL_RAND_RESET_I(32);
+    __PVT__my_DE_stage__DOT__stall_signal_DE = VL_RAND_RESET_I(1);
     __PVT__my_DE_stage__DOT__unnamedblk1__DOT__i = VL_RAND_RESET_I(32);
     __PVT__my_DE_stage__DOT__unnamedblk2__DOT__i = VL_RAND_RESET_I(32);
     VL_RAND_RESET_W(144, __PVT__my_AGEX_stage__DOT__AGEX_latch);
     __PVT__my_AGEX_stage__DOT__wr_reg_AGEX = VL_RAND_RESET_I(1);
     __PVT__my_AGEX_stage__DOT__regval_AGEX = VL_RAND_RESET_I(32);
+    __PVT__my_AGEX_stage__DOT__busy_bits_AGEX = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<16384; ++__Vi0) {
             __PVT__my_MEM_stage__DOT__dmem[__Vi0] = VL_RAND_RESET_I(32);
     }}
@@ -904,6 +877,7 @@ void Vpipeline_pipeline::_ctor_var_reset() {
     __PVT__my_MEM_stage__DOT__memaddr_MEM = VL_RAND_RESET_I(32);
     __PVT__my_MEM_stage__DOT__wr_val_MEM = VL_RAND_RESET_I(32);
     __PVT__my_MEM_stage__DOT__wr_mem_MEM = VL_RAND_RESET_I(1);
+    __PVT__my_MEM_stage__DOT__busy_bits_MEM = VL_RAND_RESET_I(32);
     __Vtableidx1 = 0;
     __Vtablechg1[0] = 0U;
     __Vtablechg1[1] = 1U;
@@ -1097,5 +1071,4 @@ void Vpipeline_pipeline::_ctor_var_reset() {
     __Vtable1___PVT__my_DE_stage__DOT__type_immediate_DE[61] = 0U;
     __Vtable1___PVT__my_DE_stage__DOT__type_immediate_DE[62] = 0U;
     __Vtable1___PVT__my_DE_stage__DOT__type_immediate_DE[63] = 0U;
-    __Vdly__my_FE_stage__DOT__inst_count_FE = VL_RAND_RESET_I(32);
 }

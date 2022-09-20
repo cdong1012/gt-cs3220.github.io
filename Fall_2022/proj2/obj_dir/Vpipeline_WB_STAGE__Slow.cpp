@@ -39,6 +39,7 @@ void Vpipeline_WB_STAGE::_ctor_var_reset() {
     __PVT__regval_WB2 = VL_RAND_RESET_I(32);
     __PVT__wcsrno_WB = VL_RAND_RESET_I(4);
     __PVT__wr_csr_WB = VL_RAND_RESET_I(1);
+    __PVT__reg_busy_bits_WB = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<32; ++__Vi0) {
             last_WB_value[__Vi0] = VL_RAND_RESET_I(32);
     }}

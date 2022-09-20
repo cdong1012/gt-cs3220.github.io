@@ -219,7 +219,9 @@ module DE_STAGE(
   assign { wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} = from_WB_to_DE;  
 
 
-  wire pipeline_stall_DE; 
+  wire pipeline_stall_DE;
+
+
   assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
 
 
@@ -232,6 +234,11 @@ module DE_STAGE(
             bus_canary_DE 
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
+  // DEPENDENCY CONTROL
+
+  wire [`REGWORDS-1:0] busy_bits_DE; // busy bits for registers 
+  reg [`REGWORDS-1:0] reg_busy_bits_DE;
+  assign busy_bits_DE = reg_busy_bits_DE;
 
 // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
@@ -261,8 +268,10 @@ module DE_STAGE(
   // register file and CSRs write
   always @ (negedge clk) begin 
     if (wr_reg_WB) begin
-        $display("Writing the value %h into register # %h", regval_WB, wregno_WB);
+        // $display("Writing the value %h into register # %h", regval_WB, wregno_WB);
 		  	regs[wregno_WB] <= regval_WB; 
+        reg_busy_bits_DE = 0;
+        // $display("DECODE: Resetting reg_busy_bits_DE");
     end
     else if (wr_csr_WB) 
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
@@ -273,18 +282,36 @@ module DE_STAGE(
   reg [`REGNOBITS-1:0] rd_DE;
 
   assign rd_DE = inst_DE[11:7];
+  assign rs1_DE = regs[inst_DE[19:15]];
+  assign rs2_DE = regs[inst_DE[24:20]];
+
+  var stall_signal_DE;
+  assign pipeline_stall_DE = stall_signal_DE;
   always @ (posedge clk) begin // you need to expand this always block 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end
      else begin
-      RR_arith_result_DE <= 0;
-      // $display("Decode: %h", rd_DE);
-      if (pipeline_stall_DE) 
+      // // if (reg_busy_bits_DE != 32'b0) begin
+      //   if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
+      //     stall_signal_DE = 1;
+      //     $display("source register1 #%d is busy", inst_DE[19:15]);
+      //   end
+      //   if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
+      //     stall_signal_DE = 1;
+      //     $display("dest register #%d is busy", rd_DE);
+      //   end
+      // // end
+      // $display("Busy bits = %b", reg_busy_bits_DE);
+
+      if (stall_signal_DE) begin
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
-      else begin
-          rs1_DE <= regs[inst_DE[19:15]];
-          rs2_DE <= regs[inst_DE[24:20]];
+        $display("DECODE stalling adddi r%d , r%d, %h", inst_DE[11:7], inst_DE[19:15], sxt_imm_DE);
+      end else begin
+        // if (op_I_DE == `ADDI_I) begin
+        //     reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
+        //     reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;        
+        // end
           DE_latch <= DE_latch_contents;
       end
      end 

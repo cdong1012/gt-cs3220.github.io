@@ -21,6 +21,7 @@ VL_INLINE_OPT void Vpipeline_WB_STAGE::_sequent__TOP__pipeline__my_WB_stage__1(V
     IData/*31:0*/ __Vdlyvval__WB_counters__v5;
     IData/*31:0*/ __Vdlyvval__WB_counters__v6;
     // Body
+    vlSymsp->TOP__pipeline__my_WB_stage.__PVT__reg_busy_bits_WB = 0U;
     __Vdlyvval__WB_counters__v0 = ((vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[3U] 
                                     << 0x10U) | (vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__MEM_latch[2U] 
                                                  >> 0x10U));

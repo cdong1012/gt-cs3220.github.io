@@ -57,7 +57,7 @@ module MEM_STAGE(
   end
 
   assign MEM_latch_out = MEM_latch; 
-
+  wire [`REGWORDS-1:0] busy_bits_MEM; // busy bits for registers 
    assign {
                                 inst_MEM,
                                 PC_MEM,
@@ -69,6 +69,7 @@ module MEM_STAGE(
                                  // more signals might need
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
+
  
 
    

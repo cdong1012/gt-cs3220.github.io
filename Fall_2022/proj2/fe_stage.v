@@ -67,7 +67,8 @@ module FE_STAGE(
 
 
   // **TODO: Complete the rest of the pipeline 
-   assign stall_pipe_FE = 0;  // you need to modify this line for your design 
+
+  assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
 
   always @ (posedge clk) begin
   /* you need to extend this always block */
@@ -93,8 +94,10 @@ module FE_STAGE(
      else  
         begin 
          // this is just an example. you need to expand the contents of if/else
-         if  (stall_pipe_FE)
+         if  (stall_pipe_FE) begin
             FE_latch <= FE_latch; 
+            $display("------------------------------\nFETCH STALLINGGGG\n------------------------------\n");
+         end
           else begin
             FE_latch <= FE_latch_contents; 
           end

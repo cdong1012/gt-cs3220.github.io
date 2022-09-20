@@ -33,8 +33,9 @@ module WB_STAGE(
 
 
   // **TODO: Complete the rest of the pipeline**
- 
-    
+  wire [`REGWORDS-1:0] busy_bits_WB; // busy bits for registers 
+      reg [`REGWORDS-1:0] reg_busy_bits_WB;
+  assign busy_bits_WB = reg_busy_bits_WB;
    assign {
                                 inst_WB,
                                 PC_WB,
@@ -47,9 +48,12 @@ module WB_STAGE(
                                  bus_canary_WB 
                                  } = from_MEM_latch; 
         
-        // write register by sending data to the DE stage 
+    // write register by sending data to the DE stage 
         
-
+  always @(posedge clk) begin
+    // $display("WRITEBACK! BUSY BIT IS CLEARED");
+    reg_busy_bits_WB <= 0;
+  end
 
 
 // we send register write (and CSR register) information to DE stage 

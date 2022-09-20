@@ -38,9 +38,8 @@ module AGEX_STAGE(
   reg [`REGNOBITS-1:0] wregno_AGEX; // destination register ID 
   reg [`DBITS-1:0] regval_AGEX;  // the contents to be written in the register file (or CSR )
 
-
+  reg [`REGWORDS-1:0] busy_bits_AGEX;
   // **TODO: Complete the rest of the pipeline 
- 
   
   always @ (*) begin
     case (op_I_AGEX)
@@ -71,15 +70,15 @@ module AGEX_STAGE(
       $display("\tALU_result_AGEX: %h", regval_AGEX);
     end
     `ADD_I: begin
-      regval_AGEX = rs1_AGEX  + rs2_AGEX;
-      wr_reg_AGEX = 1;
-      $display("ADD:");
-      $display("\trs1: %h", rs1_AGEX);
-      $display("\trs2: %h", rs2_AGEX);
-      $display("\trd: %h", wregno_AGEX);
-      regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
-      wr_reg_AGEX = 1;
-      $display("\tALU_result_AGEX: %h", regval_AGEX);
+      // regval_AGEX = rs1_AGEX  + rs2_AGEX;
+      // wr_reg_AGEX = 1;
+      // $display("ADD:");
+      // $display("\trs1: %h", rs1_AGEX);
+      // $display("\trs2: %h", rs2_AGEX);
+      // $display("\trd: %h", wregno_AGEX);
+      // regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
+      // wr_reg_AGEX = 1;
+      // $display("\tALU_result_AGEX: %h", regval_AGEX);
     end
        //  ...
     default : begin
@@ -98,7 +97,7 @@ module AGEX_STAGE(
     ... 
     */
   end 
-
+  wire [`REGWORDS-1:0] busy_bits_AGEX; // busy bits for registers 
 
   assign  {
     inst_AGEX,
@@ -125,7 +124,8 @@ module AGEX_STAGE(
             // more signals might need
     bus_canary_AGEX     
   }; 
-  
+
+
   always @ (posedge clk) begin
     if (reset) begin
       AGEX_latch <= {`AGEX_latch_WIDTH{1'b0}};
