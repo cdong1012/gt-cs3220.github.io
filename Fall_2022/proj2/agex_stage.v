@@ -16,7 +16,6 @@ module AGEX_STAGE(
   assign AGEX_latch_out = AGEX_latch;
 
   wire[`AGEX_latch_WIDTH-1:0] AGEX_latch_contents; 
-  
    
   wire [`INSTBITS-1:0]inst_AGEX; 
   wire [`DBITS-1:0]PC_AGEX;
@@ -30,7 +29,6 @@ module AGEX_STAGE(
   reg [`DBITS-1:0] sxt_imm_AGEX;
 
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
-
 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
 
@@ -130,12 +128,11 @@ module AGEX_STAGE(
     if (reset) begin
       AGEX_latch <= {`AGEX_latch_WIDTH{1'b0}};
       // might need more code here  
-        end 
-    else 
-        begin
+    end 
+    else begin
       // need to complete 
-            AGEX_latch <= AGEX_latch_contents;
-        end 
+      AGEX_latch <= AGEX_latch_contents;
+    end 
   end
 
 endmodule

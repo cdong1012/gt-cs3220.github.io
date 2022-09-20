@@ -10,16 +10,14 @@ module WB_STAGE(
   output wire [`from_WB_to_MEM_WIDTH-1:0] from_WB_to_MEM
 );
 
-
   wire [`IOPBITS-1:0] op_I_WB;
   wire [`INSTBITS-1:0] inst_WB; 
   wire [`DBITS-1:0] PC_WB;
   wire [`DBITS-1:0] inst_count_WB; 
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
 
-  
   wire wr_reg_WB; // is this instruction writing into a register file? 
-  
+
   wire [`REGNOBITS-1:0] wregno_WB; // destination register ID 
   wire [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
   
@@ -27,16 +25,14 @@ module WB_STAGE(
   wire [`REGNOBITS-1:0] wregno_WB2; // destination register ID 
   wire [`DBITS-1:0] regval_WB2;  // the contents to be written in the register file (or CSR )
 
-
   wire [`CSRNOBITS-1:0] wcsrno_WB;  // desitnation CSR register ID 
   wire wr_csr_WB; // is this instruction writing into CSR ? 
 
-
   // **TODO: Complete the rest of the pipeline**
   wire [`REGWORDS-1:0] busy_bits_WB; // busy bits for registers 
-      reg [`REGWORDS-1:0] reg_busy_bits_WB;
+  reg [`REGWORDS-1:0] reg_busy_bits_WB;
   assign busy_bits_WB = reg_busy_bits_WB;
-   assign {
+  assign {
                                 inst_WB,
                                 PC_WB,
                                 op_I_WB,
@@ -45,10 +41,10 @@ module WB_STAGE(
                                 wr_reg_WB, // is this instruction writing into a register file? 
                                 wregno_WB, // destination register ID 
                                 // more signals might need                        
-                                 bus_canary_WB 
-                                 } = from_MEM_latch; 
+                                bus_canary_WB 
+                                } = from_MEM_latch; 
         
-    // write register by sending data to the DE stage 
+  // write register by sending data to the DE stage 
         
   always @(posedge clk) begin
     // $display("WRITEBACK! BUSY BIT IS CLEARED");
@@ -59,8 +55,8 @@ module WB_STAGE(
 // we send register write (and CSR register) information to DE stage 
 assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;  
 
-// this code need to be commented out when we synthesize the code later 
-    // special workaround to get tests Pass/Fail status
+  // this code need to be commented out when we synthesize the code later 
+  // special workaround to get tests Pass/Fail status
   reg [`DBITS-1:0] last_WB_value [`REGWORDS-1:0] /* verilator public */;
   reg [`DBITS-1:0] WB_counters[`REGWORDS-1:0]   /* verilator public */ ;
   always @(negedge clk) begin
@@ -70,7 +66,7 @@ assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;
 
   // this is only for debugging purpose to interact with sim_main.cpp when we use verilator 
   always @(posedge clk) begin 
-// don't use WB_counters[0] 
+    // don't use WB_counters[0] 
     WB_counters[1] <=  PC_WB;   
     WB_counters[2] <=  inst_WB;   
     WB_counters[3] <=  {31'b0, wr_reg_WB};   
@@ -79,7 +75,6 @@ assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;
     WB_counters[6] <= {26'b0, op_I_WB}; 
     WB_counters[7] <= {27'b0, wregno_WB};   
     // $display("WB STATE: Writing the value %h into register # %h", regval_WB, wregno_WB);
-
   end 
 
 endmodule 

@@ -15,26 +15,22 @@ module MEM_STAGE(
   reg [`DBITS-1:0] dmem[`DMEMWORDS-1:0];
  
  // DMEM and IMEM should contains the same contents 
- initial begin
-     $readmemh(`IDMEMINITFILE , dmem);
+  initial begin
+    $readmemh(`IDMEMINITFILE , dmem);
   end
-  
   
   reg [`MEM_latch_WIDTH-1:0] MEM_latch; 
 
   wire[`MEM_latch_WIDTH-1:0] MEM_latch_contents; 
-
-
 
   wire [`IOPBITS-1:0] op_I_MEM;
   wire [`DBITS-1:0] inst_count_MEM; 
   wire [`INSTBITS-1:0] inst_MEM; 
   wire [`DBITS-1:0] PC_MEM;
  
+  wire [`BUS_CANARY_WIDTH-1:0] bus_canary_MEM;
 
-   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_MEM;
-
-// **TODO: Complete the rest of the pipeline 
+  // **TODO: Complete the rest of the pipeline 
 
   wire [`DBITS-1:0] memaddr_MEM;  // memory address. need to be computed in AGEX stage and pass through a latch 
   wire [`DBITS-1:0] rd_val_MEM;  // memory read value 
@@ -48,17 +44,16 @@ module MEM_STAGE(
   wire [`DBITS-1:0] regval_MEM;  // the contents to be written in the register file (or CSR )
 
   
- // Write to D-MEM
+  // Write to D-MEM
   always @ (posedge clk) begin
   if (wr_mem_MEM)
-    // fill out the correct signal name to do write operations 
-      
+    // fill out the correct signal name to do write operations     
       dmem[memaddr_MEM[`DMEMADDRBITS-1:`DMEMWORDBITS]] <= wr_val_MEM; 
   end
 
   assign MEM_latch_out = MEM_latch; 
   wire [`REGWORDS-1:0] busy_bits_MEM; // busy bits for registers 
-   assign {
+  assign {
                                 inst_MEM,
                                 PC_MEM,
                                 op_I_MEM,
@@ -69,11 +64,8 @@ module MEM_STAGE(
                                  // more signals might need
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
-
  
-
-   
-   assign MEM_latch_contents = {
+  assign MEM_latch_contents = {
                                 inst_MEM,
                                 PC_MEM,
                                 op_I_MEM,
@@ -81,17 +73,16 @@ module MEM_STAGE(
                                 regval_MEM, // the result of arithmetic calculation
                                 wr_reg_MEM, // is this instruction writing into a register file? 
                                 wregno_MEM, // destination register ID  
-                              bus_canary_MEM                   
-   }; 
+                                bus_canary_MEM                   
+  }; 
 
   always @ (posedge clk) begin
     if (reset) begin
-        MEM_latch <= {`MEM_latch_WIDTH{1'b0}}; 
+      MEM_latch <= {`MEM_latch_WIDTH{1'b0}}; 
     end else begin 
-        // $display("MEM STATE: Writing the value %h into register # %h", regval_MEM, wregno_MEM);
-        MEM_latch <= MEM_latch_contents;
+      // $display("MEM STATE: Writing the value %h into register # %h", regval_MEM, wregno_MEM);
+      MEM_latch <= MEM_latch_contents;
     end    
   end
-
-
+  
 endmodule

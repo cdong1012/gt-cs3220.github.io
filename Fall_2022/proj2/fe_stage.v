@@ -14,7 +14,7 @@ module FE_STAGE(
   // I-MEM
   (* ram_init_file = `IDMEMINITFILE *)
   reg [`DBITS-1:0] imem [`IMEMWORDS-1:0];
- 
+
   initial begin
       $readmemh(`IDMEMINITFILE , imem);
   end
@@ -63,44 +63,38 @@ module FE_STAGE(
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
 
-
-
-
   // **TODO: Complete the rest of the pipeline 
 
   assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
 
   always @ (posedge clk) begin
   /* you need to extend this always block */
-   if (reset) begin 
+    if (reset) begin 
       PC_FE_latch <= `STARTPC;
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
-      end 
-     else if (!stall_pipe_FE) begin 
+    end 
+    else if (!stall_pipe_FE) begin 
       PC_FE_latch <= pcplus_FE;
       inst_count_FE <= inst_count_FE + 1; 
-      end 
+    end 
     else 
       PC_FE_latch <= PC_FE_latch;
   end
-  
 
   always @ (posedge clk) begin
-    if (reset) 
-        begin 
-            FE_latch <= {`FE_latch_WIDTH{1'b0}}; 
-            // ...
-        end 
-     else  
-        begin 
-         // this is just an example. you need to expand the contents of if/else
-         if  (stall_pipe_FE) begin
-            FE_latch <= FE_latch; 
-         end
-          else begin
-            FE_latch <= FE_latch_contents; 
-          end
-        end  
+    if (reset) begin 
+          FE_latch <= {`FE_latch_WIDTH{1'b0}}; 
+          // ...
+    end 
+    else begin 
+      // this is just an example. you need to expand the contents of if/else
+      if  (stall_pipe_FE) begin
+        FE_latch <= FE_latch; 
+      end
+      else begin
+        FE_latch <= FE_latch_contents; 
+      end
+    end  
   end
 
 endmodule
