@@ -35,7 +35,7 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
     WData/*639:0*/ __Vtemp2[20];
     // Body
     __Vtemp1[0U] = 0x2e6d656dU;
-    __Vtemp1[1U] = 0x65737431U;
+    __Vtemp1[1U] = 0x65737435U;
     __Vtemp1[2U] = 0x74312f74U;
     __Vtemp1[3U] = 0x2f706172U;
     __Vtemp1[4U] = 0x65737473U;
@@ -58,7 +58,7 @@ void Vpipeline_pipeline::_initial__TOP__pipeline__1(Vpipeline__Syms* __restrict 
                  , vlSymsp->TOP__pipeline.__PVT__my_MEM_stage__DOT__dmem
                  , 0, ~0ULL);
     __Vtemp2[0U] = 0x2e6d656dU;
-    __Vtemp2[1U] = 0x65737431U;
+    __Vtemp2[1U] = 0x65737435U;
     __Vtemp2[2U] = 0x74312f74U;
     __Vtemp2[3U] = 0x2f706172U;
     __Vtemp2[4U] = 0x65737473U;
@@ -163,9 +163,34 @@ void Vpipeline_pipeline::_settle__TOP__pipeline__4(Vpipeline__Syms* __restrict v
                                             >> 4U)));
         VL_WRITEF("\tALU_result_AGEX: %x\n",32,vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
     } else {
-        if ((1U != (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
-                              << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
-                                           >> 9U))))) {
+        if (VL_UNLIKELY((1U == (0x3fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[5U] 
+                                          << 0x17U) 
+                                         | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[4U] 
+                                            >> 9U)))))) {
+            VL_WRITEF("ADD:\n");
+            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 1U;
+            VL_WRITEF("\trs1: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                                         << 0x17U) 
+                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                           >> 9U)));
+            VL_WRITEF("\trs2: %x\n",32,((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                         << 0x17U) 
+                                        | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                           >> 9U)));
+            VL_WRITEF("\trd: %x\n",5,(0x1fU & ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                                << 0x1cU) 
+                                               | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                                  >> 4U))));
+            vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX 
+                = (((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[3U] 
+                     << 0x17U) | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                  >> 9U)) + ((vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[2U] 
+                                              << 0x17U) 
+                                             | (vlSymsp->TOP__pipeline.__PVT__my_DE_stage__DOT__DE_latch[1U] 
+                                                >> 9U)));
+            VL_WRITEF("\tALU_result_AGEX: %x\n",32,
+                      vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__regval_AGEX);
+        } else {
             vlSymsp->TOP__pipeline.__PVT__my_AGEX_stage__DOT__wr_reg_AGEX = 0U;
         }
     }

@@ -268,10 +268,11 @@ module DE_STAGE(
   // register file and CSRs write
   always @ (negedge clk) begin 
     if (wr_reg_WB) begin
-        // $display("Writing the value %h into register # %h", regval_WB, wregno_WB);
+        // $display("DECODE: Writing the value %h into register # %h", regval_WB, wregno_WB);
 		  	regs[wregno_WB] <= regval_WB; 
         reg_busy_bits_DE = 0;
-        // $display("DECODE: Resetting reg_busy_bits_DE");
+        stall_signal_DE = 0;
+        // $display("DECODE: turn off stall_signal_DE");
     end
     else if (wr_csr_WB) 
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
@@ -292,27 +293,34 @@ module DE_STAGE(
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end
      else begin
-      // // if (reg_busy_bits_DE != 32'b0) begin
-      //   if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
-      //     stall_signal_DE = 1;
-      //     $display("source register1 #%d is busy", inst_DE[19:15]);
-      //   end
-      //   if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
-      //     stall_signal_DE = 1;
-      //     $display("dest register #%d is busy", rd_DE);
-      //   end
-      // // end
-      // $display("Busy bits = %b", reg_busy_bits_DE);
+      // $display("DECODE decoding r%d , r%d, %h", inst_DE[11:7], inst_DE[19:15], sxt_imm_DE);
+      // $display("Old busy bits   %b", reg_busy_bits_DE);
 
       if (stall_signal_DE) begin
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
-        $display("DECODE stalling adddi r%d , r%d, %h", inst_DE[11:7], inst_DE[19:15], sxt_imm_DE);
       end else begin
-        // if (op_I_DE == `ADDI_I) begin
-        //     reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
-        //     reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;        
-        // end
-          DE_latch <= DE_latch_contents;
+
+    
+        DE_latch <= DE_latch_contents;
+        
+        // set busy bits
+        if (op_I_DE == `ADDI_I) begin
+            reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
+            reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;   
+            $display("New busy bits   %b", reg_busy_bits_DE); 
+        end
+
+        // setting stall signals
+        if (reg_busy_bits_DE != 32'b0) begin
+          if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
+            stall_signal_DE = 1;
+            $display("source register1 #%d is busy", inst_DE[19:15]);
+          end
+          if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
+            stall_signal_DE = 1;
+            $display("dest register #%d is busy", rd_DE);
+          end
+        end
       end
      end 
   end

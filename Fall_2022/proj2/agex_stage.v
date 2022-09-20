@@ -70,15 +70,15 @@ module AGEX_STAGE(
       $display("\tALU_result_AGEX: %h", regval_AGEX);
     end
     `ADD_I: begin
-      // regval_AGEX = rs1_AGEX  + rs2_AGEX;
-      // wr_reg_AGEX = 1;
-      // $display("ADD:");
-      // $display("\trs1: %h", rs1_AGEX);
-      // $display("\trs2: %h", rs2_AGEX);
-      // $display("\trd: %h", wregno_AGEX);
-      // regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
-      // wr_reg_AGEX = 1;
-      // $display("\tALU_result_AGEX: %h", regval_AGEX);
+      regval_AGEX = rs1_AGEX  + rs2_AGEX;
+      wr_reg_AGEX = 1;
+      $display("ADD:");
+      $display("\trs1: %h", rs1_AGEX);
+      $display("\trs2: %h", rs2_AGEX);
+      $display("\trd: %h", wregno_AGEX);
+      regval_AGEX = rs1_AGEX + rs2_AGEX;
+      wr_reg_AGEX = 1;
+      $display("\tALU_result_AGEX: %h", regval_AGEX);
     end
        //  ...
     default : begin

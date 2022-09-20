@@ -96,7 +96,6 @@ module FE_STAGE(
          // this is just an example. you need to expand the contents of if/else
          if  (stall_pipe_FE) begin
             FE_latch <= FE_latch; 
-            $display("------------------------------\nFETCH STALLINGGGG\n------------------------------\n");
          end
           else begin
             FE_latch <= FE_latch_contents; 
