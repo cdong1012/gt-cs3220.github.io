@@ -284,7 +284,6 @@ module DE_STAGE(
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
           rs1_DE <= regs[inst_DE[19:15]];
-          pipeline_stall_DE = 1;
           rs2_DE <= regs[inst_DE[24:20]];
           DE_latch <= DE_latch_contents;
       end
