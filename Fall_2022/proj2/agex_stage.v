@@ -39,9 +39,20 @@ module AGEX_STAGE(
   reg [`REGWORDS-1:0] busy_bits_AGEX;
   // **TODO: Complete the rest of the pipeline 
   
+  assign from_AGEX_to_FE = {sxt_imm_AGEX, br_cond_AGEX} ;  
+  assign from_AGEX_to_DE = {br_cond_AGEX};
+
   always @ (*) begin
     case (op_I_AGEX)
-      `BEQ_I : br_cond_AGEX = 1; // write correct code to check the branch condition. 
+      `BEQ_I : begin
+              $display("BEQ:");
+      $display("\trs1: %h", rs1_AGEX);
+      $display("\trs2: %h", rs2_AGEX);
+      $display("\timm: %h", sxt_imm_AGEX);
+      if (rs1_AGEX == rs2_AGEX)
+        br_cond_AGEX = 1; // write correct code to check the branch condition. 
+      end
+      
       /*
       `BNE_I : ...
       `BLT_I : ...

@@ -66,16 +66,25 @@ module FE_STAGE(
   // **TODO: Complete the rest of the pipeline 
 
   assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
-
+  wire [`DBITS-1:0] jump_sxt_imm_FE;
+  wire br_cond_FE;
+  assign {jump_sxt_imm_FE, br_cond_FE}= from_AGEX_to_FE;
   always @ (posedge clk) begin
   /* you need to extend this always block */
     if (reset) begin 
       PC_FE_latch <= `STARTPC;
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
     end 
-    else if (!stall_pipe_FE) begin 
-      PC_FE_latch <= pcplus_FE;
+    else if (!stall_pipe_FE) begin
+      if (br_cond_FE) begin
+        $display("FETCH: BRANCHING DETECTED!!! Jumping by %h", jump_sxt_imm_FE);
+        PC_FE_latch <= PC_FE_latch + jump_sxt_imm_FE;
+      end
+      else begin
+        PC_FE_latch <= pcplus_FE;
+      end
       inst_count_FE <= inst_count_FE + 1; 
+
     end 
     else 
       PC_FE_latch <= PC_FE_latch;

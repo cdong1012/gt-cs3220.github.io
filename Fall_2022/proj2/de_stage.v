@@ -231,11 +231,14 @@ module DE_STAGE(
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
   // DEPENDENCY CONTROL
+  wire br_cond_DE;
+  assign br_cond_DE = from_AGEX_to_DE; // stop stalling
+
 
   wire [`REGWORDS-1:0] busy_bits_DE; // busy bits for registers 
   reg [`REGWORDS-1:0] reg_busy_bits_DE;
   assign busy_bits_DE = reg_busy_bits_DE;
-
+  
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
 
@@ -264,7 +267,7 @@ module DE_STAGE(
   // register file and CSRs write
   always @ (negedge clk) begin 
     if (wr_reg_WB) begin
-      // $display("DECODE: Writing the value %h into register # %h", regval_WB, wregno_WB);
+      $display("DECODE: Writing the value %h into register # %h", regval_WB, wregno_WB);
       regs[wregno_WB] <= regval_WB; 
       reg_busy_bits_DE = 0;
       stall_signal_DE = 0;
@@ -272,6 +275,12 @@ module DE_STAGE(
     end
     else if (wr_csr_WB) 
 		  csr_regs[wcsrno_WB] <= regval_WB; 
+    else if (br_cond_DE) begin
+      reg_busy_bits_DE = 0; // idea: beq would stall to stop decoding the inst at PC + 1
+      stall_signal_DE = 0; // once the new PC is correctly calculated and sent to FE, we stop stalling and execute.
+      // is this necessary??
+    end
+
   end
 
   reg [`DBITS-1:0] rs1_DE;
@@ -289,7 +298,6 @@ module DE_STAGE(
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
     end
     else begin
-      // $display("DECODE decoding r%d , r%d, %h", inst_DE[11:7], inst_DE[19:15], sxt_imm_DE);
       // $display("Old busy bits   %b", reg_busy_bits_DE);
 
       if (stall_signal_DE) begin
@@ -298,12 +306,16 @@ module DE_STAGE(
         DE_latch <= DE_latch_contents;
         
         // set busy bits
-        if (op_I_DE == `ADDI_I) begin
+        if (op_I_DE == `ADDI_I || op_I_DE == `ADD_I) begin
           reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
           reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;   
+          reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[24:20];   
           $display("New busy bits   %b", reg_busy_bits_DE); 
         end
 
+        if (op_I_DE == `BEQ_I) begin
+          stall_signal_DE  = 1; // do we even need to stall here? If we comment out 316-318, the test still passes...
+        end
         // setting stall signals
         if (reg_busy_bits_DE != 32'b0) begin
           if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
