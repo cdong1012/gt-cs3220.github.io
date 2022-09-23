@@ -75,19 +75,20 @@ module FE_STAGE(
       PC_FE_latch <= `STARTPC;
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
     end 
-    else if (!stall_pipe_FE) begin
+    else if (!from_DE_to_FE) begin
       if (br_cond_FE) begin
-        $display("FETCH: BRANCHING DETECTED!!! Jumping by %h", jump_sxt_imm_FE);
+        // $display("FETCH: BRANCHING DETECTED!!! Jumping by %h", jump_sxt_imm_FE);
         PC_FE_latch <= PC_FE_latch + jump_sxt_imm_FE;
       end
       else begin
         PC_FE_latch <= pcplus_FE;
+        // $display("FETCH: PC + 1");
       end
       inst_count_FE <= inst_count_FE + 1; 
-
     end 
-    else 
+    else begin
       PC_FE_latch <= PC_FE_latch;
+    end
   end
 
   always @ (posedge clk) begin
@@ -97,8 +98,10 @@ module FE_STAGE(
     end 
     else begin 
       // this is just an example. you need to expand the contents of if/else
-      if  (stall_pipe_FE) begin
+      if  (from_DE_to_FE) begin
+
         FE_latch <= FE_latch; 
+
       end
       else begin
         FE_latch <= FE_latch_contents; 

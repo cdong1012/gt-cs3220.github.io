@@ -217,9 +217,9 @@ module DE_STAGE(
   // signals come from WB stage for register WB 
   assign { wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} = from_WB_to_DE;  
 
-  wire pipeline_stall_DE;
+  reg pipeline_stall_DE;
 
-  assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
+  assign from_DE_to_FE = pipeline_stall_DE; // pass the DE stage stall signal to FE stage 
 
   // decoding the contents of FE latch out. the order should be matched with the fe_stage.v 
   assign {
@@ -270,14 +270,14 @@ module DE_STAGE(
       $display("DECODE: Writing the value %h into register # %h", regval_WB, wregno_WB);
       regs[wregno_WB] <= regval_WB; 
       reg_busy_bits_DE = 0;
-      stall_signal_DE = 0;
+      pipeline_stall_DE = 0;
       // $display("DECODE: turn off stall_signal_DE");
     end
     else if (wr_csr_WB) 
 		  csr_regs[wcsrno_WB] <= regval_WB; 
     else if (br_cond_DE) begin
       reg_busy_bits_DE = 0; // idea: beq would stall to stop decoding the inst at PC + 1
-      stall_signal_DE = 0; // once the new PC is correctly calculated and sent to FE, we stop stalling and execute.
+      pipeline_stall_DE = 0; // once the new PC is correctly calculated and sent to FE, we stop stalling and execute.
       // is this necessary??
     end
 
@@ -291,42 +291,38 @@ module DE_STAGE(
   assign rs1_DE = regs[inst_DE[19:15]];
   assign rs2_DE = regs[inst_DE[24:20]];
 
-  var stall_signal_DE;
-  assign pipeline_stall_DE = stall_signal_DE;
   always @ (posedge clk) begin // you need to expand this always block 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
     end
     else begin
-      // $display("Old busy bits   %b", reg_busy_bits_DE);
-
-      if (stall_signal_DE) begin
+        // setting stall signals
+        // if (reg_busy_bits_DE != 32'b0) begin
+        //   if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
+        //     pipeline_stall_DE = 1;
+        //     $display("source register1 #%d is busy", inst_DE[19:15]);
+        //   end
+        //   if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
+        //     pipeline_stall_DE = 1;
+        //     $display("dest register #%d is busy", rd_DE);
+        //   end
+        // end
+      if (pipeline_stall_DE) begin
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end else begin
-        DE_latch <= DE_latch_contents;
-        
         // set busy bits
+    $display("DECODING ADDI, r%d, r#%d, #%h. PC = %h", rd_DE, inst_DE[19:15], sxt_imm_DE, PC_DE);
+        if (op_I_DE == `BNE_I)
+          $display("BRANCH NOT EQUA INSTRUCTION!!!!");
         if (op_I_DE == `ADDI_I || op_I_DE == `ADD_I) begin
-          reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
-          reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;   
-          reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[24:20];   
-          $display("New busy bits   %b", reg_busy_bits_DE); 
+          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
+          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;   
+          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[24:20];   
+          // $display("New busy bits   %b", reg_busy_bits_DE); 
+          pipeline_stall_DE = 1;
         end
 
-        if (op_I_DE == `BEQ_I) begin
-          stall_signal_DE  = 1; // do we even need to stall here? If we comment out 316-318, the test still passes...
-        end
-        // setting stall signals
-        if (reg_busy_bits_DE != 32'b0) begin
-          if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
-            stall_signal_DE = 1;
-            $display("source register1 #%d is busy", inst_DE[19:15]);
-          end
-          if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
-            stall_signal_DE = 1;
-            $display("dest register #%d is busy", rd_DE);
-          end
-        end
+        DE_latch <= DE_latch_contents;
       end
     end 
   end
