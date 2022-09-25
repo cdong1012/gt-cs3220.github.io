@@ -58,7 +58,8 @@ module FE_STAGE(
                                 inst_FE, 
                                 PC_FE_latch, 
                                 pcplus_FE, // please feel free to add more signals such as valid bits etc. 
-                                inst_count_FE, 
+                                inst_count_FE,
+                                branch_finish_FE,
                                 // if you add more bits here, please increase the width of latch in define.vh 
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
@@ -69,6 +70,7 @@ module FE_STAGE(
   wire [`DBITS-1:0] jump_sxt_imm_FE;
   wire br_cond_FE;
   assign {jump_sxt_imm_FE, br_cond_FE}= from_AGEX_to_FE;
+  reg branch_finish_FE;
   always @ (posedge clk) begin
   /* you need to extend this always block */
     if (reset) begin 
@@ -76,13 +78,15 @@ module FE_STAGE(
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
     end 
     else if (!from_DE_to_FE) begin
+      branch_finish_FE <= 0;
       if (br_cond_FE) begin
-        // $display("FETCH: BRANCHING DETECTED!!! Jumping by %h", jump_sxt_imm_FE);
+        $display("FETCH: BRANCHING DETECTED!!! Jumping to new PC = %h", PC_FE_latch + jump_sxt_imm_FE);
         PC_FE_latch <= PC_FE_latch + jump_sxt_imm_FE;
+        branch_finish_FE <= 1;
       end
       else begin
         PC_FE_latch <= pcplus_FE;
-        // $display("FETCH: PC + 1");
+        $display("FETCH: PC + 1 = %h", pcplus_FE);
       end
       inst_count_FE <= inst_count_FE + 1; 
     end 

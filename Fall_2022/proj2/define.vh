@@ -16,7 +16,7 @@
 // address space is m 0x00000000 to 0x000fffff
 // [NOTICE] please note that both imem and dmem use the SAME "IDMEMINITFILE".
 // you need to change this line to change which test file to read 
-`define IDMEMINITFILE "/home/osboxes/Desktop/gt-cs3220.github.io/Fall_2022/proj2/tests/part2/addi.mem"
+`define IDMEMINITFILE "/home/osboxes/Desktop/gt-cs3220.github.io/Fall_2022/proj2/tests/part2/beq.mem"
 `define IMEMADDRBITS  16
 `define IMEMWORDBITS  2
 `define IMEMWORDS	  (1 << (`IMEMADDRBITS - `IMEMWORDBITS))
@@ -190,7 +190,7 @@
 
 /** please update the following define with your own values */ 
 
-`define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `DBITS+ `BUS_CANARY_WIDTH)
+`define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `DBITS+ 1 + `BUS_CANARY_WIDTH)
 `define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `IOPBITS + `DBITS + `DBITS + `DBITS + `REGNOBITS + `DBITS + `BUS_CANARY_WIDTH)
 
 `define AGEX_latch_WIDTH   (`INSTBITS+`DBITS+ `IOPBITS + `DBITS + 1 + `DBITS + `REGNOBITS + `BUS_CANARY_WIDTH)

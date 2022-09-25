@@ -227,13 +227,14 @@ module DE_STAGE(
             PC_DE, 
             pcplus_DE,
             inst_count_DE, 
+            branch_finish_DE,
             bus_canary_DE 
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
   // DEPENDENCY CONTROL
-  wire br_cond_DE;
+  reg br_cond_DE;
   assign br_cond_DE = from_AGEX_to_DE; // stop stalling
-
+  reg wait_for_br_DE;
 
   wire [`REGWORDS-1:0] busy_bits_DE; // busy bits for registers 
   reg [`REGWORDS-1:0] reg_busy_bits_DE;
@@ -282,7 +283,8 @@ module DE_STAGE(
     end
 
   end
-
+  reg branch_finish_DE;
+  reg temp_br_cond_DE;
   reg [`DBITS-1:0] rs1_DE;
   reg [`DBITS-1:0] rs2_DE;
   reg [`REGNOBITS-1:0] rd_DE;
@@ -296,34 +298,26 @@ module DE_STAGE(
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
     end
     else begin
-        // setting stall signals
-        // if (reg_busy_bits_DE != 32'b0) begin
-        //   if ((reg_busy_bits_DE & (32'b1 << inst_DE[19:15])) != 32'b0) begin
-        //     pipeline_stall_DE = 1;
-        //     $display("source register1 #%d is busy", inst_DE[19:15]);
-        //   end
-        //   if ((reg_busy_bits_DE & (32'b1 << rd_DE)) != 32'b0) begin
-        //     pipeline_stall_DE = 1;
-        //     $display("dest register #%d is busy", rd_DE);
-        //   end
-        // end
-      if (pipeline_stall_DE) begin
+      $display("br_cond_DE = %d, branch_finish_DE = %d", br_cond_DE, branch_finish_DE);
+      if (br_cond_DE) begin
+        DE_latch <= {`DE_latch_WIDTH{1'b0}};
+      end
+      else if (pipeline_stall_DE) begin
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end else begin
         // set busy bits
-    $display("DECODING ADDI, r%d, r#%d, #%h. PC = %h", rd_DE, inst_DE[19:15], sxt_imm_DE, PC_DE);
-        if (op_I_DE == `BNE_I)
-          $display("BRANCH NOT EQUA INSTRUCTION!!!!");
+        // $display("DECODING ADDI, r%d, r#%d, #%h. PC = %h, op_I_DE = %h", rd_DE, inst_DE[19:15], sxt_imm_DE, PC_DE, op_I_DE);
+        if (op_I_DE == `BNE_I || op_I_DE == `BEQ_I || op_I_DE == `BGE_I || op_I_DE == `BLT_I) begin
+          $display("BRANCH INSTRUCTION!!!!");
+          pipeline_stall_DE = 1;
+        end
         if (op_I_DE == `ADDI_I || op_I_DE == `ADD_I) begin
-          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[19:15];
-          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << rd_DE;   
-          // reg_busy_bits_DE = reg_busy_bits_DE | 1 << inst_DE[24:20];   
-          // $display("New busy bits   %b", reg_busy_bits_DE); 
           pipeline_stall_DE = 1;
         end
 
         DE_latch <= DE_latch_contents;
       end
+
     end 
   end
 

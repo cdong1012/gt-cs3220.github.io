@@ -1,0 +1,1355 @@
+-- VERILATE ----------------
+verilator --exe -cc pipeline.v --top-module pipeline --trace --trace-structs sim_main.cpp fe_stage.v de_stage.v mem_stage.v wb_stage.v agex_stage.v -CFLAGS '-DVCD_OUTPUT -DDPRINTF'
+-- COMPILE -----------------
+make -j 4 -C obj_dir -f Vpipeline.mk 
+make[1]: Entering directory '/home/osboxes/Desktop/gt-cs3220.github.io/Fall_2022/proj2/obj_dir'
+make[1]: Nothing to be done for 'default'.
+make[1]: Leaving directory '/home/osboxes/Desktop/gt-cs3220.github.io/Fall_2022/proj2/obj_dir'
+-- RUN ---------------------
+obj_dir/Vpipeline
+FETCH: PC + 1 = 00000004
+br_cond_DE = 0, branch_finish_DE = 0
+FETCH: PC + 1 = 00000204
+br_cond_DE = 0, branch_finish_DE = 0
+FETCH: PC + 1 = 00000208
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 01
+	ALU_result_AGEX: 00000000
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 01
+FETCH: PC + 1 = 0000020c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 02
+	ALU_result_AGEX: 00000000
+[109]  inst_count_WB: 1 PC_WB: 0x200 Inst_WB: 0x93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 02
+FETCH: PC + 1 = 00000210
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 03
+	ALU_result_AGEX: 00000000
+[116]  inst_count_WB: 2 PC_WB: 0x204 Inst_WB: 0x113 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:2
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 03
+FETCH: PC + 1 = 00000214
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 04
+	ALU_result_AGEX: 00000000
+[123]  inst_count_WB: 3 PC_WB: 0x208 Inst_WB: 0x193 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:3
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 04
+FETCH: PC + 1 = 00000218
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 05
+	ALU_result_AGEX: 00000000
+[129]  inst_count_WB: 4 PC_WB: 0x20c Inst_WB: 0x213 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:4
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 05
+FETCH: PC + 1 = 0000021c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 06
+	ALU_result_AGEX: 00000000
+[136]  inst_count_WB: 5 PC_WB: 0x210 Inst_WB: 0x293 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:5
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 06
+FETCH: PC + 1 = 00000220
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 07
+	ALU_result_AGEX: 00000000
+[143]  inst_count_WB: 6 PC_WB: 0x214 Inst_WB: 0x313 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:6
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 07
+FETCH: PC + 1 = 00000224
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 08
+	ALU_result_AGEX: 00000000
+[149]  inst_count_WB: 7 PC_WB: 0x218 Inst_WB: 0x393 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:7
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 08
+FETCH: PC + 1 = 00000228
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 09
+	ALU_result_AGEX: 00000000
+[156]  inst_count_WB: 8 PC_WB: 0x21c Inst_WB: 0x413 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:8
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 09
+FETCH: PC + 1 = 0000022c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0a
+	ALU_result_AGEX: 00000000
+[163]  inst_count_WB: 9 PC_WB: 0x220 Inst_WB: 0x493 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:9
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0a
+FETCH: PC + 1 = 00000230
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0b
+	ALU_result_AGEX: 00000000
+[169]  inst_count_WB: 10 PC_WB: 0x224 Inst_WB: 0x513 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:10
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0b
+FETCH: PC + 1 = 00000234
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0c
+	ALU_result_AGEX: 00000000
+[176]  inst_count_WB: 11 PC_WB: 0x228 Inst_WB: 0x593 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:11
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0c
+FETCH: PC + 1 = 00000238
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0d
+	ALU_result_AGEX: 00000000
+[183]  inst_count_WB: 12 PC_WB: 0x22c Inst_WB: 0x613 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:12
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0d
+FETCH: PC + 1 = 0000023c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0e
+	ALU_result_AGEX: 00000000
+[189]  inst_count_WB: 13 PC_WB: 0x230 Inst_WB: 0x693 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:13
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0e
+FETCH: PC + 1 = 00000240
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 0f
+	ALU_result_AGEX: 00000000
+[196]  inst_count_WB: 14 PC_WB: 0x234 Inst_WB: 0x713 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:14
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 0f
+FETCH: PC + 1 = 00000244
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 10
+	ALU_result_AGEX: 00000000
+[203]  inst_count_WB: 15 PC_WB: 0x238 Inst_WB: 0x793 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:15
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 10
+FETCH: PC + 1 = 00000248
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 11
+	ALU_result_AGEX: 00000000
+[209]  inst_count_WB: 16 PC_WB: 0x23c Inst_WB: 0x813 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:16
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 11
+FETCH: PC + 1 = 0000024c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 12
+	ALU_result_AGEX: 00000000
+[216]  inst_count_WB: 17 PC_WB: 0x240 Inst_WB: 0x893 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:17
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 12
+FETCH: PC + 1 = 00000250
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 13
+	ALU_result_AGEX: 00000000
+[223]  inst_count_WB: 18 PC_WB: 0x244 Inst_WB: 0x913 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:18
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 13
+FETCH: PC + 1 = 00000254
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 14
+	ALU_result_AGEX: 00000000
+[229]  inst_count_WB: 19 PC_WB: 0x248 Inst_WB: 0x993 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:19
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 14
+FETCH: PC + 1 = 00000258
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 15
+	ALU_result_AGEX: 00000000
+[236]  inst_count_WB: 20 PC_WB: 0x24c Inst_WB: 0xa13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:20
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 15
+FETCH: PC + 1 = 0000025c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 16
+	ALU_result_AGEX: 00000000
+[243]  inst_count_WB: 21 PC_WB: 0x250 Inst_WB: 0xa93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:21
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 16
+FETCH: PC + 1 = 00000260
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 17
+	ALU_result_AGEX: 00000000
+[249]  inst_count_WB: 22 PC_WB: 0x254 Inst_WB: 0xb13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:22
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 17
+FETCH: PC + 1 = 00000264
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 18
+	ALU_result_AGEX: 00000000
+[256]  inst_count_WB: 23 PC_WB: 0x258 Inst_WB: 0xb93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:23
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 18
+FETCH: PC + 1 = 00000268
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 19
+	ALU_result_AGEX: 00000000
+[263]  inst_count_WB: 24 PC_WB: 0x25c Inst_WB: 0xc13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:24
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 19
+FETCH: PC + 1 = 0000026c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1a
+	ALU_result_AGEX: 00000000
+[269]  inst_count_WB: 25 PC_WB: 0x260 Inst_WB: 0xc93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:25
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1a
+FETCH: PC + 1 = 00000270
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1b
+	ALU_result_AGEX: 00000000
+[276]  inst_count_WB: 26 PC_WB: 0x264 Inst_WB: 0xd13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:26
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1b
+FETCH: PC + 1 = 00000274
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1c
+	ALU_result_AGEX: 00000000
+[283]  inst_count_WB: 27 PC_WB: 0x268 Inst_WB: 0xd93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:27
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1c
+FETCH: PC + 1 = 00000278
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1d
+	ALU_result_AGEX: 00000000
+[289]  inst_count_WB: 28 PC_WB: 0x26c Inst_WB: 0xe13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:28
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1d
+FETCH: PC + 1 = 0000027c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1e
+	ALU_result_AGEX: 00000000
+[296]  inst_count_WB: 29 PC_WB: 0x270 Inst_WB: 0xe93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:29
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1e
+FETCH: PC + 1 = 00000280
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 1f
+	ALU_result_AGEX: 00000000
+[303]  inst_count_WB: 30 PC_WB: 0x274 Inst_WB: 0xf13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:30
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 1f
+FETCH: PC + 1 = 00000284
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000001
+	rd: 03
+	ALU_result_AGEX: 00000001
+[309]  inst_count_WB: 31 PC_WB: 0x278 Inst_WB: 0xf93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:31
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000001 into register # 03
+FETCH: PC + 1 = 00000288
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 01
+	ALU_result_AGEX: 00000000
+[316]  inst_count_WB: 32 PC_WB: 0x27c Inst_WB: 0x100193 Op_I:12 wr_reg_WB:1 regval_WB:1 wregno_WB:3
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 01
+FETCH: PC + 1 = 0000028c
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 02
+	ALU_result_AGEX: 00000000
+[323]  inst_count_WB: 33 PC_WB: 0x280 Inst_WB: 0x93 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 02
+FETCH: PC + 1 = 00000290
+br_cond_DE = 0, branch_finish_DE = 0
+BRANCH EQUAL INSTRUCTION!!!!
+BEQ:
+	rs1: 00000000
+	rs2: 00000000
+	imm: 00000006
+RS1 = RS2. Branching
+[329]  inst_count_WB: 34 PC_WB: 0x284 Inst_WB: 0x113 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:2
+FETCH: BRANCHING DETECTED!!! Jumping to new PC = 00000296
+br_cond_DE = 1, branch_finish_DE = 0
+FETCH: PC + 1 = 0000029a
+br_cond_DE = 0, branch_finish_DE = 0
+BRANCH EQUAL INSTRUCTION!!!!
+BNE:
+	rs1: 00000000
+	rs2: 00000001
+	imm: 00000006
+Branch not equal. BRanchingg          0          1
+FETCH: BRANCHING DETECTED!!! Jumping to new PC = 000002a0
+br_cond_DE = 1, branch_finish_DE = 1
+[336]  inst_count_WB: 35 PC_WB: 0x288 Inst_WB: 0x208663 Op_I:28
+FETCH: PC + 1 = 000002a4
+br_cond_DE = 0, branch_finish_DE = 0
+BRANCH EQUAL INSTRUCTION!!!!
+BNE:
+	rs1: 00000000
+	rs2: 00000001
+	imm: 00000038
+Branch not equal. BRanchingg          0          1
+FETCH: BRANCHING DETECTED!!! Jumping to new PC = 000002dc
+br_cond_DE = 1, branch_finish_DE = 1
+[341]  inst_count_WB: 37 PC_WB: 0x290 Inst_WB: 0x301663 Op_I:29
+FETCH: PC + 1 = 000002e0
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000001
+	rd: 02
+	ALU_result_AGEX: 00000001
+br_cond_DE = 0, branch_finish_DE = 1
+[345]  inst_count_WB: 39 PC_WB: 0x29a Inst_WB: 0x6301863 Op_I:29
+br_cond_DE = 0, branch_finish_DE = 1
+DECODE: Writing the value 00000001 into register # 02
+FETCH: PC + 1 = 000002e4
+br_cond_DE = 0, branch_finish_DE = 1
+BRANCH EQUAL INSTRUCTION!!!!
+BEQ:
+	rs1: 00000000
+	rs2: 00000000
+	imm: 0000000a
+RS1 = RS2. Branching
+[349]  inst_count_WB: 41 PC_WB: 0x2a4 Inst_WB: 0x100113 Op_I:12 wr_reg_WB:1 regval_WB:1 wregno_WB:2
+FETCH: BRANCHING DETECTED!!! Jumping to new PC = 000002ee
+br_cond_DE = 1, branch_finish_DE = 0
+FETCH: PC + 1 = 000002f2
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000001
+	rd: 01
+	ALU_result_AGEX: 00000001
+br_cond_DE = 0, branch_finish_DE = 1
+[356]  inst_count_WB: 42 PC_WB: 0x2dc Inst_WB: 0xa63 Op_I:28
+br_cond_DE = 0, branch_finish_DE = 1
+DECODE: Writing the value 00000001 into register # 01
+FETCH: PC + 1 = 000002f6
+br_cond_DE = 0, branch_finish_DE = 1
+ADDI:
+	rs1: 00000001
+	imm: 00000001
+	rd: 01
+	ALU_result_AGEX: 00000002
+[361]  inst_count_WB: 44 PC_WB: 0x2e4 Inst_WB: 0x108093 Op_I:12 wr_reg_WB:1 regval_WB:1 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000002 into register # 01
+FETCH: PC + 1 = 000002fa
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000002
+	imm: 00000001
+	rd: 01
+	ALU_result_AGEX: 00000003
+[367]  inst_count_WB: 45 PC_WB: 0x2ee Inst_WB: 0x108093 Op_I:12 wr_reg_WB:1 regval_WB:2 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000003 into register # 01
+FETCH: PC + 1 = 000002fe
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000003
+	imm: 00000001
+	rd: 01
+	ALU_result_AGEX: 00000004
+[374]  inst_count_WB: 46 PC_WB: 0x2f2 Inst_WB: 0x108093 Op_I:12 wr_reg_WB:1 regval_WB:3 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000004 into register # 01
+FETCH: PC + 1 = 00000302
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000003
+	rd: 07
+	ALU_result_AGEX: 00000003
+[381]  inst_count_WB: 47 PC_WB: 0x2f6 Inst_WB: 0x108093 Op_I:12 wr_reg_WB:1 regval_WB:4 wregno_WB:1
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000003 into register # 07
+FETCH: PC + 1 = 00000306
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000004
+	rd: 03
+	ALU_result_AGEX: 00000004
+[387]  inst_count_WB: 48 PC_WB: 0x2fa Inst_WB: 0x300393 Op_I:12 wr_reg_WB:1 regval_WB:3 wregno_WB:7
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000004 into register # 03
+FETCH: PC + 1 = 0000030a
+br_cond_DE = 0, branch_finish_DE = 0
+BRANCH EQUAL INSTRUCTION!!!!
+BNE:
+	rs1: 00000004
+	rs2: 00000003
+	imm: 00000004
+Branch not equal. BRanchingg          4          3
+[394]  inst_count_WB: 49 PC_WB: 0x2fe Inst_WB: 0x400193 Op_I:12 wr_reg_WB:1 regval_WB:4 wregno_WB:3
+FETCH: BRANCHING DETECTED!!! Jumping to new PC = 0000030e
+br_cond_DE = 1, branch_finish_DE = 0
+FETCH: PC + 1 = 00000312
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 03
+	ALU_result_AGEX: 00000000
+br_cond_DE = 0, branch_finish_DE = 1
+[401]  inst_count_WB: 50 PC_WB: 0x302 Inst_WB: 0x709463 Op_I:29
+br_cond_DE = 0, branch_finish_DE = 1
+DECODE: Writing the value 00000000 into register # 03
+FETCH: PC + 1 = 00000316
+br_cond_DE = 0, branch_finish_DE = 1
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[405]  inst_count_WB: 52 PC_WB: 0x30a Inst_WB: 0x193 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:3
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 0000031a
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[412]  inst_count_WB: 53 PC_WB: 0x30e Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 0000031e
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[418]  inst_count_WB: 54 PC_WB: 0x312 Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000322
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[425]  inst_count_WB: 55 PC_WB: 0x316 Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000326
+br_cond_DE = 0, branch_finish_DE = 0
+[432]  inst_count_WB: 56 PC_WB: 0x31a Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+FETCH: PC + 1 = 0000032a
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000001
+	rd: 03
+	ALU_result_AGEX: 00000001
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+[438]  inst_count_WB: 57 PC_WB: 0x31e Inst_WB: 0x180006f Op_I:25
+DECODE: Writing the value 00000001 into register # 03
+FETCH: PC + 1 = 0000032e
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[441]  inst_count_WB: 58 PC_WB: 0x322 Inst_WB: 0x100193 Op_I:12 wr_reg_WB:1 regval_WB:1 wregno_WB:3
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000332
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[447]  inst_count_WB: 59 PC_WB: 0x326 Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000336
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[454]  inst_count_WB: 60 PC_WB: 0x32a Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 0000033a
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[461]  inst_count_WB: 61 PC_WB: 0x32e Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 0000033e
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[467]  inst_count_WB: 62 PC_WB: 0x332 Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000342
+br_cond_DE = 0, branch_finish_DE = 0
+ADDI:
+	rs1: 00000000
+	imm: 00000000
+	rd: 00
+	ALU_result_AGEX: 00000000
+[474]  inst_count_WB: 63 PC_WB: 0x336 Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+br_cond_DE = 0, branch_finish_DE = 0
+br_cond_DE = 0, branch_finish_DE = 0
+DECODE: Writing the value 00000000 into register # 00
+FETCH: PC + 1 = 00000346
+br_cond_DE = 0, branch_finish_DE = 0
+[481]  inst_count_WB: 64 PC_WB: 0x33a Inst_WB: 0x13 Op_I:12 wr_reg_WB:1 regval_WB:0 wregno_WB:0
+FETCH: PC + 1 = 0000034a
+br_cond_DE = 0, branch_finish_DE = 0
+FETCH: PC + 1 = 0000034e
+br_cond_DE = 0, branch_finish_DE = 0
+FETCH: PC + 1 = 00000352
+br_cond_DE = 0, branch_finish_DE = 0
+[487]  inst_count_WB: 65 PC_WB: 0x33e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000356
+br_cond_DE = 0, branch_finish_DE = 0
+[489]  inst_count_WB: 66 PC_WB: 0x342 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000035a
+br_cond_DE = 0, branch_finish_DE = 0
+[492]  inst_count_WB: 67 PC_WB: 0x346 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000035e
+br_cond_DE = 0, branch_finish_DE = 0
+[494]  inst_count_WB: 68 PC_WB: 0x34a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000362
+br_cond_DE = 0, branch_finish_DE = 0
+[496]  inst_count_WB: 69 PC_WB: 0x34e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000366
+br_cond_DE = 0, branch_finish_DE = 0
+[498]  inst_count_WB: 70 PC_WB: 0x352 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000036a
+br_cond_DE = 0, branch_finish_DE = 0
+[501]  inst_count_WB: 71 PC_WB: 0x356 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000036e
+br_cond_DE = 0, branch_finish_DE = 0
+[503]  inst_count_WB: 72 PC_WB: 0x35a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000372
+br_cond_DE = 0, branch_finish_DE = 0
+[505]  inst_count_WB: 73 PC_WB: 0x35e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000376
+br_cond_DE = 0, branch_finish_DE = 0
+[507]  inst_count_WB: 74 PC_WB: 0x362 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000037a
+br_cond_DE = 0, branch_finish_DE = 0
+[509]  inst_count_WB: 75 PC_WB: 0x366 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000037e
+br_cond_DE = 0, branch_finish_DE = 0
+[512]  inst_count_WB: 76 PC_WB: 0x36a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000382
+br_cond_DE = 0, branch_finish_DE = 0
+[514]  inst_count_WB: 77 PC_WB: 0x36e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000386
+br_cond_DE = 0, branch_finish_DE = 0
+[516]  inst_count_WB: 78 PC_WB: 0x372 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000038a
+br_cond_DE = 0, branch_finish_DE = 0
+[518]  inst_count_WB: 79 PC_WB: 0x376 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000038e
+br_cond_DE = 0, branch_finish_DE = 0
+[521]  inst_count_WB: 80 PC_WB: 0x37a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000392
+br_cond_DE = 0, branch_finish_DE = 0
+[523]  inst_count_WB: 81 PC_WB: 0x37e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000396
+br_cond_DE = 0, branch_finish_DE = 0
+[525]  inst_count_WB: 82 PC_WB: 0x382 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000039a
+br_cond_DE = 0, branch_finish_DE = 0
+[527]  inst_count_WB: 83 PC_WB: 0x386 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000039e
+br_cond_DE = 0, branch_finish_DE = 0
+[529]  inst_count_WB: 84 PC_WB: 0x38a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003a2
+br_cond_DE = 0, branch_finish_DE = 0
+[532]  inst_count_WB: 85 PC_WB: 0x38e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003a6
+br_cond_DE = 0, branch_finish_DE = 0
+[534]  inst_count_WB: 86 PC_WB: 0x392 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003aa
+br_cond_DE = 0, branch_finish_DE = 0
+[536]  inst_count_WB: 87 PC_WB: 0x396 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ae
+br_cond_DE = 0, branch_finish_DE = 0
+[538]  inst_count_WB: 88 PC_WB: 0x39a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003b2
+br_cond_DE = 0, branch_finish_DE = 0
+[541]  inst_count_WB: 89 PC_WB: 0x39e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003b6
+br_cond_DE = 0, branch_finish_DE = 0
+[543]  inst_count_WB: 90 PC_WB: 0x3a2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ba
+br_cond_DE = 0, branch_finish_DE = 0
+[545]  inst_count_WB: 91 PC_WB: 0x3a6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003be
+br_cond_DE = 0, branch_finish_DE = 0
+[547]  inst_count_WB: 92 PC_WB: 0x3aa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003c2
+br_cond_DE = 0, branch_finish_DE = 0
+[549]  inst_count_WB: 93 PC_WB: 0x3ae Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003c6
+br_cond_DE = 0, branch_finish_DE = 0
+[552]  inst_count_WB: 94 PC_WB: 0x3b2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ca
+br_cond_DE = 0, branch_finish_DE = 0
+[554]  inst_count_WB: 95 PC_WB: 0x3b6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ce
+br_cond_DE = 0, branch_finish_DE = 0
+[556]  inst_count_WB: 96 PC_WB: 0x3ba Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003d2
+br_cond_DE = 0, branch_finish_DE = 0
+[558]  inst_count_WB: 97 PC_WB: 0x3be Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003d6
+br_cond_DE = 0, branch_finish_DE = 0
+[561]  inst_count_WB: 98 PC_WB: 0x3c2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003da
+br_cond_DE = 0, branch_finish_DE = 0
+[563]  inst_count_WB: 99 PC_WB: 0x3c6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003de
+br_cond_DE = 0, branch_finish_DE = 0
+[565]  inst_count_WB: 100 PC_WB: 0x3ca Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003e2
+br_cond_DE = 0, branch_finish_DE = 0
+[567]  inst_count_WB: 101 PC_WB: 0x3ce Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003e6
+br_cond_DE = 0, branch_finish_DE = 0
+[569]  inst_count_WB: 102 PC_WB: 0x3d2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ea
+br_cond_DE = 0, branch_finish_DE = 0
+[572]  inst_count_WB: 103 PC_WB: 0x3d6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003ee
+br_cond_DE = 0, branch_finish_DE = 0
+[574]  inst_count_WB: 104 PC_WB: 0x3da Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003f2
+br_cond_DE = 0, branch_finish_DE = 0
+[576]  inst_count_WB: 105 PC_WB: 0x3de Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003f6
+br_cond_DE = 0, branch_finish_DE = 0
+[578]  inst_count_WB: 106 PC_WB: 0x3e2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003fa
+br_cond_DE = 0, branch_finish_DE = 0
+[581]  inst_count_WB: 107 PC_WB: 0x3e6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000003fe
+br_cond_DE = 0, branch_finish_DE = 0
+[583]  inst_count_WB: 108 PC_WB: 0x3ea Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000402
+br_cond_DE = 0, branch_finish_DE = 0
+[585]  inst_count_WB: 109 PC_WB: 0x3ee Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000406
+br_cond_DE = 0, branch_finish_DE = 0
+[587]  inst_count_WB: 110 PC_WB: 0x3f2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000040a
+br_cond_DE = 0, branch_finish_DE = 0
+[589]  inst_count_WB: 111 PC_WB: 0x3f6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000040e
+br_cond_DE = 0, branch_finish_DE = 0
+[592]  inst_count_WB: 112 PC_WB: 0x3fa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000412
+br_cond_DE = 0, branch_finish_DE = 0
+[594]  inst_count_WB: 113 PC_WB: 0x3fe Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000416
+br_cond_DE = 0, branch_finish_DE = 0
+[596]  inst_count_WB: 114 PC_WB: 0x402 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000041a
+br_cond_DE = 0, branch_finish_DE = 0
+[598]  inst_count_WB: 115 PC_WB: 0x406 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000041e
+br_cond_DE = 0, branch_finish_DE = 0
+[601]  inst_count_WB: 116 PC_WB: 0x40a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000422
+br_cond_DE = 0, branch_finish_DE = 0
+[603]  inst_count_WB: 117 PC_WB: 0x40e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000426
+br_cond_DE = 0, branch_finish_DE = 0
+[605]  inst_count_WB: 118 PC_WB: 0x412 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000042a
+br_cond_DE = 0, branch_finish_DE = 0
+[607]  inst_count_WB: 119 PC_WB: 0x416 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000042e
+br_cond_DE = 0, branch_finish_DE = 0
+[609]  inst_count_WB: 120 PC_WB: 0x41a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000432
+br_cond_DE = 0, branch_finish_DE = 0
+[612]  inst_count_WB: 121 PC_WB: 0x41e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000436
+br_cond_DE = 0, branch_finish_DE = 0
+[614]  inst_count_WB: 122 PC_WB: 0x422 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000043a
+br_cond_DE = 0, branch_finish_DE = 0
+[616]  inst_count_WB: 123 PC_WB: 0x426 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000043e
+br_cond_DE = 0, branch_finish_DE = 0
+[618]  inst_count_WB: 124 PC_WB: 0x42a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000442
+br_cond_DE = 0, branch_finish_DE = 0
+[621]  inst_count_WB: 125 PC_WB: 0x42e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000446
+br_cond_DE = 0, branch_finish_DE = 0
+[623]  inst_count_WB: 126 PC_WB: 0x432 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000044a
+br_cond_DE = 0, branch_finish_DE = 0
+[625]  inst_count_WB: 127 PC_WB: 0x436 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000044e
+br_cond_DE = 0, branch_finish_DE = 0
+[627]  inst_count_WB: 128 PC_WB: 0x43a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000452
+br_cond_DE = 0, branch_finish_DE = 0
+[629]  inst_count_WB: 129 PC_WB: 0x43e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000456
+br_cond_DE = 0, branch_finish_DE = 0
+[632]  inst_count_WB: 130 PC_WB: 0x442 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000045a
+br_cond_DE = 0, branch_finish_DE = 0
+[634]  inst_count_WB: 131 PC_WB: 0x446 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000045e
+br_cond_DE = 0, branch_finish_DE = 0
+[636]  inst_count_WB: 132 PC_WB: 0x44a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000462
+br_cond_DE = 0, branch_finish_DE = 0
+[638]  inst_count_WB: 133 PC_WB: 0x44e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000466
+br_cond_DE = 0, branch_finish_DE = 0
+[641]  inst_count_WB: 134 PC_WB: 0x452 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000046a
+br_cond_DE = 0, branch_finish_DE = 0
+[643]  inst_count_WB: 135 PC_WB: 0x456 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000046e
+br_cond_DE = 0, branch_finish_DE = 0
+[645]  inst_count_WB: 136 PC_WB: 0x45a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000472
+br_cond_DE = 0, branch_finish_DE = 0
+[647]  inst_count_WB: 137 PC_WB: 0x45e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000476
+br_cond_DE = 0, branch_finish_DE = 0
+[649]  inst_count_WB: 138 PC_WB: 0x462 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000047a
+br_cond_DE = 0, branch_finish_DE = 0
+[652]  inst_count_WB: 139 PC_WB: 0x466 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000047e
+br_cond_DE = 0, branch_finish_DE = 0
+[654]  inst_count_WB: 140 PC_WB: 0x46a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000482
+br_cond_DE = 0, branch_finish_DE = 0
+[656]  inst_count_WB: 141 PC_WB: 0x46e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000486
+br_cond_DE = 0, branch_finish_DE = 0
+[658]  inst_count_WB: 142 PC_WB: 0x472 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000048a
+br_cond_DE = 0, branch_finish_DE = 0
+[661]  inst_count_WB: 143 PC_WB: 0x476 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000048e
+br_cond_DE = 0, branch_finish_DE = 0
+[663]  inst_count_WB: 144 PC_WB: 0x47a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000492
+br_cond_DE = 0, branch_finish_DE = 0
+[665]  inst_count_WB: 145 PC_WB: 0x47e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000496
+br_cond_DE = 0, branch_finish_DE = 0
+[667]  inst_count_WB: 146 PC_WB: 0x482 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000049a
+br_cond_DE = 0, branch_finish_DE = 0
+[669]  inst_count_WB: 147 PC_WB: 0x486 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000049e
+br_cond_DE = 0, branch_finish_DE = 0
+[672]  inst_count_WB: 148 PC_WB: 0x48a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004a2
+br_cond_DE = 0, branch_finish_DE = 0
+[674]  inst_count_WB: 149 PC_WB: 0x48e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004a6
+br_cond_DE = 0, branch_finish_DE = 0
+[676]  inst_count_WB: 150 PC_WB: 0x492 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004aa
+br_cond_DE = 0, branch_finish_DE = 0
+[678]  inst_count_WB: 151 PC_WB: 0x496 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ae
+br_cond_DE = 0, branch_finish_DE = 0
+[681]  inst_count_WB: 152 PC_WB: 0x49a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004b2
+br_cond_DE = 0, branch_finish_DE = 0
+[683]  inst_count_WB: 153 PC_WB: 0x49e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004b6
+br_cond_DE = 0, branch_finish_DE = 0
+[685]  inst_count_WB: 154 PC_WB: 0x4a2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ba
+br_cond_DE = 0, branch_finish_DE = 0
+[687]  inst_count_WB: 155 PC_WB: 0x4a6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004be
+br_cond_DE = 0, branch_finish_DE = 0
+[689]  inst_count_WB: 156 PC_WB: 0x4aa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004c2
+br_cond_DE = 0, branch_finish_DE = 0
+[692]  inst_count_WB: 157 PC_WB: 0x4ae Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004c6
+br_cond_DE = 0, branch_finish_DE = 0
+[694]  inst_count_WB: 158 PC_WB: 0x4b2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ca
+br_cond_DE = 0, branch_finish_DE = 0
+[696]  inst_count_WB: 159 PC_WB: 0x4b6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ce
+br_cond_DE = 0, branch_finish_DE = 0
+[698]  inst_count_WB: 160 PC_WB: 0x4ba Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004d2
+br_cond_DE = 0, branch_finish_DE = 0
+[701]  inst_count_WB: 161 PC_WB: 0x4be Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004d6
+br_cond_DE = 0, branch_finish_DE = 0
+[703]  inst_count_WB: 162 PC_WB: 0x4c2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004da
+br_cond_DE = 0, branch_finish_DE = 0
+[705]  inst_count_WB: 163 PC_WB: 0x4c6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004de
+br_cond_DE = 0, branch_finish_DE = 0
+[707]  inst_count_WB: 164 PC_WB: 0x4ca Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004e2
+br_cond_DE = 0, branch_finish_DE = 0
+[709]  inst_count_WB: 165 PC_WB: 0x4ce Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004e6
+br_cond_DE = 0, branch_finish_DE = 0
+[712]  inst_count_WB: 166 PC_WB: 0x4d2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ea
+br_cond_DE = 0, branch_finish_DE = 0
+[714]  inst_count_WB: 167 PC_WB: 0x4d6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004ee
+br_cond_DE = 0, branch_finish_DE = 0
+[716]  inst_count_WB: 168 PC_WB: 0x4da Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004f2
+br_cond_DE = 0, branch_finish_DE = 0
+[718]  inst_count_WB: 169 PC_WB: 0x4de Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004f6
+br_cond_DE = 0, branch_finish_DE = 0
+[721]  inst_count_WB: 170 PC_WB: 0x4e2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004fa
+br_cond_DE = 0, branch_finish_DE = 0
+[723]  inst_count_WB: 171 PC_WB: 0x4e6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000004fe
+br_cond_DE = 0, branch_finish_DE = 0
+[725]  inst_count_WB: 172 PC_WB: 0x4ea Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000502
+br_cond_DE = 0, branch_finish_DE = 0
+[727]  inst_count_WB: 173 PC_WB: 0x4ee Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000506
+br_cond_DE = 0, branch_finish_DE = 0
+[729]  inst_count_WB: 174 PC_WB: 0x4f2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000050a
+br_cond_DE = 0, branch_finish_DE = 0
+[732]  inst_count_WB: 175 PC_WB: 0x4f6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000050e
+br_cond_DE = 0, branch_finish_DE = 0
+[734]  inst_count_WB: 176 PC_WB: 0x4fa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000512
+br_cond_DE = 0, branch_finish_DE = 0
+[736]  inst_count_WB: 177 PC_WB: 0x4fe Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000516
+br_cond_DE = 0, branch_finish_DE = 0
+[738]  inst_count_WB: 178 PC_WB: 0x502 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000051a
+br_cond_DE = 0, branch_finish_DE = 0
+[741]  inst_count_WB: 179 PC_WB: 0x506 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000051e
+br_cond_DE = 0, branch_finish_DE = 0
+[743]  inst_count_WB: 180 PC_WB: 0x50a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000522
+br_cond_DE = 0, branch_finish_DE = 0
+[745]  inst_count_WB: 181 PC_WB: 0x50e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000526
+br_cond_DE = 0, branch_finish_DE = 0
+[747]  inst_count_WB: 182 PC_WB: 0x512 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000052a
+br_cond_DE = 0, branch_finish_DE = 0
+[749]  inst_count_WB: 183 PC_WB: 0x516 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000052e
+br_cond_DE = 0, branch_finish_DE = 0
+[752]  inst_count_WB: 184 PC_WB: 0x51a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000532
+br_cond_DE = 0, branch_finish_DE = 0
+[754]  inst_count_WB: 185 PC_WB: 0x51e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000536
+br_cond_DE = 0, branch_finish_DE = 0
+[756]  inst_count_WB: 186 PC_WB: 0x522 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000053a
+br_cond_DE = 0, branch_finish_DE = 0
+[758]  inst_count_WB: 187 PC_WB: 0x526 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000053e
+br_cond_DE = 0, branch_finish_DE = 0
+[761]  inst_count_WB: 188 PC_WB: 0x52a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000542
+br_cond_DE = 0, branch_finish_DE = 0
+[763]  inst_count_WB: 189 PC_WB: 0x52e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000546
+br_cond_DE = 0, branch_finish_DE = 0
+[765]  inst_count_WB: 190 PC_WB: 0x532 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000054a
+br_cond_DE = 0, branch_finish_DE = 0
+[767]  inst_count_WB: 191 PC_WB: 0x536 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000054e
+br_cond_DE = 0, branch_finish_DE = 0
+[769]  inst_count_WB: 192 PC_WB: 0x53a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000552
+br_cond_DE = 0, branch_finish_DE = 0
+[772]  inst_count_WB: 193 PC_WB: 0x53e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000556
+br_cond_DE = 0, branch_finish_DE = 0
+[774]  inst_count_WB: 194 PC_WB: 0x542 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000055a
+br_cond_DE = 0, branch_finish_DE = 0
+[776]  inst_count_WB: 195 PC_WB: 0x546 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000055e
+br_cond_DE = 0, branch_finish_DE = 0
+[778]  inst_count_WB: 196 PC_WB: 0x54a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000562
+br_cond_DE = 0, branch_finish_DE = 0
+[781]  inst_count_WB: 197 PC_WB: 0x54e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000566
+br_cond_DE = 0, branch_finish_DE = 0
+[783]  inst_count_WB: 198 PC_WB: 0x552 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000056a
+br_cond_DE = 0, branch_finish_DE = 0
+[785]  inst_count_WB: 199 PC_WB: 0x556 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000056e
+br_cond_DE = 0, branch_finish_DE = 0
+[787]  inst_count_WB: 200 PC_WB: 0x55a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000572
+br_cond_DE = 0, branch_finish_DE = 0
+[789]  inst_count_WB: 201 PC_WB: 0x55e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000576
+br_cond_DE = 0, branch_finish_DE = 0
+[792]  inst_count_WB: 202 PC_WB: 0x562 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000057a
+br_cond_DE = 0, branch_finish_DE = 0
+[794]  inst_count_WB: 203 PC_WB: 0x566 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000057e
+br_cond_DE = 0, branch_finish_DE = 0
+[796]  inst_count_WB: 204 PC_WB: 0x56a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000582
+br_cond_DE = 0, branch_finish_DE = 0
+[798]  inst_count_WB: 205 PC_WB: 0x56e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000586
+br_cond_DE = 0, branch_finish_DE = 0
+[801]  inst_count_WB: 206 PC_WB: 0x572 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000058a
+br_cond_DE = 0, branch_finish_DE = 0
+[803]  inst_count_WB: 207 PC_WB: 0x576 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000058e
+br_cond_DE = 0, branch_finish_DE = 0
+[805]  inst_count_WB: 208 PC_WB: 0x57a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000592
+br_cond_DE = 0, branch_finish_DE = 0
+[807]  inst_count_WB: 209 PC_WB: 0x57e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000596
+br_cond_DE = 0, branch_finish_DE = 0
+[809]  inst_count_WB: 210 PC_WB: 0x582 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000059a
+br_cond_DE = 0, branch_finish_DE = 0
+[812]  inst_count_WB: 211 PC_WB: 0x586 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000059e
+br_cond_DE = 0, branch_finish_DE = 0
+[814]  inst_count_WB: 212 PC_WB: 0x58a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005a2
+br_cond_DE = 0, branch_finish_DE = 0
+[816]  inst_count_WB: 213 PC_WB: 0x58e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005a6
+br_cond_DE = 0, branch_finish_DE = 0
+[818]  inst_count_WB: 214 PC_WB: 0x592 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005aa
+br_cond_DE = 0, branch_finish_DE = 0
+[821]  inst_count_WB: 215 PC_WB: 0x596 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ae
+br_cond_DE = 0, branch_finish_DE = 0
+[823]  inst_count_WB: 216 PC_WB: 0x59a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005b2
+br_cond_DE = 0, branch_finish_DE = 0
+[825]  inst_count_WB: 217 PC_WB: 0x59e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005b6
+br_cond_DE = 0, branch_finish_DE = 0
+[827]  inst_count_WB: 218 PC_WB: 0x5a2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ba
+br_cond_DE = 0, branch_finish_DE = 0
+[829]  inst_count_WB: 219 PC_WB: 0x5a6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005be
+br_cond_DE = 0, branch_finish_DE = 0
+[832]  inst_count_WB: 220 PC_WB: 0x5aa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005c2
+br_cond_DE = 0, branch_finish_DE = 0
+[834]  inst_count_WB: 221 PC_WB: 0x5ae Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005c6
+br_cond_DE = 0, branch_finish_DE = 0
+[836]  inst_count_WB: 222 PC_WB: 0x5b2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ca
+br_cond_DE = 0, branch_finish_DE = 0
+[838]  inst_count_WB: 223 PC_WB: 0x5b6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ce
+br_cond_DE = 0, branch_finish_DE = 0
+[841]  inst_count_WB: 224 PC_WB: 0x5ba Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005d2
+br_cond_DE = 0, branch_finish_DE = 0
+[843]  inst_count_WB: 225 PC_WB: 0x5be Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005d6
+br_cond_DE = 0, branch_finish_DE = 0
+[845]  inst_count_WB: 226 PC_WB: 0x5c2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005da
+br_cond_DE = 0, branch_finish_DE = 0
+[847]  inst_count_WB: 227 PC_WB: 0x5c6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005de
+br_cond_DE = 0, branch_finish_DE = 0
+[849]  inst_count_WB: 228 PC_WB: 0x5ca Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005e2
+br_cond_DE = 0, branch_finish_DE = 0
+[852]  inst_count_WB: 229 PC_WB: 0x5ce Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005e6
+br_cond_DE = 0, branch_finish_DE = 0
+[854]  inst_count_WB: 230 PC_WB: 0x5d2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ea
+br_cond_DE = 0, branch_finish_DE = 0
+[856]  inst_count_WB: 231 PC_WB: 0x5d6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005ee
+br_cond_DE = 0, branch_finish_DE = 0
+[858]  inst_count_WB: 232 PC_WB: 0x5da Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005f2
+br_cond_DE = 0, branch_finish_DE = 0
+[861]  inst_count_WB: 233 PC_WB: 0x5de Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005f6
+br_cond_DE = 0, branch_finish_DE = 0
+[863]  inst_count_WB: 234 PC_WB: 0x5e2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005fa
+br_cond_DE = 0, branch_finish_DE = 0
+[865]  inst_count_WB: 235 PC_WB: 0x5e6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000005fe
+br_cond_DE = 0, branch_finish_DE = 0
+[867]  inst_count_WB: 236 PC_WB: 0x5ea Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000602
+br_cond_DE = 0, branch_finish_DE = 0
+[869]  inst_count_WB: 237 PC_WB: 0x5ee Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000606
+br_cond_DE = 0, branch_finish_DE = 0
+[872]  inst_count_WB: 238 PC_WB: 0x5f2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000060a
+br_cond_DE = 0, branch_finish_DE = 0
+[874]  inst_count_WB: 239 PC_WB: 0x5f6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000060e
+br_cond_DE = 0, branch_finish_DE = 0
+[876]  inst_count_WB: 240 PC_WB: 0x5fa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000612
+br_cond_DE = 0, branch_finish_DE = 0
+[878]  inst_count_WB: 241 PC_WB: 0x5fe Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000616
+br_cond_DE = 0, branch_finish_DE = 0
+[881]  inst_count_WB: 242 PC_WB: 0x602 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000061a
+br_cond_DE = 0, branch_finish_DE = 0
+[883]  inst_count_WB: 243 PC_WB: 0x606 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000061e
+br_cond_DE = 0, branch_finish_DE = 0
+[885]  inst_count_WB: 244 PC_WB: 0x60a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000622
+br_cond_DE = 0, branch_finish_DE = 0
+[887]  inst_count_WB: 245 PC_WB: 0x60e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000626
+br_cond_DE = 0, branch_finish_DE = 0
+[889]  inst_count_WB: 246 PC_WB: 0x612 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000062a
+br_cond_DE = 0, branch_finish_DE = 0
+[892]  inst_count_WB: 247 PC_WB: 0x616 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000062e
+br_cond_DE = 0, branch_finish_DE = 0
+[894]  inst_count_WB: 248 PC_WB: 0x61a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000632
+br_cond_DE = 0, branch_finish_DE = 0
+[896]  inst_count_WB: 249 PC_WB: 0x61e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000636
+br_cond_DE = 0, branch_finish_DE = 0
+[898]  inst_count_WB: 250 PC_WB: 0x622 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000063a
+br_cond_DE = 0, branch_finish_DE = 0
+[901]  inst_count_WB: 251 PC_WB: 0x626 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000063e
+br_cond_DE = 0, branch_finish_DE = 0
+[903]  inst_count_WB: 252 PC_WB: 0x62a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000642
+br_cond_DE = 0, branch_finish_DE = 0
+[905]  inst_count_WB: 253 PC_WB: 0x62e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000646
+br_cond_DE = 0, branch_finish_DE = 0
+[907]  inst_count_WB: 254 PC_WB: 0x632 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000064a
+br_cond_DE = 0, branch_finish_DE = 0
+[909]  inst_count_WB: 255 PC_WB: 0x636 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000064e
+br_cond_DE = 0, branch_finish_DE = 0
+[912]  inst_count_WB: 256 PC_WB: 0x63a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000652
+br_cond_DE = 0, branch_finish_DE = 0
+[914]  inst_count_WB: 257 PC_WB: 0x63e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000656
+br_cond_DE = 0, branch_finish_DE = 0
+[916]  inst_count_WB: 258 PC_WB: 0x642 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000065a
+br_cond_DE = 0, branch_finish_DE = 0
+[918]  inst_count_WB: 259 PC_WB: 0x646 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000065e
+br_cond_DE = 0, branch_finish_DE = 0
+[921]  inst_count_WB: 260 PC_WB: 0x64a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000662
+br_cond_DE = 0, branch_finish_DE = 0
+[923]  inst_count_WB: 261 PC_WB: 0x64e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000666
+br_cond_DE = 0, branch_finish_DE = 0
+[925]  inst_count_WB: 262 PC_WB: 0x652 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000066a
+br_cond_DE = 0, branch_finish_DE = 0
+[927]  inst_count_WB: 263 PC_WB: 0x656 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000066e
+br_cond_DE = 0, branch_finish_DE = 0
+[929]  inst_count_WB: 264 PC_WB: 0x65a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000672
+br_cond_DE = 0, branch_finish_DE = 0
+[932]  inst_count_WB: 265 PC_WB: 0x65e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000676
+br_cond_DE = 0, branch_finish_DE = 0
+[934]  inst_count_WB: 266 PC_WB: 0x662 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000067a
+br_cond_DE = 0, branch_finish_DE = 0
+[936]  inst_count_WB: 267 PC_WB: 0x666 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000067e
+br_cond_DE = 0, branch_finish_DE = 0
+[938]  inst_count_WB: 268 PC_WB: 0x66a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000682
+br_cond_DE = 0, branch_finish_DE = 0
+[941]  inst_count_WB: 269 PC_WB: 0x66e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000686
+br_cond_DE = 0, branch_finish_DE = 0
+[943]  inst_count_WB: 270 PC_WB: 0x672 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000068a
+br_cond_DE = 0, branch_finish_DE = 0
+[945]  inst_count_WB: 271 PC_WB: 0x676 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000068e
+br_cond_DE = 0, branch_finish_DE = 0
+[947]  inst_count_WB: 272 PC_WB: 0x67a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000692
+br_cond_DE = 0, branch_finish_DE = 0
+[949]  inst_count_WB: 273 PC_WB: 0x67e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 00000696
+br_cond_DE = 0, branch_finish_DE = 0
+[952]  inst_count_WB: 274 PC_WB: 0x682 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000069a
+br_cond_DE = 0, branch_finish_DE = 0
+[954]  inst_count_WB: 275 PC_WB: 0x686 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 0000069e
+br_cond_DE = 0, branch_finish_DE = 0
+[956]  inst_count_WB: 276 PC_WB: 0x68a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006a2
+br_cond_DE = 0, branch_finish_DE = 0
+[958]  inst_count_WB: 277 PC_WB: 0x68e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006a6
+br_cond_DE = 0, branch_finish_DE = 0
+[961]  inst_count_WB: 278 PC_WB: 0x692 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006aa
+br_cond_DE = 0, branch_finish_DE = 0
+[963]  inst_count_WB: 279 PC_WB: 0x696 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006ae
+br_cond_DE = 0, branch_finish_DE = 0
+[965]  inst_count_WB: 280 PC_WB: 0x69a Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006b2
+br_cond_DE = 0, branch_finish_DE = 0
+[967]  inst_count_WB: 281 PC_WB: 0x69e Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006b6
+br_cond_DE = 0, branch_finish_DE = 0
+[969]  inst_count_WB: 282 PC_WB: 0x6a2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006ba
+br_cond_DE = 0, branch_finish_DE = 0
+[972]  inst_count_WB: 283 PC_WB: 0x6a6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006be
+br_cond_DE = 0, branch_finish_DE = 0
+[974]  inst_count_WB: 284 PC_WB: 0x6aa Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006c2
+br_cond_DE = 0, branch_finish_DE = 0
+[976]  inst_count_WB: 285 PC_WB: 0x6ae Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006c6
+br_cond_DE = 0, branch_finish_DE = 0
+[978]  inst_count_WB: 286 PC_WB: 0x6b2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006ca
+br_cond_DE = 0, branch_finish_DE = 0
+[981]  inst_count_WB: 287 PC_WB: 0x6b6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006ce
+br_cond_DE = 0, branch_finish_DE = 0
+[983]  inst_count_WB: 288 PC_WB: 0x6ba Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006d2
+br_cond_DE = 0, branch_finish_DE = 0
+[985]  inst_count_WB: 289 PC_WB: 0x6be Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006d6
+br_cond_DE = 0, branch_finish_DE = 0
+[987]  inst_count_WB: 290 PC_WB: 0x6c2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006da
+br_cond_DE = 0, branch_finish_DE = 0
+[989]  inst_count_WB: 291 PC_WB: 0x6c6 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006de
+br_cond_DE = 0, branch_finish_DE = 0
+[992]  inst_count_WB: 292 PC_WB: 0x6ca Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006e2
+br_cond_DE = 0, branch_finish_DE = 0
+[994]  inst_count_WB: 293 PC_WB: 0x6ce Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006e6
+br_cond_DE = 0, branch_finish_DE = 0
+[996]  inst_count_WB: 294 PC_WB: 0x6d2 Inst_WB: 0x0 Op_I:37
+FETCH: PC + 1 = 000006ea
+br_cond_DE = 0, branch_finish_DE = 0
+[998]  inst_count_WB: 295 PC_WB: 0x6d6 Inst_WB: 0x0 Op_I:37
+Passed!
+-- DONE --------------------

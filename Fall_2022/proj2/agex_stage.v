@@ -27,6 +27,8 @@ module AGEX_STAGE(
   wire [`DBITS-1:0] rs2_AGEX;
   wire [`REGNOBITS-1:0] wregno_AGEX;
   reg [`DBITS-1:0] sxt_imm_AGEX;
+  reg [`DBITS-1:0] new_branch_PC_AGEX;
+
 
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
 
@@ -39,22 +41,75 @@ module AGEX_STAGE(
   reg [`REGWORDS-1:0] busy_bits_AGEX;
   // **TODO: Complete the rest of the pipeline 
   
-  assign from_AGEX_to_FE = {sxt_imm_AGEX, br_cond_AGEX} ;  
+  assign from_AGEX_to_FE = {new_branch_PC_AGEX, br_cond_AGEX} ;  
   assign from_AGEX_to_DE = {br_cond_AGEX};
 
   always @ (*) begin
     case (op_I_AGEX)
-      `BEQ_I : begin
-              $display("BEQ:");
-      $display("\trs1: %h", rs1_AGEX);
-      $display("\trs2: %h", rs2_AGEX);
-      $display("\timm: %h", sxt_imm_AGEX);
-      if (rs1_AGEX == rs2_AGEX)
-        br_cond_AGEX = 1; // write correct code to check the branch condition. 
-      end
+      `BEQ_I : 
+        begin
+          $display("BEQ:");
+          $display("\trs1: %h", rs1_AGEX);
+          $display("\trs2: %h", rs2_AGEX);
+          $display("\timm: %h", sxt_imm_AGEX);
+          if (rs1_AGEX == rs2_AGEX) begin
+            $display("RS1 = RS2. Branching");
+            br_cond_AGEX = 1; // write correct code to check the branch condition. 
+            new_branch_PC_AGEX = sxt_imm_AGEX;
+          end
+        end
       
+      `BNE_I:
+        begin
+          $display("BNE:");
+          $display("\trs1: %h", rs1_AGEX);
+          $display("\trs2: %h", rs2_AGEX);
+          $display("\timm: %h", sxt_imm_AGEX);
+          if (rs1_AGEX == rs2_AGEX) begin
+            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
+            $display("Branch equal. not BRanchingg");
+          end
+          else begin
+            $display("Branch not equal. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
+            br_cond_AGEX = 1'b1;
+            new_branch_PC_AGEX = sxt_imm_AGEX;
+          end
+        end
+      `BLT_I :
+        begin
+                    $display("BLT:");
+          $display("\trs1: %h", rs1_AGEX);
+          $display("\trs2: %h", rs2_AGEX);
+          $display("\timm: %h", sxt_imm_AGEX);
+          if (rs1_AGEX >= rs2_AGEX) begin
+            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
+            $display("Branch equal. not Branchingg");
+          end
+          else begin
+            $display("Branch not equal. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
+            br_cond_AGEX = 1'b1;
+            new_branch_PC_AGEX = sxt_imm_AGEX;
+          end
+        end
+      `BGE_I :
+              begin
+                                    $display("BGE:");
+          $display("\trs1: %h", rs1_AGEX);
+          $display("\trs2: %h", rs2_AGEX);
+          $display("\timm: %h", sxt_imm_AGEX);
+          if (rs1_AGEX < rs2_AGEX) begin
+            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
+            $display("Branch rs1_AGEX < rs2_AGEX. not BRanchingg");
+          end
+          else begin
+            $display("Branch rs1_AGEX >= rs2_AGEX. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
+            br_cond_AGEX = 1'b1;
+            new_branch_PC_AGEX = sxt_imm_AGEX;
+          end
+        end
+
       /*
-      `BNE_I : ...
+
       `BLT_I : ...
       `BGE_I : ...
       `BLTU_I: ..
