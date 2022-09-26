@@ -43,6 +43,7 @@ module MEM_STAGE(
   wire [`REGNOBITS-1:0] wregno_MEM; // destination register ID 
   wire [`DBITS-1:0] regval_MEM;  // the contents to be written in the register file (or CSR )
 
+  wire[`REGWORDS-1:0] ALU_result_MEM;
   
   // Write to D-MEM
   always @ (posedge clk) begin
@@ -52,15 +53,12 @@ module MEM_STAGE(
   end
 
   assign MEM_latch_out = MEM_latch; 
-  wire [`REGWORDS-1:0] busy_bits_MEM; // busy bits for registers 
   assign {
                                 inst_MEM,
                                 PC_MEM,
                                 op_I_MEM,
                                 inst_count_MEM, 
-                                regval_MEM, // the result of arithmetic calculation
-                                wr_reg_MEM, // is this instruction writing into a register file? 
-                                wregno_MEM, // destination register ID  
+                                ALU_result_MEM, // pass ALU result from agex a long
                                  // more signals might need
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
@@ -70,9 +68,7 @@ module MEM_STAGE(
                                 PC_MEM,
                                 op_I_MEM,
                                 inst_count_MEM, 
-                                regval_MEM, // the result of arithmetic calculation
-                                wr_reg_MEM, // is this instruction writing into a register file? 
-                                wregno_MEM, // destination register ID  
+                                ALU_result_MEM,
                                 bus_canary_MEM                   
   }; 
 
@@ -80,7 +76,6 @@ module MEM_STAGE(
     if (reset) begin
       MEM_latch <= {`MEM_latch_WIDTH{1'b0}}; 
     end else begin 
-      // $display("MEM STATE: Writing the value %h into register # %h", regval_MEM, wregno_MEM);
       MEM_latch <= MEM_latch_contents;
     end    
   end

@@ -14,7 +14,7 @@ module FE_STAGE(
   // I-MEM
   (* ram_init_file = `IDMEMINITFILE *)
   reg [`DBITS-1:0] imem [`IMEMWORDS-1:0];
-
+ 
   initial begin
       $readmemh(`IDMEMINITFILE , imem);
   end
@@ -58,8 +58,7 @@ module FE_STAGE(
                                 inst_FE, 
                                 PC_FE_latch, 
                                 pcplus_FE, // please feel free to add more signals such as valid bits etc. 
-                                inst_count_FE,
-                                branch_finish_FE,
+                                inst_count_FE, 
                                 // if you add more bits here, please increase the width of latch in define.vh 
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
@@ -67,50 +66,42 @@ module FE_STAGE(
   // **TODO: Complete the rest of the pipeline 
 
   assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
-  wire [`DBITS-1:0] jump_sxt_imm_FE;
+  wire [`DBITS-1:0] jump_target_FE;
   wire br_cond_FE;
-  assign {jump_sxt_imm_FE, br_cond_FE}= from_AGEX_to_FE;
-  reg branch_finish_FE;
-  always @ (posedge clk) begin
+  assign {jump_target_FE, br_cond_FE}= from_AGEX_to_FE;
+
+always @ (posedge clk) begin
   /* you need to extend this always block */
-    if (reset) begin 
+   if (reset) begin 
       PC_FE_latch <= `STARTPC;
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
-    end 
-    else if (!from_DE_to_FE) begin
-      branch_finish_FE <= 0;
-      if (br_cond_FE) begin
-        $display("FETCH: BRANCHING DETECTED!!! Jumping to new PC = %h", PC_FE_latch + jump_sxt_imm_FE);
-        PC_FE_latch <= PC_FE_latch + jump_sxt_imm_FE;
-        branch_finish_FE <= 1;
-      end
-      else begin
+      end 
+     else if (!stall_pipe_FE) begin
+      if (br_cond_FE)
+        PC_FE_latch <= jump_target_FE;
+      else
         PC_FE_latch <= pcplus_FE;
-        $display("FETCH: PC + 1 = %h", pcplus_FE);
-      end
       inst_count_FE <= inst_count_FE + 1; 
-    end 
-    else begin
+      end 
+    else 
       PC_FE_latch <= PC_FE_latch;
-    end
   end
+  
 
   always @ (posedge clk) begin
-    if (reset) begin 
-          FE_latch <= {`FE_latch_WIDTH{1'b0}}; 
-          // ...
-    end 
-    else begin 
-      // this is just an example. you need to expand the contents of if/else
-      if  (from_DE_to_FE) begin
-
-        FE_latch <= FE_latch; 
-
-      end
-      else begin
-        FE_latch <= FE_latch_contents; 
-      end
-    end  
+    if (reset) 
+        begin 
+            FE_latch <= {`FE_latch_WIDTH{1'b0}}; 
+            // ...
+        end 
+     else  
+        begin 
+         // this is just an example. you need to expand the contents of if/else
+         if  (stall_pipe_FE)
+            FE_latch <= FE_latch; 
+          else 
+            FE_latch <= FE_latch_contents; 
+        end  
   end
 
 endmodule

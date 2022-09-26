@@ -14,102 +14,39 @@ module AGEX_STAGE(
   reg [`AGEX_latch_WIDTH-1:0] AGEX_latch; 
   // wire to send the AGEX latch contents to other pipeline stages 
   assign AGEX_latch_out = AGEX_latch;
-
+  
   wire[`AGEX_latch_WIDTH-1:0] AGEX_latch_contents; 
+  
    
   wire [`INSTBITS-1:0]inst_AGEX; 
   wire [`DBITS-1:0]PC_AGEX;
   wire [`DBITS-1:0] inst_count_AGEX; 
   wire [`DBITS-1:0] pcplus_AGEX; 
   wire [`IOPBITS-1:0] op_I_AGEX;
-
-  wire [`DBITS-1:0] rs1_AGEX;
-  wire [`DBITS-1:0] rs2_AGEX;
-  wire [`REGNOBITS-1:0] wregno_AGEX;
-  reg [`DBITS-1:0] sxt_imm_AGEX;
-  reg [`DBITS-1:0] new_branch_PC_AGEX;
-
-
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
 
+  reg  [`REGWORDS-1:0]  regword1_AGEX;
+  reg  [`REGWORDS-1:0]  regword2_AGEX;
+  reg  [`REGWORDS-1:0]  regword3_AGEX;
+
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
+  reg [`DBITS-1:0] jump_target_AGEX;
 
-  reg wr_reg_AGEX; // is this instruction writing into a register file? 
-  reg [`REGNOBITS-1:0] wregno_AGEX; // destination register ID 
-  reg [`DBITS-1:0] regval_AGEX;  // the contents to be written in the register file (or CSR )
-
-  reg [`REGWORDS-1:0] busy_bits_AGEX;
+ 
   // **TODO: Complete the rest of the pipeline 
+ 
   
-  assign from_AGEX_to_FE = {new_branch_PC_AGEX, br_cond_AGEX} ;  
-  assign from_AGEX_to_DE = {br_cond_AGEX};
-
   always @ (*) begin
     case (op_I_AGEX)
-      `BEQ_I : 
-        begin
-          $display("BEQ:");
-          $display("\trs1: %h", rs1_AGEX);
-          $display("\trs2: %h", rs2_AGEX);
-          $display("\timm: %h", sxt_imm_AGEX);
-          if (rs1_AGEX == rs2_AGEX) begin
-            $display("RS1 = RS2. Branching");
-            br_cond_AGEX = 1; // write correct code to check the branch condition. 
-            new_branch_PC_AGEX = sxt_imm_AGEX;
-          end
+      `BEQ_I : begin
+        $display("\tBEQ: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if (regword1_AGEX == regword2_AGEX) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
         end
-      
-      `BNE_I:
-        begin
-          $display("BNE:");
-          $display("\trs1: %h", rs1_AGEX);
-          $display("\trs2: %h", rs2_AGEX);
-          $display("\timm: %h", sxt_imm_AGEX);
-          if (rs1_AGEX == rs2_AGEX) begin
-            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
-            $display("Branch equal. not BRanchingg");
-          end
-          else begin
-            $display("Branch not equal. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
-            br_cond_AGEX = 1'b1;
-            new_branch_PC_AGEX = sxt_imm_AGEX;
-          end
-        end
-      `BLT_I :
-        begin
-                    $display("BLT:");
-          $display("\trs1: %h", rs1_AGEX);
-          $display("\trs2: %h", rs2_AGEX);
-          $display("\timm: %h", sxt_imm_AGEX);
-          if (rs1_AGEX >= rs2_AGEX) begin
-            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
-            $display("Branch equal. not Branchingg");
-          end
-          else begin
-            $display("Branch not equal. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
-            br_cond_AGEX = 1'b1;
-            new_branch_PC_AGEX = sxt_imm_AGEX;
-          end
-        end
-      `BGE_I :
-              begin
-                                    $display("BGE:");
-          $display("\trs1: %h", rs1_AGEX);
-          $display("\trs2: %h", rs2_AGEX);
-          $display("\timm: %h", sxt_imm_AGEX);
-          if (rs1_AGEX < rs2_AGEX) begin
-            br_cond_AGEX = 1'b0; // write correct code to check the branch condition. 
-            $display("Branch rs1_AGEX < rs2_AGEX. not BRanchingg");
-          end
-          else begin
-            $display("Branch rs1_AGEX >= rs2_AGEX. BRanchingg %d %d", rs1_AGEX, rs2_AGEX );
-            br_cond_AGEX = 1'b1;
-            new_branch_PC_AGEX = sxt_imm_AGEX;
-          end
-        end
-
+      end
       /*
-
+      `BNE_I : ...
       `BLT_I : ...
       `BGE_I : ...
       `BLTU_I: ..
@@ -121,47 +58,22 @@ module AGEX_STAGE(
 
 
   // compute ALU operations  (alu out or memory addresses)
+  reg [`REGWORDS-1:0] ALU_result_AGEX;
+ 
   always @ (*) begin
-  // $display("YEEETTTTT!!!! %h", op_I_AGEX);
-  case (op_I_AGEX)
-    `ADDI_I: begin
-      $display("ADDI:");
-      $display("\trs1: %h", rs1_AGEX);
-      $display("\timm: %h", sxt_imm_AGEX);
-      $display("\trd: %h", wregno_AGEX);
-      regval_AGEX = rs1_AGEX + sxt_imm_AGEX;
-      wr_reg_AGEX = 1;
-      $display("\tALU_result_AGEX: %h", regval_AGEX);
-    end
-    `ADD_I: begin
-      regval_AGEX = rs1_AGEX  + rs2_AGEX;
-      wr_reg_AGEX = 1;
-      $display("ADD:");
-      $display("\trs1: %h", rs1_AGEX);
-      $display("\trs2: %h", rs2_AGEX);
-      $display("\trd: %h", wregno_AGEX);
-      regval_AGEX = rs1_AGEX + rs2_AGEX;
-      wr_reg_AGEX = 1;
-      $display("\tALU_result_AGEX: %h", regval_AGEX);
-    end
-       //  ...
-    default : begin
-      wr_reg_AGEX = 0;
-    end
-	 endcase 
-   
+    case (op_I_AGEX)
+      `ADD_I: begin
+        ALU_result_AGEX = regword1_AGEX + regword2_AGEX;
+        $display("\tADD: ALU_result_AGEX = %h", ALU_result_AGEX);
+      end
+      `ADDI_I: begin
+        ALU_result_AGEX = regword1_AGEX + regword2_AGEX;
+        $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
+      end 
+    endcase 
   end 
 
-  // branch target needs to be computed here 
-  // computed branch target needs to send to other pipeline stages (pctarget_AGEX)
-
-  always @(*)begin  
-  /*
-    if (op_I_AGEX == `JAL_I) 
-    ... 
-    */
-  end 
-  wire [`REGWORDS-1:0] busy_bits_AGEX; // busy bits for registers 
+  assign from_AGEX_to_FE = {jump_target_AGEX, br_cond_AGEX};
 
   assign  {
     inst_AGEX,
@@ -169,11 +81,10 @@ module AGEX_STAGE(
     pcplus_AGEX,
     op_I_AGEX,
     inst_count_AGEX, 
-    rs1_AGEX,
-    rs2_AGEX,
-    wregno_AGEX,
-    sxt_imm_AGEX,
             // more signals might need
+    regword1_AGEX,
+    regword2_AGEX,
+    regword3_AGEX,
     bus_canary_AGEX
   } = from_DE_latch;    
  
@@ -182,23 +93,20 @@ module AGEX_STAGE(
     PC_AGEX,
     op_I_AGEX,
     inst_count_AGEX, 
-    regval_AGEX, // the result of arithmetic calculation
-    wr_reg_AGEX, // is this instruction writing into a register file? 
-    wregno_AGEX, // destination register ID 
-            // more signals might need
+    ALU_result_AGEX,
     bus_canary_AGEX     
   }; 
-
-
+ 
   always @ (posedge clk) begin
     if (reset) begin
       AGEX_latch <= {`AGEX_latch_WIDTH{1'b0}};
       // might need more code here  
-    end 
-    else begin
+        end 
+    else 
+        begin
       // need to complete 
-      AGEX_latch <= AGEX_latch_contents;
-    end 
+            AGEX_latch <= AGEX_latch_contents ;
+        end 
   end
 
 endmodule

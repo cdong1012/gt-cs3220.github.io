@@ -25,9 +25,7 @@ module DE_STAGE(
   wire [`DBITS-1:0] inst_count_DE; 
   wire[`DE_latch_WIDTH-1:0] DE_latch_contents; 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_DE; 
-  reg [`DBITS-1:0] RR_arith_result_DE; /// result of register-register arithmetic instructions (e.g add)
-
-
+ 
 
   // extracting a part of opcode 
   wire [2:0] F3_DE; 
@@ -192,16 +190,17 @@ module DE_STAGE(
   always @(*) begin 
     case (type_immediate_DE )  
     `I_immediate: 
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};
-    `S_immediate:
-      sxt_imm_DE = {{21{inst_DE[31
-      ]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]};
-    `B_immediate:
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[7], inst_DE[30:25], inst_DE[11:8]};
-    `U_immediate:
-      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[30:12]};
-    `J_immediate:
-      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[19:12], inst_DE[20], inst_DE[30:21]};
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};  
+    `S_immediate: 
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]}; 
+    /*
+    `B_immediate: 
+      sxt_imm_DE = ... 
+    `U_immediate: 
+      sxt_imm_DE = ... 
+    `J_immediate: 
+      sxt_imm_DE = ... 
+      */ 
     default:
       sxt_imm_DE = 32'b0; 
     endcase  
@@ -214,48 +213,41 @@ module DE_STAGE(
   wire [`CSRNOBITS-1:0] wcsrno_WB;  // desitnation CSR register ID 
   wire wr_csr_WB; // is this instruction writing into CSR ? 
 
+
   // signals come from WB stage for register WB 
   assign { wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} = from_WB_to_DE;  
 
-  reg pipeline_stall_DE;
+  wire pipeline_stall_DE;
+  assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
 
-  assign from_DE_to_FE = pipeline_stall_DE; // pass the DE stage stall signal to FE stage 
+  reg  [`REGWORDS-1:0]  regword1_DE;
+  reg  [`REGWORDS-1:0]  regword2_DE;
+  reg  [`REGWORDS-1:0]  regword3_DE;
 
-  // decoding the contents of FE latch out. the order should be matched with the fe_stage.v 
   assign {
             inst_DE,
             PC_DE, 
             pcplus_DE,
             inst_count_DE, 
-            branch_finish_DE,
             bus_canary_DE 
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
-  // DEPENDENCY CONTROL
-  reg br_cond_DE;
-  assign br_cond_DE = from_AGEX_to_DE; // stop stalling
-  reg wait_for_br_DE;
 
-  wire [`REGWORDS-1:0] busy_bits_DE; // busy bits for registers 
-  reg [`REGWORDS-1:0] reg_busy_bits_DE;
-  assign busy_bits_DE = reg_busy_bits_DE;
-  
-  // assign wire to send the contents of DE latch to other pipeline stages  
+// assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
 
   assign DE_latch_contents = {
-      inst_DE,
-      PC_DE,
-      pcplus_DE,
-      op_I_DE,
-      inst_count_DE, 
-      rs1_DE,
-      rs2_DE,
-      rd_DE,
-      sxt_imm_DE,
-      // more signals might need
-      bus_canary_DE 
-  };
+                                  inst_DE,
+                                  PC_DE,
+                                  pcplus_DE,
+                                  op_I_DE,
+                                  inst_count_DE, 
+                                  // more signals might need
+                                  regword1_DE,
+                                  regword2_DE,
+                                  regword3_DE,
+                                   bus_canary_DE 
+                                  }; 
 
   // register file and CSRs initialization
   initial begin
@@ -268,57 +260,52 @@ module DE_STAGE(
   // register file and CSRs write
   always @ (negedge clk) begin 
     if (wr_reg_WB) begin
-      $display("DECODE: Writing the value %h into register # %h", regval_WB, wregno_WB);
-      regs[wregno_WB] <= regval_WB; 
-      reg_busy_bits_DE = 0;
-      pipeline_stall_DE = 0;
-      // $display("DECODE: turn off stall_signal_DE");
-    end
-    else if (wr_csr_WB) 
-		  csr_regs[wcsrno_WB] <= regval_WB; 
-    else if (br_cond_DE) begin
-      reg_busy_bits_DE = 0; // idea: beq would stall to stop decoding the inst at PC + 1
-      pipeline_stall_DE = 0; // once the new PC is correctly calculated and sent to FE, we stop stalling and execute.
-      // is this necessary??
-    end
-
+		  	regs[wregno_WB] <= regval_WB; 
+        $display("Writing value %h into register %d", regval_WB, wregno_WB);
+    end else if (wr_csr_WB) 
+		  	csr_regs[wcsrno_WB] <= regval_WB; 
   end
-  reg branch_finish_DE;
-  reg temp_br_cond_DE;
-  reg [`DBITS-1:0] rs1_DE;
-  reg [`DBITS-1:0] rs2_DE;
-  reg [`REGNOBITS-1:0] rd_DE;
 
-  assign rd_DE = inst_DE[11:7];
-  assign rs1_DE = regs[inst_DE[19:15]];
-  assign rs2_DE = regs[inst_DE[24:20]];
+  // check busy bits
+  reg [`DBITS-1:0] reg_busy_bits_DE;
 
+  assign pipeline_stall_DE = reg_busy_bits_DE[inst_DE[24:20]] || reg_busy_bits_DE[inst_DE[19:15]];
+
+  always @(*) begin 
+    regword1_DE = regs[inst_DE[19:15]];
+    case (type_I_DE )
+        `R_Type: begin
+          regword2_DE = regs[inst_DE[24:20]];
+          regword3_DE = 0;
+        end
+        `I_Type: begin
+          regword2_DE = sxt_imm_DE;
+          regword3_DE = 0;
+        end  
+        `S_Type: begin
+          regword2_DE = regs[inst_DE[24:20]];
+          regword3_DE = sxt_imm_DE;
+        end  
+    endcase
+  end  
+  
   always @ (posedge clk) begin // you need to expand this always block 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
-    end
-    else begin
-      $display("br_cond_DE = %d, branch_finish_DE = %d", br_cond_DE, branch_finish_DE);
-      if (br_cond_DE) begin
-        DE_latch <= {`DE_latch_WIDTH{1'b0}};
       end
-      else if (pipeline_stall_DE) begin
+     else begin  
+      if (wr_reg_WB)
+        reg_busy_bits_DE[wregno_WB] <= 0;
+      if (pipeline_stall_DE) 
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
-      end else begin
-        // set busy bits
-        // $display("DECODING ADDI, r%d, r#%d, #%h. PC = %h, op_I_DE = %h", rd_DE, inst_DE[19:15], sxt_imm_DE, PC_DE, op_I_DE);
-        if (op_I_DE == `BNE_I || op_I_DE == `BEQ_I || op_I_DE == `BGE_I || op_I_DE == `BLT_I) begin
-          $display("BRANCH INSTRUCTION!!!!");
-          pipeline_stall_DE = 1;
-        end
-        if (op_I_DE == `ADDI_I || op_I_DE == `ADD_I) begin
-          pipeline_stall_DE = 1;
-        end
-
-        DE_latch <= DE_latch_contents;
+      else begin
+          if (op_I_DE == `ADD_I || op_I_DE == `ADDI_I) begin
+            $display("ADD/ADDI instruction decoded");
+            reg_busy_bits_DE[inst_DE[11:7]] <= 1; // set destination register to busy
+          end
+          DE_latch <= DE_latch_contents;
       end
-
-    end 
+     end 
   end
 
 endmodule

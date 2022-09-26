@@ -16,10 +16,10 @@ module WB_STAGE(
   wire [`DBITS-1:0] inst_count_WB; 
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
 
-  wire wr_reg_WB; // is this instruction writing into a register file? 
+  reg wr_reg_WB; // writing into a register file? 
 
-  wire [`REGNOBITS-1:0] wregno_WB; // destination register ID 
-  wire [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
+  reg [`REGNOBITS-1:0] wregno_WB; // destination register ID 
+  reg [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
   
   wire wr_reg_WB2;
   wire [`REGNOBITS-1:0] wregno_WB2; // destination register ID 
@@ -29,27 +29,36 @@ module WB_STAGE(
   wire wr_csr_WB; // is this instruction writing into CSR ? 
 
   // **TODO: Complete the rest of the pipeline**
-  wire [`REGWORDS-1:0] busy_bits_WB; // busy bits for registers 
-  reg [`REGWORDS-1:0] reg_busy_bits_WB;
-  assign busy_bits_WB = reg_busy_bits_WB;
+  wire [`REGWORDS-1:0] ALU_result_WB;
   assign {
                                 inst_WB,
                                 PC_WB,
                                 op_I_WB,
                                 inst_count_WB, 
-                                regval_WB, // the result of arithmetic calculation
-                                wr_reg_WB, // is this instruction writing into a register file? 
-                                wregno_WB, // destination register ID 
+                                ALU_result_WB,
                                 // more signals might need                        
-                                bus_canary_WB 
+                                bus_canary_WB
                                 } = from_MEM_latch; 
-        
-  // write register by sending data to the DE stage 
-        
-  always @(posedge clk) begin
-    // $display("WRITEBACK! BUSY BIT IS CLEARED");
-    reg_busy_bits_WB <= 0;
-  end
+
+  always @ (*) begin
+    case (op_I_WB)
+      `ADD_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end  
+      `ADDI_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      default: begin
+        wregno_WB = 0;
+        regval_WB = 0;
+        wr_reg_WB = 0;
+      end 
+    endcase 
+  end 
 
 
 // we send register write (and CSR register) information to DE stage 
