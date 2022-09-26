@@ -40,18 +40,46 @@ module AGEX_STAGE(
     case (op_I_AGEX)
       `BEQ_I : begin
         $display("\tBEQ: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
-        if (regword1_AGEX == regword2_AGEX) begin
+        if (regword1_AGEX == $signed(regword2_AGEX)) begin
           br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + regword3_AGEX;
         end
       end
-      /*
-      `BNE_I : ...
-      `BLT_I : ...
-      `BGE_I : ...
-      `BLTU_I: ..
-      `BGEU_I : ...
-      */
+      `BNE_I : begin
+        $display("\tBNE: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if (regword1_AGEX != $signed(regword2_AGEX)) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
+        end
+      end
+      `BLT_I : begin
+        $display("\tBLT: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if ($signed(regword1_AGEX) < $signed(regword2_AGEX)) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
+        end
+      end
+      `BGE_I : begin
+        $display("\tBGE: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if ($signed(regword1_AGEX) >= $signed(regword2_AGEX)) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
+        end
+      end
+      `BLTU_I : begin
+        $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if (regword1_AGEX < regword2_AGEX) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
+        end
+      end
+      `BGEU_I : begin
+        $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        if (regword1_AGEX >= regword2_AGEX) begin
+          br_cond_AGEX = 1; 
+          jump_target_AGEX = PC_AGEX + regword3_AGEX;
+        end
+      end
       default : br_cond_AGEX = 1'b0;
     endcase
   end
