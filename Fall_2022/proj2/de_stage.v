@@ -234,7 +234,7 @@ module DE_STAGE(
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
 
-// assign wire to send the contents of DE latch to other pipeline stages  
+  // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
 
   assign DE_latch_contents = {
@@ -282,19 +282,6 @@ module DE_STAGE(
   wire pipeline_stall_DE;
   assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
   assign pipeline_stall_DE = |reg_busy_bits_DE[inst_DE[24:20]] || |reg_busy_bits_DE[inst_DE[19:15]];
-  // always @(*) begin
-  //   if (reg_busy_bits_DE[inst_DE[24:20]] > 0 || reg_busy_bits_DE[inst_DE[19:15]] > 0)
-  //     // not busy if its 1 because this instruction reads from reg it writes to
-  //     if (reg_busy_bits_DE[inst_DE[24:20]] == 0 && reg_busy_bits_DE[inst_DE[19:15]] == 1 && inst_DE[19:15] == inst_DE[11:7])
-  //       pipeline_stall_DE = 1'b0;
-  //     else if (reg_busy_bits_DE[inst_DE[19:15]] == 0 && reg_busy_bits_DE[inst_DE[24:20]] == 1 && inst_DE[24:20] == inst_DE[11:7])
-  //       pipeline_stall_DE = 1'b0;
-  //     else
-  //       pipeline_stall_DE = 1'b1;
-  //   else
-  //     pipeline_stall_DE = 1'b0;
-  // end
-
 
   always @(*) begin 
     case (type_I_DE )
@@ -326,7 +313,6 @@ module DE_STAGE(
   we are writing to reg we are reading from
   previous instruction writes to reg we are reading, and we are writing to same reg
 
-
   order of events i want:
   decrement busy on writeback
 
@@ -335,22 +321,10 @@ module DE_STAGE(
   if go, increment dst busy
 
   */
-  // always @(*) begin
-  //   if (wr_reg_WB) begin
-  //     reg_busy_bits_DE[wregno_WB] = reg_busy_bits_DE[wregno_WB] - 1;
-  //   end
-  //   if (op_I_DE == `ADD_I || op_I_DE == `ADDI_I) begin
-  //     //$display("ADD/ADDI instruction decoded");
-  //     reg_busy_bits_DE[inst_DE[11:7]] = reg_busy_bits_DE[inst_DE[11:7]] + 1; // set destination register to busy
-  //   end
-  // end
 
   always @ (posedge clk) begin // you need to expand this always block 
     $display("%h DE PC", PC_DE);
     // $display("%h busy 7", reg_busy_bits_DE[7]);
-
-    $display("%h next_dst_DE", next_dst_DE);
-    $display("%h de stall?", pipeline_stall_DE);
 
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};

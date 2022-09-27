@@ -74,20 +74,20 @@ module AGEX_STAGE(
         end
       end
       `BGEU_I : begin
-        // $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        // $display("\tBGEU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         if (regword1_AGEX >= regword2_AGEX) begin
           br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + regword3_AGEX;
         end
       end
       `JAL_I : begin
-        // $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        // $display("\tJAL: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         br_cond_AGEX = 1; 
         jump_target_AGEX = PC_AGEX + regword2_AGEX;
         ALU_result_AGEX = PC_AGEX + 4;
       end
       `JALR_I : begin
-        // $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        // $display("\tJALR: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         br_cond_AGEX = 1; 
         jump_target_AGEX = (regword1_AGEX + regword2_AGEX) & 32'hfffffffe;
         ALU_result_AGEX = PC_AGEX + 4;
@@ -123,19 +123,6 @@ module AGEX_STAGE(
         ALU_result_AGEX = PC_AGEX + {regword2_AGEX[19:0], 12'b0};
         // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
       end 
-      `AUIPC_I : begin
-        $display("\tAUIPC r%d, %h", inst_AGEX[11:7], regword2_AGEX);
-        ALU_result_AGEX = PC_AGEX + regword2_AGEX; // R[rd] = PC + ( imm << 12 )
-      end
-      `JAL_I : begin
-        $display("\tJAL r%d, %h", inst_AGEX[11:7], regword1_AGEX);
-        ALU_result_AGEX = PC_AGEX;
-        br_cond_AGEX = 1; 
-        jump_target_AGEX = PC_AGEX + regword1_AGEX;
-      end
-      `JALR_I : begin
-        $display("\tJALR r%d, %h", inst_AGEX[11:7], regword1_AGEX);
-      end
     endcase 
   end 
 
