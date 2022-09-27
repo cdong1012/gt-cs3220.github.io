@@ -98,6 +98,19 @@ module AGEX_STAGE(
         ALU_result_AGEX = regword1_AGEX + regword2_AGEX;
         $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
       end 
+      `AUIPC_I : begin
+        $display("\tAUIPC r%d, %h", inst_AGEX[11:7], regword2_AGEX);
+        ALU_result_AGEX = PC_AGEX + regword2_AGEX; // R[rd] = PC + ( imm << 12 )
+      end
+      `JAL_I : begin
+        $display("\tJAL r%d, %h", inst_AGEX[11:7], regword1_AGEX);
+        ALU_result_AGEX = PC_AGEX;
+        br_cond_AGEX = 1; 
+        jump_target_AGEX = PC_AGEX + regword1_AGEX;
+      end
+      `JALR_I : begin
+        $display("\tJALR r%d, %h", inst_AGEX[11:7], regword1_AGEX);
+      end
     endcase 
   end 
 

@@ -190,21 +190,21 @@ module DE_STAGE(
   always @(*) begin 
     case (type_immediate_DE )  
     `I_immediate: 
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};  
-    `S_immediate: 
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]}; 
-    /*
-    `B_immediate: 
-      sxt_imm_DE = ... 
-    `U_immediate: 
-      sxt_imm_DE = ... 
-    `J_immediate: 
-      sxt_imm_DE = ... 
-      */ 
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};
+    `S_immediate:
+      sxt_imm_DE = {{21{inst_DE[31
+      ]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]};
+    `B_immediate:
+      sxt_imm_DE = {{20{inst_DE[31]}}, inst_DE[7], inst_DE[30:25], inst_DE[11:8], 1'b0};
+    `U_immediate:
+      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[30:12]};
+    `J_immediate:
+      sxt_imm_DE = {{12{inst_DE[31]}}, inst_DE[19:12], inst_DE[20], inst_DE[30:21], 1'b0};
     default:
       sxt_imm_DE = 32'b0; 
     endcase  
   end 
+   wire wr_reg_WB; 
  
  /* this signal is passed from WB stage */ 
   wire wr_reg_WB; // is this instruction writing into a register file? 
@@ -272,20 +272,25 @@ module DE_STAGE(
   assign pipeline_stall_DE = reg_busy_bits_DE[inst_DE[24:20]] || reg_busy_bits_DE[inst_DE[19:15]];
 
   always @(*) begin 
-    regword1_DE = regs[inst_DE[19:15]];
     case (type_I_DE )
         `R_Type: begin
+          regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = regs[inst_DE[24:20]];
           regword3_DE = 0;
         end
         `I_Type: begin
+          regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = sxt_imm_DE;
           regword3_DE = 0;
         end  
         `S_Type: begin
+          regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = regs[inst_DE[24:20]];
           regword3_DE = sxt_imm_DE;
-        end  
+        end
+        `U_Type: begin
+          regword1_DE = sxt_imm_DE;
+        end
     endcase
   end  
   
