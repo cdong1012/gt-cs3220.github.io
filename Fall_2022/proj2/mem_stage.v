@@ -73,6 +73,7 @@ module MEM_STAGE(
   }; 
 
   always @ (posedge clk) begin
+    $display("%h PC_MEM", PC_MEM);
     if (reset) begin
       MEM_latch <= {`MEM_latch_WIDTH{1'b0}}; 
     end else begin 

@@ -1,4 +1,5 @@
 `include "define.vh" 
+/* verilator lint_off LATCH */
 
 module DE_STAGE(
   input wire                              clk,
@@ -186,20 +187,22 @@ module DE_STAGE(
   //////////////////////////////////
   // **TODO: Complete the rest of the pipeline 
 
+  wire clear_from_branch_DE;
+  assign { clear_from_branch_DE } = from_AGEX_to_DE;
+
   reg  [`DBITS-1:0] sxt_imm_DE;
   always @(*) begin 
     case (type_immediate_DE )  
     `I_immediate: 
-      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[24:21], inst_DE[20]};  
     `S_immediate:
-      sxt_imm_DE = {{21{inst_DE[31
-      ]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]};
-    `B_immediate:
-      sxt_imm_DE = {{20{inst_DE[31]}}, inst_DE[7], inst_DE[30:25], inst_DE[11:8], 1'b0};
-    `U_immediate:
-      sxt_imm_DE = {{13{inst_DE[31]}}, inst_DE[30:12]};
-    `J_immediate:
-      sxt_imm_DE = {{12{inst_DE[31]}}, inst_DE[19:12], inst_DE[20], inst_DE[30:21], 1'b0};
+      sxt_imm_DE = {{21{inst_DE[31]}}, inst_DE[30:25], inst_DE[11:8], inst_DE[7]}; 
+    `B_immediate: 
+      sxt_imm_DE = {{20{inst_DE[31]}}, inst_DE[7], inst_DE[30:25], inst_DE[11:8], 1'b0}; 
+    `U_immediate: 
+      sxt_imm_DE = {inst_DE[31], inst_DE[30:20], inst_DE[19:12], {12{1'b0}}}; 
+    `J_immediate: 
+      sxt_imm_DE = {{12{inst_DE[31]}}, inst_DE[19:12], inst_DE[20], inst_DE[30:25], inst_DE[24:21], 1'b0}; 
     default:
       sxt_imm_DE = 32'b0; 
     endcase  
@@ -217,8 +220,6 @@ module DE_STAGE(
   // signals come from WB stage for register WB 
   assign { wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} = from_WB_to_DE;  
 
-  wire pipeline_stall_DE;
-  assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
 
   reg  [`REGWORDS-1:0]  regword1_DE;
   reg  [`REGWORDS-1:0]  regword2_DE;
@@ -258,18 +259,42 @@ module DE_STAGE(
   end
 
   // register file and CSRs write
+  // NOTE: nonblocking posedge writes are used in wb_stage, which is why we use negedge here
   always @ (negedge clk) begin 
-    if (wr_reg_WB) begin
-		  	regs[wregno_WB] <= regval_WB; 
-        $display("Writing value %h into register %d", regval_WB, wregno_WB);
+    if (wr_reg_WB && |wregno_WB) begin
+		  	regs[wregno_WB] <= regval_WB;
+        // wregno_WB != next_dst_DE
+        reg_busy_bits_DE[wregno_WB] <= reg_busy_bits_DE[wregno_WB] - 1;
+        // $strobe("%h",reg_busy_bits_DE[next_dst_DE]);
+        // $display("Writing value %h into register %d", regval_WB, wregno_WB);
     end else if (wr_csr_WB) 
 		  	csr_regs[wcsrno_WB] <= regval_WB; 
+
+    if (|next_dst_DE)
+      reg_busy_bits_DE[next_dst_DE] <= reg_busy_bits_DE[next_dst_DE] + 1;
+
   end
 
   // check busy bits
-  reg [`DBITS-1:0] reg_busy_bits_DE;
+  reg [7:0] reg_busy_bits_DE [`DBITS-1:0];
+  reg [4:0] next_dst_DE;
 
-  assign pipeline_stall_DE = reg_busy_bits_DE[inst_DE[24:20]] || reg_busy_bits_DE[inst_DE[19:15]];
+  wire pipeline_stall_DE;
+  assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
+  assign pipeline_stall_DE = |reg_busy_bits_DE[inst_DE[24:20]] || |reg_busy_bits_DE[inst_DE[19:15]];
+  // always @(*) begin
+  //   if (reg_busy_bits_DE[inst_DE[24:20]] > 0 || reg_busy_bits_DE[inst_DE[19:15]] > 0)
+  //     // not busy if its 1 because this instruction reads from reg it writes to
+  //     if (reg_busy_bits_DE[inst_DE[24:20]] == 0 && reg_busy_bits_DE[inst_DE[19:15]] == 1 && inst_DE[19:15] == inst_DE[11:7])
+  //       pipeline_stall_DE = 1'b0;
+  //     else if (reg_busy_bits_DE[inst_DE[19:15]] == 0 && reg_busy_bits_DE[inst_DE[24:20]] == 1 && inst_DE[24:20] == inst_DE[11:7])
+  //       pipeline_stall_DE = 1'b0;
+  //     else
+  //       pipeline_stall_DE = 1'b1;
+  //   else
+  //     pipeline_stall_DE = 1'b0;
+  // end
+
 
   always @(*) begin 
     case (type_I_DE )
@@ -287,30 +312,64 @@ module DE_STAGE(
           regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = regs[inst_DE[24:20]];
           regword3_DE = sxt_imm_DE;
-        end
+        end  
         `U_Type: begin
-          regword1_DE = sxt_imm_DE;
-        end
+          regword2_DE = sxt_imm_DE;
+          regword3_DE = 0;
+        end  
     endcase
   end  
   
+  /*
+  cases:
+  previous instruction writes to reg we are reading from, but we are not writing to same reg
+  we are writing to reg we are reading from
+  previous instruction writes to reg we are reading, and we are writing to same reg
+
+
+  order of events i want:
+  decrement busy on writeback
+
+  check if read regs are busy. if so, stall. otherwise go
+
+  if go, increment dst busy
+
+  */
+  // always @(*) begin
+  //   if (wr_reg_WB) begin
+  //     reg_busy_bits_DE[wregno_WB] = reg_busy_bits_DE[wregno_WB] - 1;
+  //   end
+  //   if (op_I_DE == `ADD_I || op_I_DE == `ADDI_I) begin
+  //     //$display("ADD/ADDI instruction decoded");
+  //     reg_busy_bits_DE[inst_DE[11:7]] = reg_busy_bits_DE[inst_DE[11:7]] + 1; // set destination register to busy
+  //   end
+  // end
+
   always @ (posedge clk) begin // you need to expand this always block 
+    $display("%h DE PC", PC_DE);
+    // $display("%h busy 7", reg_busy_bits_DE[7]);
+
+    $display("%h next_dst_DE", next_dst_DE);
+    $display("%h de stall?", pipeline_stall_DE);
+
     if (reset) begin
       DE_latch <= {`DE_latch_WIDTH{1'b0}};
-      end
-     else begin  
-      if (wr_reg_WB)
-        reg_busy_bits_DE[wregno_WB] <= 0;
-      if (pipeline_stall_DE) 
+    end
+    else begin  
+      next_dst_DE <= 0;
+      // if (wr_reg_WB)
+      //   reg_busy_bits_DE[wregno_WB] <= 0;
+      if (pipeline_stall_DE || clear_from_branch_DE)
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
-          if (op_I_DE == `ADD_I || op_I_DE == `ADDI_I) begin
-            $display("ADD/ADDI instruction decoded");
-            reg_busy_bits_DE[inst_DE[11:7]] <= 1; // set destination register to busy
-          end
-          DE_latch <= DE_latch_contents;
+        if (type_I_DE == `I_Type || type_I_DE == `R_Type || type_I_DE == `U_Type) begin
+          //$display("ADD/ADDI instruction decoded");
+          // reg_busy_bits_DE[inst_DE[11:7]] <= 1; // set destination register to busy
+          next_dst_DE <= inst_DE[11:7];
+        end
+        DE_latch <= DE_latch_contents;
       end
-     end 
+    end 
   end
 
 endmodule

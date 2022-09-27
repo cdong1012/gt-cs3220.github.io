@@ -16,7 +16,7 @@
 // address space is m 0x00000000 to 0x000fffff
 // [NOTICE] please note that both imem and dmem use the SAME "IDMEMINITFILE".
 // you need to change this line to change which test file to read 
-`define IDMEMINITFILE "/home/osboxes/Desktop/gt-cs3220.github.io/Fall_2022/proj2/tests/part2/test9.mem"
+`define IDMEMINITFILE "/home/colten/cs3220/gt-cs3220.github.io/Fall_2022/proj2/tests/part1/test5.mem"
 `define IMEMADDRBITS  16
 `define IMEMWORDBITS  2
 `define IMEMWORDS	  (1 << (`IMEMADDRBITS - `IMEMWORDBITS))

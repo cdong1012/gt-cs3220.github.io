@@ -70,25 +70,29 @@ module FE_STAGE(
   wire br_cond_FE;
   assign {jump_target_FE, br_cond_FE}= from_AGEX_to_FE;
 
-always @ (posedge clk) begin
-  /* you need to extend this always block */
-   if (reset) begin 
+  always @ (posedge clk) begin
+    /* you need to extend this always block */
+    if (reset) begin 
       PC_FE_latch <= `STARTPC;
       inst_count_FE <= 1;  /* inst_count starts from 1 for easy human reading. 1st fetch instructions can have 1 */ 
-      end 
-     else if (!stall_pipe_FE) begin
+      end
+    else if (!stall_pipe_FE) begin
       if (br_cond_FE)
         PC_FE_latch <= jump_target_FE;
       else
         PC_FE_latch <= pcplus_FE;
-      inst_count_FE <= inst_count_FE + 1; 
+      inst_count_FE <= inst_count_FE + 1;
       end 
     else 
-      PC_FE_latch <= PC_FE_latch;
+      if (br_cond_FE)
+        PC_FE_latch <= jump_target_FE;
+      else 
+        PC_FE_latch <= PC_FE_latch;
   end
   
 
   always @ (posedge clk) begin
+    $display("%h PC_FE_latch", PC_FE_latch);
     if (reset) 
         begin 
             FE_latch <= {`FE_latch_WIDTH{1'b0}}; 
@@ -97,7 +101,9 @@ always @ (posedge clk) begin
      else  
         begin 
          // this is just an example. you need to expand the contents of if/else
-         if  (stall_pipe_FE)
+         if (br_cond_FE)
+            FE_latch <= 0; 
+          else if (stall_pipe_FE)
             FE_latch <= FE_latch; 
           else 
             FE_latch <= FE_latch_contents; 
