@@ -57,7 +57,8 @@ int main(int argc, char** argv, char** env) {
     // Simulate until $finish
     // while (!Verilated::gotFinish()) {
 
-    while (timestamp < RUN_CYCLES) {      
+    while (timestamp < RUN_CYCLES) {     
+        std::cout << "--" << std::endl; 
         if ((timestamp % CLOCK_PERIOD)) 
             dut->clk = !dut->clk; 
 

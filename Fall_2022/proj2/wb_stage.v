@@ -16,6 +16,8 @@ module WB_STAGE(
   wire [`DBITS-1:0] inst_count_WB; 
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
 
+  // NOTE: we write into these registers on always@(*), meaning they reflect what's latched in MEM at the end of its posedge!!! 
+  // they are read in de on negedge
   reg wr_reg_WB; // writing into a register file? 
 
   reg [`REGNOBITS-1:0] wregno_WB; // destination register ID 
@@ -40,7 +42,7 @@ module WB_STAGE(
                                 bus_canary_WB
                                 } = from_MEM_latch; 
 
-  always @ (*) begin
+  always @ (posedge clk) begin
     case (op_I_WB)
       `ADD_I: begin
         wr_reg_WB = 1;
@@ -48,6 +50,31 @@ module WB_STAGE(
         regval_WB = ALU_result_WB;
       end  
       `ADDI_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      `SUB_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      `LUI_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      `AUIPC_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      `JAL_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
+      end 
+      `JALR_I: begin
         wr_reg_WB = 1;
         wregno_WB = inst_WB[11:7];
         regval_WB = ALU_result_WB;
@@ -61,20 +88,24 @@ module WB_STAGE(
   end 
 
 
-// we send register write (and CSR register) information to DE stage 
-assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;  
+  // we send register write (and CSR register) information to DE stage 
+  assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;  
+
+  // EVERYTHING BELOW HERE DOESN'T AFFECT THE PROCESSOR'S LOGIC
 
   // this code need to be commented out when we synthesize the code later 
   // special workaround to get tests Pass/Fail status
   reg [`DBITS-1:0] last_WB_value [`REGWORDS-1:0] /* verilator public */;
   reg [`DBITS-1:0] WB_counters[`REGWORDS-1:0]   /* verilator public */ ;
   always @(negedge clk) begin
-  if (wr_reg_WB)
-    last_WB_value[wregno_WB] <= regval_WB;
+    $strobe("wr_reg_WB: %h; regval_WB: %h; wregno_WB: %h", wr_reg_WB, regval_WB, wregno_WB);
+    if (wr_reg_WB)
+      last_WB_value[wregno_WB] <= regval_WB;
   end
 
   // this is only for debugging purpose to interact with sim_main.cpp when we use verilator 
   always @(posedge clk) begin 
+    $display("%h PC_WB", PC_WB);
     // don't use WB_counters[0] 
     WB_counters[1] <=  PC_WB;   
     WB_counters[2] <=  inst_WB;   
@@ -87,3 +118,7 @@ assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;
   end 
 
 endmodule 
+
+// so at the end of posedge, mem latches it's PC value
+// on negedge, this pc instruction is read here and ferried back to fetch, 
+// becuase we use an always@(*) block to set the wr_reg_WB, etc.
