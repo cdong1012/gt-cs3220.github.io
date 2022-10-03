@@ -223,7 +223,6 @@ module DE_STAGE(
 
   reg  [`REGWORDS-1:0]  regword1_DE;
   reg  [`REGWORDS-1:0]  regword2_DE;
-  reg  [`REGWORDS-1:0]  regword3_DE;
 
   assign {
             inst_DE,
@@ -248,7 +247,7 @@ module DE_STAGE(
                                   // more signals might need
                                   regword1_DE,
                                   regword2_DE,
-                                  regword3_DE,
+                                  sxt_imm_DE,
                                   wr_reg_DE,
                                   bus_canary_DE
                                   }; 
@@ -286,27 +285,26 @@ module DE_STAGE(
   assign from_DE_to_FE = {pipeline_stall_DE}; // pass the DE stage stall signal to FE stage 
   assign pipeline_stall_DE = |reg_busy_bits_DE[inst_DE[24:20]] || |reg_busy_bits_DE[inst_DE[19:15]];
 
+  // NOTE (colten): i think it's easier to keep imm in a consistent register, so regword1 and regword2 always
+  // refer to rs1 and rs2 in the spec, and sxt_imm_DE always refers to imm (properly sign extended)
   always @(*) begin 
     case (type_I_DE )
         `R_Type: begin
           regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = regs[inst_DE[24:20]];
-          regword3_DE = 0;
         end
         `I_Type: begin
           regword1_DE = regs[inst_DE[19:15]];
-          regword2_DE = sxt_imm_DE;
-          regword3_DE = 0;
+          regword2_DE = 0;
         end  
         `S_Type: begin
           regword1_DE = regs[inst_DE[19:15]];
           regword2_DE = regs[inst_DE[24:20]];
-          regword3_DE = sxt_imm_DE;
         end  
         `U_Type: begin
-          regword2_DE = sxt_imm_DE;
-          regword3_DE = 0;
-        end  
+          regword1_DE = 0;
+          regword2_DE = 0;
+        end
     endcase
   end  
   
