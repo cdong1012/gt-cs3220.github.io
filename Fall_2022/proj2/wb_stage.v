@@ -17,15 +17,11 @@ module WB_STAGE(
   wire [`BUS_CANARY_WIDTH-1:0] bus_canary_WB;
 
   // NOTE: we write into these registers on always@(*), meaning they reflect what's latched in MEM at the end of its posedge!!! 
-  // they are read in de on negedge
-  reg wr_reg_WB; // writing into a register file? 
+  // they are read in de on negedge. so this is kind of a degenerate stage.
+  wire wr_reg_WB; // writing into a register file? 
 
-  reg [`REGNOBITS-1:0] wregno_WB; // destination register ID 
-  reg [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
-  
-  wire wr_reg_WB2;
-  wire [`REGNOBITS-1:0] wregno_WB2; // destination register ID 
-  wire [`DBITS-1:0] regval_WB2;  // the contents to be written in the register file (or CSR )
+  wire [`REGNOBITS-1:0] wregno_WB; // destination register ID 
+  wire [`DBITS-1:0] regval_WB;  // the contents to be written in the register file (or CSR )
 
   wire [`CSRNOBITS-1:0] wcsrno_WB;  // desitnation CSR register ID 
   wire wr_csr_WB; // is this instruction writing into CSR ? 
@@ -38,60 +34,13 @@ module WB_STAGE(
                                 op_I_WB,
                                 inst_count_WB, 
                                 ALU_result_WB,
-                                // more signals might need                        
+                                // more signals might need
+                                wr_reg_WB,
                                 bus_canary_WB
                                 } = from_MEM_latch; 
 
-  always @ (posedge clk) begin
-    case (op_I_WB)
-      `ADD_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end  
-      `ADDI_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      `SUB_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      `LUI_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      `AUIPC_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      `JAL_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      `JALR_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end
-      `LW_I: begin
-        wr_reg_WB = 1;
-        wregno_WB = inst_WB[11:7];
-        regval_WB = ALU_result_WB;
-      end 
-      default: begin
-        wregno_WB = 0;
-        regval_WB = 0;
-        wr_reg_WB = 0;
-      end 
-    endcase 
-  end 
-
+  assign wregno_WB = inst_WB[11:7];
+  assign regval_WB = ALU_result_WB;
 
   // we send register write (and CSR register) information to DE stage 
   assign from_WB_to_DE = {wr_reg_WB, wregno_WB, regval_WB, wcsrno_WB, wr_csr_WB} ;  

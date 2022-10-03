@@ -64,6 +64,7 @@ module MEM_STAGE(
     end
   end
 
+  wire wr_reg_MEM; 
   assign MEM_latch_out = MEM_latch; 
   assign {
                                 inst_MEM,
@@ -73,6 +74,7 @@ module MEM_STAGE(
                                 ALU_result_MEM, // pass ALU result from agex a long
                                  // more signals might need
                                  memaddr_MEM,
+                                 wr_reg_MEM,
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
  
@@ -82,6 +84,7 @@ module MEM_STAGE(
                                 op_I_MEM,
                                 inst_count_MEM, 
                                 intercepted_ALU_result_MEM,
+                                wr_reg_MEM,
                                 bus_canary_MEM                   
   }; 
 

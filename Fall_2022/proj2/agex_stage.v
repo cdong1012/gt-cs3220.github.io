@@ -138,6 +138,7 @@ module AGEX_STAGE(
   assign from_AGEX_to_FE = {jump_target_AGEX, br_cond_AGEX};
   assign from_AGEX_to_DE = {br_cond_AGEX};
 
+  wire wr_reg_AGEX; 
   assign  {
     inst_AGEX,
     PC_AGEX,
@@ -148,6 +149,7 @@ module AGEX_STAGE(
     regword1_AGEX,
     regword2_AGEX,
     regword3_AGEX,
+    wr_reg_AGEX,
     bus_canary_AGEX
   } = from_DE_latch;    
  
@@ -158,6 +160,7 @@ module AGEX_STAGE(
     inst_count_AGEX, 
     ALU_result_AGEX,
     memaddr_AGEX,
+    wr_reg_AGEX,
     bus_canary_AGEX     
   }; 
 

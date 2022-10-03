@@ -236,6 +236,8 @@ module DE_STAGE(
 
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
+  wire wr_reg_DE;
+  assign wr_reg_DE = type_I_DE == `I_Type || type_I_DE == `R_Type || type_I_DE == `U_Type;
 
   assign DE_latch_contents = {
                                   inst_DE,
@@ -247,7 +249,8 @@ module DE_STAGE(
                                   regword1_DE,
                                   regword2_DE,
                                   regword3_DE,
-                                   bus_canary_DE 
+                                  wr_reg_DE,
+                                  bus_canary_DE
                                   }; 
 
   // register file and CSRs initialization
