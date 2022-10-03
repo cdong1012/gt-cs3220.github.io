@@ -45,11 +45,23 @@ module MEM_STAGE(
 
   wire[`REGWORDS-1:0] ALU_result_MEM;
   
+  assign wr_mem_MEM = op_I_MEM == `SW_I;
+  assign wr_val_MEM = ALU_result_MEM;
+
   // Write to D-MEM
   always @ (posedge clk) begin
   if (wr_mem_MEM)
     // fill out the correct signal name to do write operations     
       dmem[memaddr_MEM[`DMEMADDRBITS-1:`DMEMWORDBITS]] <= wr_val_MEM; 
+  end
+
+  reg [`REGWORDS-1:0] intercepted_ALU_result_MEM;
+  always @ (*) begin
+    if (op_I_MEM == `LW_I)
+      intercepted_ALU_result_MEM = rd_val_MEM;
+    else begin
+      intercepted_ALU_result_MEM = ALU_result_MEM;
+    end
   end
 
   assign MEM_latch_out = MEM_latch; 
@@ -60,6 +72,7 @@ module MEM_STAGE(
                                 inst_count_MEM, 
                                 ALU_result_MEM, // pass ALU result from agex a long
                                  // more signals might need
+                                 memaddr_MEM,
                                  bus_canary_MEM
                                  } = from_AGEX_latch;  
  
@@ -68,7 +81,7 @@ module MEM_STAGE(
                                 PC_MEM,
                                 op_I_MEM,
                                 inst_count_MEM, 
-                                ALU_result_MEM,
+                                intercepted_ALU_result_MEM,
                                 bus_canary_MEM                   
   }; 
 

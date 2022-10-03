@@ -78,6 +78,11 @@ module WB_STAGE(
         wr_reg_WB = 1;
         wregno_WB = inst_WB[11:7];
         regval_WB = ALU_result_WB;
+      end
+      `LW_I: begin
+        wr_reg_WB = 1;
+        wregno_WB = inst_WB[11:7];
+        regval_WB = ALU_result_WB;
       end 
       default: begin
         wregno_WB = 0;

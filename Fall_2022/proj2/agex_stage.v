@@ -28,13 +28,14 @@ module AGEX_STAGE(
   reg  [`REGWORDS-1:0]  regword1_AGEX;
   reg  [`REGWORDS-1:0]  regword2_AGEX;
   reg  [`REGWORDS-1:0]  regword3_AGEX;
+  reg [`DBITS-1:0] memaddr_AGEX;
 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
   reg [`DBITS-1:0] jump_target_AGEX;
 
  
   // **TODO: Complete the rest of the pipeline 
- 
+
   
   always @ (*) begin
     case (op_I_AGEX)
@@ -96,8 +97,6 @@ module AGEX_STAGE(
       default : br_cond_AGEX = 1'b0;
     endcase
   end
-
-
   // compute ALU operations  (alu out or memory addresses)
   reg [`REGWORDS-1:0] ALU_result_AGEX;
  
@@ -116,11 +115,21 @@ module AGEX_STAGE(
         // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
       end 
       `LUI_I: begin
-        ALU_result_AGEX = {regword2_AGEX[19:0], 12'b0};
-        // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
+        ALU_result_AGEX = regword2_AGEX;
+        // $display("\tLUI: ALU_result_AGEX = %h", ALU_result_AGEX);
       end 
       `AUIPC_I: begin
-        ALU_result_AGEX = PC_AGEX + {regword2_AGEX[19:0], 12'b0};
+        ALU_result_AGEX = PC_AGEX + regword2_AGEX;
+        // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
+      end 
+      `LW_I: begin
+        memaddr_AGEX = regword1_AGEX + regword2_AGEX;
+        ALU_result_AGEX = 0;
+        // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
+      end 
+      `SW_I: begin
+        memaddr_AGEX = regword1_AGEX + regword3_AGEX;
+        ALU_result_AGEX = regword2_AGEX;
         // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
       end 
     endcase 
@@ -148,6 +157,7 @@ module AGEX_STAGE(
     op_I_AGEX,
     inst_count_AGEX, 
     ALU_result_AGEX,
+    memaddr_AGEX,
     bus_canary_AGEX     
   }; 
 
