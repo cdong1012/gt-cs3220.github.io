@@ -93,8 +93,8 @@ module DE_STAGE(
       op_I_DE = `SW_I; 
     else if ((op_DE == `JAL_OPCODE))
       op_I_DE = `JAL_I; 
-    // else if ((op_DE == `JR_OPCODE) && (F3_DE == `JR_FUNCT3))
-     //  op_I_DE = `JR_I; 
+    // else if ((op_DE == `JR_OPCODE) && (F3_DE == `JR_FUNCT3) && (inst_DE[31:20] == 0))
+    //   op_I_DE = `JR_I; 
     else if ((op_DE == `JALR_OPCODE) && (F3_DE == `JALR_FUNCT3))
       op_I_DE = `JALR_I; 
     else if ((op_DE == `BEQ_OPCODE) && (F3_DE == `BEQ_FUNCT3))
@@ -207,7 +207,6 @@ module DE_STAGE(
       sxt_imm_DE = 32'b0; 
     endcase  
   end 
-   wire wr_reg_WB; 
  
  /* this signal is passed from WB stage */ 
   wire wr_reg_WB; // is this instruction writing into a register file? 
@@ -236,7 +235,7 @@ module DE_STAGE(
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
   wire wr_reg_DE;
-  assign wr_reg_DE = type_I_DE == `I_Type || type_I_DE == `R_Type || type_I_DE == `U_Type;
+  assign wr_reg_DE = op_I_DE != `JR_I && (type_I_DE == `I_Type || type_I_DE == `R_Type || type_I_DE == `U_Type);
 
   assign DE_latch_contents = {
                                   inst_DE,
@@ -337,7 +336,7 @@ module DE_STAGE(
       if (pipeline_stall_DE || clear_from_branch_DE)
         DE_latch <= {`DE_latch_WIDTH{1'b0}};
       else begin
-        if (type_I_DE == `I_Type || type_I_DE == `R_Type || type_I_DE == `U_Type) begin
+        if (wr_reg_DE) begin
           //$display("ADD/ADDI instruction decoded");
           // reg_busy_bits_DE[inst_DE[11:7]] <= 1; // set destination register to busy
           next_dst_DE <= inst_DE[11:7];

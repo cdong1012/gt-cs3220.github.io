@@ -25,8 +25,8 @@ module AGEX_STAGE(
   wire [`IOPBITS-1:0] op_I_AGEX;
   reg br_cond_AGEX; // 1 means a branch condition is satisified. 0 means a branch condition is not satisifed 
 
-  reg  [`REGWORDS-1:0]  regword1_AGEX;
-  reg  [`REGWORDS-1:0]  regword2_AGEX;
+  reg [`REGWORDS-1:0]  regword1_AGEX;
+  reg [`REGWORDS-1:0]  regword2_AGEX;
   reg [`DBITS-1:0] memaddr_AGEX;
 
   wire[`BUS_CANARY_WIDTH-1:0] bus_canary_AGEX; 
@@ -92,7 +92,12 @@ module AGEX_STAGE(
         jump_target_AGEX = (regword1_AGEX + sxt_imm_AGEX) & 32'hfffffffe;
         ALU_result_AGEX = PC_AGEX + 4;
       end
-
+      `JR_I : begin
+        // $display("\tJALR: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
+        br_cond_AGEX = 1; 
+        jump_target_AGEX = (regword1_AGEX + sxt_imm_AGEX) & 32'hfffffffe;
+        ALU_result_AGEX = PC_AGEX + 4;
+      end
       default : br_cond_AGEX = 1'b0;
     endcase
   end
@@ -101,26 +106,50 @@ module AGEX_STAGE(
  
   always @ (*) begin
     case (op_I_AGEX)
-      `ADD_I: begin
+      `ADD_I:
         ALU_result_AGEX = regword1_AGEX + regword2_AGEX;
-        // $display("\tADD: ALU_result_AGEX = %h", ALU_result_AGEX);
-      end
-      `SUB_I: begin
+      `SUB_I:
         ALU_result_AGEX = regword1_AGEX - regword2_AGEX;
-        // $display("\tADD: ALU_result_AGEX = %h", ALU_result_AGEX);
-      end
-      `ADDI_I: begin
+      `AND_I:
+        ALU_result_AGEX = regword1_AGEX & regword2_AGEX;
+      `OR_I:
+        ALU_result_AGEX = regword1_AGEX | regword2_AGEX;
+      `XOR_I:
+        ALU_result_AGEX = regword1_AGEX ^ regword2_AGEX;
+      `SLT_I:
+        ALU_result_AGEX = {31'b0,$signed(regword1_AGEX) < $signed(regword2_AGEX)};
+      `SLTU_I:
+        ALU_result_AGEX = {31'b0,regword1_AGEX < regword2_AGEX};
+      `SRA_I:
+        ALU_result_AGEX = $signed(regword1_AGEX) >>> regword2_AGEX[4:0];
+      `SRL_I:
+        ALU_result_AGEX = regword1_AGEX >> regword2_AGEX[4:0];
+      `SLL_I:
+        ALU_result_AGEX = regword1_AGEX << regword2_AGEX[4:0];
+      `MUL_I:
+        ALU_result_AGEX = regword1_AGEX * regword2_AGEX;
+      `ADDI_I:
         ALU_result_AGEX = regword1_AGEX + sxt_imm_AGEX;
-        // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
-      end 
-      `LUI_I: begin
+      `ANDI_I:
+        ALU_result_AGEX = regword1_AGEX & sxt_imm_AGEX;
+      `ORI_I:
+        ALU_result_AGEX = regword1_AGEX | sxt_imm_AGEX;
+      `XORI_I:
+        ALU_result_AGEX = regword1_AGEX ^ sxt_imm_AGEX;
+      `SLTI_I:
+        ALU_result_AGEX = {31'b0,$signed(regword1_AGEX) < $signed(sxt_imm_AGEX)};
+      `SLTIU_I:
+        ALU_result_AGEX = {31'b0,regword1_AGEX < sxt_imm_AGEX};
+      `SRAI_I:
+        ALU_result_AGEX = $signed(regword1_AGEX) >>> inst_AGEX[24:20];
+      `SRLI_I:
+        ALU_result_AGEX = regword1_AGEX >> inst_AGEX[24:20];
+      `SLLI_I:
+        ALU_result_AGEX = regword1_AGEX << inst_AGEX[24:20];
+      `LUI_I: 
         ALU_result_AGEX = sxt_imm_AGEX;
-        // $display("\tLUI: ALU_result_AGEX = %h", ALU_result_AGEX);
-      end 
-      `AUIPC_I: begin
+      `AUIPC_I:
         ALU_result_AGEX = PC_AGEX + sxt_imm_AGEX;
-        // $display("\tADDI: ALU_result_AGEX = %h", ALU_result_AGEX);
-      end 
       `LW_I: begin
         memaddr_AGEX = regword1_AGEX + sxt_imm_AGEX;
         ALU_result_AGEX = 0;
