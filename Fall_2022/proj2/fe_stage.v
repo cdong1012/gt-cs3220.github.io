@@ -70,6 +70,18 @@ module FE_STAGE(
   wire br_cond_FE;
   assign {jump_target_FE, br_cond_FE}= from_AGEX_to_FE;
 
+  // Part 4: Branch prediction
+  reg [26 + 1 + 32 - 1:0] branch_target_buffer_DE [0:15];
+  reg [7:0] branch_history_register_DE;
+  reg [1:0] pattern_history_table_DE [0:(2**8)-1];
+
+  // pattern history table (PHT) initialization
+  initial begin
+    // Each of the 2bit counter in the PHT is initialized with 00.
+    for (integer i = 0; i <= 8'hFF; i++) 
+      pattern_history_table_DE[i] = {2'b00};
+  end
+
   always @ (posedge clk) begin
     /* you need to extend this always block */
     if (reset) begin 
@@ -79,8 +91,29 @@ module FE_STAGE(
     else if (!stall_pipe_FE) begin
       if (br_cond_FE)
         PC_FE_latch <= jump_target_FE;
-      else
-        PC_FE_latch <= pcplus_FE;
+      else begin 
+        
+        // check BTB and Branch predictor
+        // BTB hit => {TAG, index} == PC && valid =1
+        if ({2'b00, branch_target_buffer_DE[PC_FE_latch[3:0]][58:33], PC_FE_latch[3:0]} == PC_FE_latch
+          && branch_target_buffer_DE[PC_FE_latch[3:0]][32] == 1'b1) begin
+            $display("BTB hit!");
+            // predict_func(pc, actual_dir) 
+            //   { 
+            //     index = PC xor BHR 
+            //     taken = (2bit_counters[index] >= 2) ? 1 : 0 
+            //     correctly_predictied = (actual_dir == taken) ? 1 : 0  // stats 
+            //   }
+            if (pattern_history_table_DE[branch_history_register_DE ^ PC_FE_latch[7:0]] >= 2'd2) begin
+              $display("Predict taken");
+              PC_FE_latch <= branch_target_buffer_DE[PC_FE_latch[3:0]][31:0];
+            end
+            else
+                PC_FE_latch <= pcplus_FE;
+          end
+          else
+            PC_FE_latch <= pcplus_FE;
+      end
       inst_count_FE <= inst_count_FE + 1;
       end 
     else 
@@ -100,8 +133,8 @@ module FE_STAGE(
         end 
      else  
         begin 
-         // this is just an example. you need to expand the contents of if/else
-         if (br_cond_FE)
+          // this is just an example. you need to expand the contents of if/else
+          if (br_cond_FE)
             FE_latch <= 0; 
           else if (stall_pipe_FE)
             FE_latch <= FE_latch; 
