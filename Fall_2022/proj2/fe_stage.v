@@ -61,7 +61,7 @@ module FE_STAGE(
                                 inst_count_FE, 
                                 // if you add more bits here, please increase the width of latch in define.vh 
                                 prediction_flag_FE,
-
+                                branch_history_register_FE,
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
 
@@ -83,6 +83,7 @@ module FE_STAGE(
     // Each of the 2bit counter in the PHT is initialized with 00.
     for (integer i = 0; i <= 8'hFF; i++) 
       pattern_history_table_FE[i] = {2'b00};
+    branch_history_register_FE = 0;
   end
 
   always @ (posedge clk) begin
