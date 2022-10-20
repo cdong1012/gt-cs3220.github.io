@@ -192,8 +192,8 @@
 
 /** please update the following define with your own values */ 
 
-`define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `DBITS+ `BUS_CANARY_WIDTH)
-`define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `IOPBITS + `DBITS+ `REGWORDS + `REGWORDS + `REGWORDS + `BUS_CANARY_WIDTH + 1)
+`define FE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `DBITS+ 1 + `BUS_CANARY_WIDTH)
+`define DE_latch_WIDTH  (`INSTBITS+`DBITS+`DBITS+ `IOPBITS + `DBITS+ `REGWORDS + `REGWORDS + `REGWORDS + `BUS_CANARY_WIDTH + 1 + 1)
 
 
 `define AGEX_latch_WIDTH   (`INSTBITS+`DBITS+ `IOPBITS + `DBITS+ `DBITS+ `REGWORDS + `BUS_CANARY_WIDTH + 1)

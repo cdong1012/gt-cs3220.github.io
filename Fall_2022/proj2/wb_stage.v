@@ -52,7 +52,7 @@ module WB_STAGE(
   reg [`DBITS-1:0] last_WB_value [`REGWORDS-1:0] /* verilator public */;
   reg [`DBITS-1:0] WB_counters[`REGWORDS-1:0]   /* verilator public */ ;
   always @(negedge clk) begin
-    $strobe("wr_reg_WB: %h; regval_WB: %h; wregno_WB: %h", wr_reg_WB, regval_WB, wregno_WB);
+    // $strobe("wr_reg_WB: %h; regval_WB: %h; wregno_WB: %h", wr_reg_WB, regval_WB, wregno_WB);
     if (wr_reg_WB)
       last_WB_value[wregno_WB] <= regval_WB;
   end

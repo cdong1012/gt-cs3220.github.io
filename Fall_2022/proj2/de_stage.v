@@ -1,5 +1,5 @@
 `include "define.vh" 
-/* verilator lint_off LATCH */
+
 
 module DE_STAGE(
   input wire                              clk,
@@ -228,9 +228,12 @@ module DE_STAGE(
             PC_DE, 
             pcplus_DE,
             inst_count_DE, 
+            prediction_flag_DE,
             bus_canary_DE 
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
+
+  wire prediction_flag_DE;
 
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
@@ -248,6 +251,7 @@ module DE_STAGE(
                                   regword2_DE,
                                   sxt_imm_DE,
                                   wr_reg_DE,
+                                  prediction_flag_DE,
                                   bus_canary_DE
                                   }; 
 

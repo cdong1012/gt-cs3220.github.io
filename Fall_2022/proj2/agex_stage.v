@@ -35,71 +35,97 @@ module AGEX_STAGE(
   wire  [`DBITS-1:0] sxt_imm_AGEX;
   // **TODO: Complete the rest of the pipeline 
 
-  
+  reg actual_branch_taken_flag_AGEX;
   always @ (*) begin
+    actual_branch_taken_flag_AGEX = 0;
     case (op_I_AGEX)
       `BEQ_I : begin
         $display("\tBEQ: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, sxt_imm_AGEX);
         if (regword1_AGEX == $signed(regword2_AGEX)) begin
-          br_cond_AGEX = 1; 
+          // br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `BNE_I : begin
         $display("\tBNE: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, sxt_imm_AGEX);
         if (regword1_AGEX != $signed(regword2_AGEX)) begin
-          br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+          // br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `BLT_I : begin
         // $display("\tBLT: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         if ($signed(regword1_AGEX) < $signed(regword2_AGEX)) begin
-          br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+          // br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `BGE_I : begin
         // $display("\tBGE: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         if ($signed(regword1_AGEX) >= $signed(regword2_AGEX)) begin
-          br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+          // br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `BLTU_I : begin
         // $display("\tBLTU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         if (regword1_AGEX < regword2_AGEX) begin
-          br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+          // br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `BGEU_I : begin
         // $display("\tBGEU: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
         if (regword1_AGEX >= regword2_AGEX) begin
-          br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+          // br_cond_AGEX = 1; 
           jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         end
       end
       `JAL_I : begin
         // $display("\tJAL: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
-        br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+        // br_cond_AGEX = 1; 
         jump_target_AGEX = PC_AGEX + sxt_imm_AGEX;
         ALU_result_AGEX = PC_AGEX + 4;
       end
       `JALR_I : begin
         // $display("\tJALR: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
-        br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+        // br_cond_AGEX = 1; 
         jump_target_AGEX = (regword1_AGEX + sxt_imm_AGEX) & 32'hfffffffe;
         ALU_result_AGEX = PC_AGEX + 4;
       end
       `JR_I : begin
         // $display("\tJALR: Compare %d with %d. Jump %d", regword1_AGEX, regword2_AGEX, regword3_AGEX);
-        br_cond_AGEX = 1; 
+          actual_branch_taken_flag_AGEX = 1;
+        // br_cond_AGEX = 1; 
         jump_target_AGEX = (regword1_AGEX + sxt_imm_AGEX) & 32'hfffffffe;
         ALU_result_AGEX = PC_AGEX + 4;
       end
-      default : br_cond_AGEX = 1'b0;
+      default : begin
+        br_cond_AGEX = 1'b0;
+        actual_branch_taken_flag_AGEX = prediction_flag_AGEX;
+      end
     endcase
+
+    if (actual_branch_taken_flag_AGEX) begin
+      br_cond_AGEX = 1;
+    end
+    // if (actual_branch_taken_flag_AGEX == prediction_flag_AGEX) begin
+    //   // prediction is correct, update BTB
+    //   $display("PRediction is correct");
+    // end
+    // else begin
+    //   // prediction not correct -> flush
+    //   $display("PRediction is not correct");
+    //   br_cond_AGEX = 1;
+    // end
   end
   // compute ALU operations  (alu out or memory addresses)
   reg [`REGWORDS-1:0] ALU_result_AGEX;
@@ -167,6 +193,7 @@ module AGEX_STAGE(
   assign from_AGEX_to_DE = {br_cond_AGEX};
 
   wire wr_reg_AGEX; 
+  wire prediction_flag_AGEX;
   assign  {
     inst_AGEX,
     PC_AGEX,
@@ -178,6 +205,7 @@ module AGEX_STAGE(
     regword2_AGEX,
     sxt_imm_AGEX,
     wr_reg_AGEX,
+    prediction_flag_AGEX,
     bus_canary_AGEX
   } = from_DE_latch;    
  

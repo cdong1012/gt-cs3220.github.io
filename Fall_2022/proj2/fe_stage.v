@@ -60,6 +60,8 @@ module FE_STAGE(
                                 pcplus_FE, // please feel free to add more signals such as valid bits etc. 
                                 inst_count_FE, 
                                 // if you add more bits here, please increase the width of latch in define.vh 
+                                prediction_flag_FE,
+
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
 
@@ -71,15 +73,16 @@ module FE_STAGE(
   assign {jump_target_FE, br_cond_FE}= from_AGEX_to_FE;
 
   // Part 4: Branch prediction
-  reg [26 + 1 + 32 - 1:0] branch_target_buffer_DE [0:15];
-  reg [7:0] branch_history_register_DE;
-  reg [1:0] pattern_history_table_DE [0:(2**8)-1];
+  reg [26 + 1 + 32 - 1:0] branch_target_buffer_FE [0:15];
+  reg [7:0] branch_history_register_FE;
+  reg [1:0] pattern_history_table_FE [0:(2**8)-1];
+  reg prediction_flag_FE; // true if predict taken, false if not taken
 
   // pattern history table (PHT) initialization
   initial begin
     // Each of the 2bit counter in the PHT is initialized with 00.
     for (integer i = 0; i <= 8'hFF; i++) 
-      pattern_history_table_DE[i] = {2'b00};
+      pattern_history_table_FE[i] = {2'b00};
   end
 
   always @ (posedge clk) begin
@@ -95,8 +98,8 @@ module FE_STAGE(
         
         // check BTB and Branch predictor
         // BTB hit => {TAG, index} == PC && valid =1
-        if ({2'b00, branch_target_buffer_DE[PC_FE_latch[3:0]][58:33], PC_FE_latch[3:0]} == PC_FE_latch
-          && branch_target_buffer_DE[PC_FE_latch[3:0]][32] == 1'b1) begin
+        if ({2'b00, branch_target_buffer_FE[PC_FE_latch[3:0]][58:33], PC_FE_latch[3:0]} == PC_FE_latch
+          && branch_target_buffer_FE[PC_FE_latch[3:0]][32] == 1'b1) begin
             $display("BTB hit!");
             // predict_func(pc, actual_dir) 
             //   { 
@@ -104,9 +107,12 @@ module FE_STAGE(
             //     taken = (2bit_counters[index] >= 2) ? 1 : 0 
             //     correctly_predictied = (actual_dir == taken) ? 1 : 0  // stats 
             //   }
-            if (pattern_history_table_DE[branch_history_register_DE ^ PC_FE_latch[7:0]] >= 2'd2) begin
+            if (pattern_history_table_FE[branch_history_register_FE ^ PC_FE_latch[7:0]] >= 2'd2) begin
               $display("Predict taken");
-              PC_FE_latch <= branch_target_buffer_DE[PC_FE_latch[3:0]][31:0];
+              PC_FE_latch <= branch_target_buffer_FE[PC_FE_latch[3:0]][31:0];
+              // TODO: pass a boolean value for predict (true for taken, false for not taken) into the fe latch 
+              // and the decode latch to the agex stage
+              // The agex stage will check the predict value and see if we mispredict -> flush the instruction in decode if we did
             end
             else
                 PC_FE_latch <= pcplus_FE;
