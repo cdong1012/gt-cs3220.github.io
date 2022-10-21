@@ -19,7 +19,7 @@ module AGEX_STAGE(
   
    
   wire [`INSTBITS-1:0]inst_AGEX; 
-  wire [`DBITS-1:0]PC_AGEX;
+  wire [`DBITS-1:0] PC_AGEX;
   wire [`DBITS-1:0] inst_count_AGEX; 
   wire [`DBITS-1:0] pcplus_AGEX; 
   wire [`IOPBITS-1:0] op_I_AGEX;
@@ -204,7 +204,7 @@ module AGEX_STAGE(
     endcase 
   end 
 
-  assign from_AGEX_to_FE = {jump_target_AGEX, br_cond_AGEX};
+  assign from_AGEX_to_FE = {jump_target_AGEX, br_cond_AGEX, prediction_correct_cond_AGEX, pattern_history_table_index_AGEX, new_branch_history_register_AGEX, PC_AGEX};
   assign from_AGEX_to_DE = {br_cond_AGEX};
 
   wire wr_reg_AGEX; 

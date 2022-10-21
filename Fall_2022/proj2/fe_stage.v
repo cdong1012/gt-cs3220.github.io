@@ -70,13 +70,19 @@ module FE_STAGE(
   assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
   wire [`DBITS-1:0] jump_target_FE;
   wire br_cond_FE;
-  assign {jump_target_FE, br_cond_FE}= from_AGEX_to_FE;
+  assign {jump_target_FE, br_cond_FE, prediction_correct_cond_FE, pattern_history_table_index_FE, new_branch_history_register_FE, predict_branch_PC_FE}= from_AGEX_to_FE;
 
   // Part 4: Branch prediction
   reg [26 + 1 + 32 - 1:0] branch_target_buffer_FE [0:15];
   reg [7:0] branch_history_register_FE;
   reg [1:0] pattern_history_table_FE [0:(2**8)-1];
   reg prediction_flag_FE; // true if predict taken, false if not taken
+
+  wire prediction_correct_cond_FE;
+  wire [7:0] pattern_history_table_index_FE;
+  wire [7:0] new_branch_history_register_FE;
+  wire [`DBITS-1:0] predict_branch_PC_FE;
+
 
   // pattern history table (PHT) initialization
   initial begin
@@ -96,7 +102,23 @@ module FE_STAGE(
       if (br_cond_FE)
         PC_FE_latch <= jump_target_FE;
       else begin 
+        if (prediction_correct_cond_FE) begin
+        // 1. insert target address into the BTB
+        branch_target_buffer_FE[predict_branch_PC_FE[3:0]][31:0] = jump_target_FE;
+
+        // 2. Index the BP with the index value that was propagated with the instruction to update the BP.
+        // - branch_history_register_FE ^ PC_FE_latch[7:0] to update 2-bit saturating counter
+        // pattern_history_table_index_AGEX = old_branch_history_register_AGEX ^ PC_AGEX[7:0];
+        pattern_history_table_FE[pattern_history_table_index_FE] = (pattern_history_table_FE[pattern_history_table_index_FE] << 1) | 1; // TODO: need to check this
+
+
+        // 3. update the bhr (use the old BHR)
+        // - new_bhr = old_bhr << 1 | actual_branch_taken_flag_AGEX
+        branch_history_register_FE = new_branch_history_register_FE;
         
+        end 
+
+
         // check BTB and Branch predictor
         // BTB hit => {TAG, index} == PC && valid =1
         if ({2'b00, branch_target_buffer_FE[PC_FE_latch[3:0]][58:33], PC_FE_latch[3:0]} == PC_FE_latch
