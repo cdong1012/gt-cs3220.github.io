@@ -61,7 +61,6 @@ module FE_STAGE(
                                 inst_count_FE, 
                                 // if you add more bits here, please increase the width of latch in define.vh 
                                 prediction_flag_FE,
-                                branch_history_register_FE,
                                 `BUS_CANARY_VALUE // for an error checking of bus encoding/decoding  
                                 };
 
@@ -70,7 +69,7 @@ module FE_STAGE(
   assign stall_pipe_FE = from_DE_to_FE;  // pass the DE stage stall signal to FE stage 
   wire [`DBITS-1:0] jump_target_FE;
   wire br_cond_FE;
-  assign {jump_target_FE, br_cond_FE, prediction_correct_cond_FE, pattern_history_table_index_FE, new_branch_history_register_FE, predict_branch_PC_FE}= from_AGEX_to_FE;
+  assign {jump_target_FE, br_cond_FE, inst_is_br_cond_FE, predict_branch_PC_FE}= from_AGEX_to_FE;
 
   // Part 4: Branch prediction
   reg [26 + 1 + 32 - 1:0] branch_target_buffer_FE [0:15];
@@ -78,10 +77,8 @@ module FE_STAGE(
   reg [1:0] pattern_history_table_FE [0:(2**8)-1];
   reg prediction_flag_FE; // true if predict taken, false if not taken
 
-  wire prediction_correct_cond_FE;
-  wire [7:0] pattern_history_table_index_FE;
-  wire [7:0] new_branch_history_register_FE;
-  wire [`DBITS-1:0] predict_branch_PC_FE;
+  wire inst_is_br_cond_FE;
+  wire [`DBITS-1:0] predict_branch_PC_FE; // passed back from agex (PC of the br instruction that we predicted)
 
 
   // pattern history table (PHT) initialization
@@ -93,6 +90,32 @@ module FE_STAGE(
   end
 
   always @ (posedge clk) begin
+    // exec stage
+    if (inst_is_br_cond_FE) begin
+      // G-SHARE algo:
+      // update_func(pc, actual_dir)
+      //   {
+      //     index = PC xor BHR 
+      //     if (actual_dir) SAT_INC( 2bit_counter[index] )
+      //     else SAT_DEC ( 2bit_counter[index] )
+      //     BHR = BHR << 1 | actual_dir
+      //   }
+
+      // 1. insert target address into the BTB
+      branch_target_buffer_FE[predict_branch_PC_FE[3:0]][31:0] = jump_target_FE;
+
+      // 2. Index the BP with the index value that was propagated with the instruction to update the BP.
+      if (br_cond_FE)
+        pattern_history_table_FE[branch_history_register_FE ^ predict_branch_PC_FE[7:0]]++;
+      else
+        pattern_history_table_FE[branch_history_register_FE ^ predict_branch_PC_FE[7:0]]--; 
+
+      // 3. update the bhr (use the old BHR)
+      branch_history_register_FE = (branch_history_register_FE  << 1) | {7'd0, br_cond_FE};
+    end
+  end
+
+  always @ (posedge clk) begin
     /* you need to extend this always block */
     if (reset) begin 
       PC_FE_latch <= `STARTPC;
@@ -101,26 +124,7 @@ module FE_STAGE(
     else if (!stall_pipe_FE) begin
       if (br_cond_FE)
         PC_FE_latch <= jump_target_FE;
-      else begin 
-        if (prediction_correct_cond_FE) begin
-        // 1. insert target address into the BTB
-        branch_target_buffer_FE[predict_branch_PC_FE[3:0]][31:0] = jump_target_FE;
-
-        // 2. Index the BP with the index value that was propagated with the instruction to update the BP.
-        // - branch_history_register_FE ^ PC_FE_latch[7:0] to update 2-bit saturating counter
-        // pattern_history_table_index_AGEX = old_branch_history_register_AGEX ^ PC_AGEX[7:0];
-        pattern_history_table_FE[pattern_history_table_index_FE] = (pattern_history_table_FE[pattern_history_table_index_FE] << 1) | 1; // TODO: need to check this
-
-
-        // 3. update the bhr (use the old BHR)
-        // - new_bhr = old_bhr << 1 | actual_branch_taken_flag_AGEX
-        branch_history_register_FE = new_branch_history_register_FE;
-        
-        end 
-
-
-        // check BTB and Branch predictor
-        // BTB hit => {TAG, index} == PC && valid =1
+      else begin
         if ({2'b00, branch_target_buffer_FE[PC_FE_latch[3:0]][58:33], PC_FE_latch[3:0]} == PC_FE_latch
           && branch_target_buffer_FE[PC_FE_latch[3:0]][32] == 1'b1) begin
             $display("BTB hit!");
@@ -133,9 +137,7 @@ module FE_STAGE(
             if (pattern_history_table_FE[branch_history_register_FE ^ PC_FE_latch[7:0]] >= 2'd2) begin
               $display("Predict taken");
               PC_FE_latch <= branch_target_buffer_FE[PC_FE_latch[3:0]][31:0];
-              // TODO: pass a boolean value for predict (true for taken, false for not taken) into the fe latch 
-              // and the decode latch to the agex stage
-              // The agex stage will check the predict value and see if we mispredict -> flush the instruction in decode if we did
+              prediction_flag_FE = 1;
             end
             else
                 PC_FE_latch <= pcplus_FE;

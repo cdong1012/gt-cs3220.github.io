@@ -229,13 +229,11 @@ module DE_STAGE(
             pcplus_DE,
             inst_count_DE, 
             prediction_flag_DE,
-            old_branch_history_register_DE,
             bus_canary_DE 
   }  = from_FE_latch;  // based on the contents of the latch, you can decode the content 
 
 
   wire prediction_flag_DE;
-  wire[7:0] old_branch_history_register_DE;
 
   // assign wire to send the contents of DE latch to other pipeline stages  
   assign DE_latch_out = DE_latch; 
@@ -254,7 +252,6 @@ module DE_STAGE(
                                   sxt_imm_DE,
                                   wr_reg_DE,
                                   prediction_flag_DE,
-                                  old_branch_history_register_DE,
                                   bus_canary_DE
                                   }; 
 
