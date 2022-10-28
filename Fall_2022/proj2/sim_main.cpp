@@ -41,6 +41,7 @@ int main(int argc, char** argv, char** env) {
 
     // Construct the Verilated model
     Vpipeline* dut = new Vpipeline();
+    static int last_print_inst_count_WB = 0; 
 
   #ifdef VCD_OUTPUT
     Verilated::traceEverOn(true);
@@ -75,7 +76,6 @@ int main(int argc, char** argv, char** env) {
     // verilator allows to access verilator public data structure 
 
     /* writeback stage*/ 
-        static int last_print_inst_count_WB = 0; 
         int inst_count_WB = (int)dut->pipeline->my_WB_stage->WB_counters[5]; 
         if (inst_count_WB > last_print_inst_count_WB)  { 
             std::cout <<"[" << (int)(timestamp) << "] "; 
@@ -118,9 +118,11 @@ int main(int argc, char** argv, char** env) {
 
     // TinyRV1 test Pass/Fail status
     if (1 == exitcode)
-        std::cout<<"Passed!"<<std::endl;
+        std::cout<<"Passed! cycle_count:" << last_print_inst_count_WB << std::endl;
     else
         std::cout<<"Failed. exitcode: "<<exitcode<<std::endl;
+
+    
 
     // Fin
     exit(0);
